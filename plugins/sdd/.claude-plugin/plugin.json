@@ -1,0 +1,11 @@
+{
+  "name": "sdd",
+  "version": "0.1.0",
+  "description": "軽量 SDD のスキル群と検証用サブエージェント",
+  "author": {
+    "name": "kibako-works",
+    "url": "https://github.com/kibako-works"
+  },
+  "repository": "https://github.com/kibako-works/sdd-lite",
+  "license": "MIT"
+}

@@ -1,0 +1,15 @@
+{
+  "name": "sdd-lite",
+  "owner": {
+    "name": "kibako-works",
+    "url": "https://github.com/kibako-works"
+  },
+  "description": "軽量 SDD（デザインドキュメントと ADR）を Claude Code で回すプラグイン",
+  "plugins": [
+    {
+      "name": "sdd",
+      "source": "./plugins/sdd",
+      "description": "軽量 SDD のスキル群と検証用サブエージェント"
+    }
+  ]
+}
