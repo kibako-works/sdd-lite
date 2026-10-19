@@ -2,7 +2,7 @@
 
 - Status: Approved
 - 作成日: 2026-10-19
-- 関連 ADR: docs/adr/0001〜0003（このドキュメントの T4 で起票する）
+- 関連 ADR: docs/adr/0001〜0004（0001〜0003 は T4、0004 は T6 で起票）
 
 ## 1. 背景と目的
 - sdd は、軽量な SDD（デザインドキュメントと ADR で開発を進める方法）を Claude Code で回すためのスキル 5 つとサブエージェント 1 つ。
@@ -76,6 +76,7 @@ sdd-lite/
   - `disable-model-invocation`
   - `metadata`（`kit`・`reviewed`・`retire-when`）
   - エージェントの `tools`
+- 自分のディレクトリのファイルを読むスキル（`ask`・`adr`・`design`・`init`）には、`allowed-tools: Read(/${CLAUDE_SKILL_DIR}/*)` を追加する（ADR 0004。T6 で、無いと読むたびに許可を求められることが分かったため）。
 
 ### 書き換える箇所
 - 旧名は `grep -rnE 'sdd-(init|design|adr|ship|verifier)|ask-sdd|sdd-\*' plugins/` ですべて見つかる。主な箇所は次のとおり。
