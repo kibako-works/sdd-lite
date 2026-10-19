@@ -1,6 +1,6 @@
 # sdd-lite 初回リリース（プラグイン化と公開）
 
-- Status: Approved
+- Status: Implemented
 - 作成日: 2026-10-19
 - 関連 ADR: docs/adr/0001〜0005（0001〜0003 は T4、0004 は T6、0005 は T7a で起票）
 
@@ -172,7 +172,7 @@ sdd-lite/
   - 人間が GitHub の画面で Organization `kibako-works` を作る。
   - リポジトリを `kibako-works` に移管し、`git remote` を新しい URL に変えて force push する。移管と push は、実行前に必ず人間の確認を取る。
 - [x] T8: ローカルのマーケットプレイスを外し（`claude plugin marketplace remove sdd-lite`）、GitHub（プライベートリポジトリ）から導入し直して、T6 と同じ確認をする。プラグインがキャッシュのディレクトリから読まれる状態でも、ADR 0004 の `allowed-tools` で補助ファイルを確認なしに読めることを確かめる。（REQ-2）
-- [ ] T9: 公開してよいかを確かめてから、リポジトリを public に切り替える。（REQ-2, REQ-5）
+- [x] T9: 公開してよいかを確かめてから、リポジトリを public に切り替える。（REQ-2, REQ-5）
   - `/security-review` で脆弱性を確認する。
   - 6 章の REQ-5 の確認を、履歴（`git log -p --all`）まで含めてやり直す。勤務先や業務を示す語が無いことを、人間が読んで確認する。
   - 履歴を書き換える必要があれば、ここで行う（force push とタグの付け直しを含む）。
