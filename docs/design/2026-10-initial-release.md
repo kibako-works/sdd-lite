@@ -158,24 +158,25 @@ sdd-lite/
 - `/sdd:sdd-design` のように旧名のままプラグインにする案: `sdd` が重複して冗長なため不採用。
 
 ## 5. 実装タスク
-- [ ] T1: `git init` し、LICENSE（MIT。著作者は kibako-works。ADR 0005）、`.claude-plugin/marketplace.json`、`plugins/sdd/.claude-plugin/plugin.json`、CHANGELOG.md（0.1.0 の項目）、`.gitignore` を置く。（対応要件: REQ-1）
-- [ ] T2: 4 章の対応表に従って、スキルのディレクトリとエージェントのファイルを `git mv` で改名し、フロントマターの `name` と本文・guide.md・テンプレートの旧名を書き換える。（REQ-2, REQ-3, REQ-4, REQ-6）
-- [ ] T3: README.md を 4 章の章立てで書く。（REQ-2, REQ-5）
-- [ ] T4: docs/adr/0001〜0003 を起票する。（REQ-5）
-- [ ] T5: 6 章の grep と `claude plugin validate --strict .` で確認する。（REQ-1, REQ-4, REQ-5）
-- [ ] T6: ローカルで動作を確認する。`claude --plugin-dir ./plugins/sdd` で起動するか、`claude plugin marketplace add ./` と `claude plugin install sdd@sdd-lite` で導入して、6 章の REQ-2・REQ-3・REQ-6 を確かめる。
+- [x] T1: `git init` し、LICENSE（MIT。著作者は kibako-works。ADR 0005）、`.claude-plugin/marketplace.json`、`plugins/sdd/.claude-plugin/plugin.json`、CHANGELOG.md（0.1.0 の項目）、`.gitignore` を置く。（対応要件: REQ-1）
+- [x] T2: 4 章の対応表に従って、スキルのディレクトリとエージェントのファイルを `git mv` で改名し、フロントマターの `name` と本文・guide.md・テンプレートの旧名を書き換える。（REQ-2, REQ-3, REQ-4, REQ-6）
+- [x] T3: README.md を 4 章の章立てで書く。（REQ-2, REQ-5）
+- [x] T4: docs/adr/0001〜0003 を起票する。（REQ-5）
+- [x] T5: 6 章の grep と `claude plugin validate --strict .` で確認する。（REQ-1, REQ-4, REQ-5）
+- [x] T6: ローカルで動作を確認する。`claude --plugin-dir ./plugins/sdd` で起動するか、`claude plugin marketplace add ./` と `claude plugin install sdd@sdd-lite` で導入して、6 章の REQ-2・REQ-3・REQ-6 を確かめる。
   - `/sdd:ship` から検証役を呼ぶときの指定名（`subagent_type`）が `sdd:verifier` で通るかは公式ドキュメントに明記がないので、ここで実際に確かめる。通らなければ SKILL.md の書き方を直す。（REQ-2, REQ-3, REQ-6）
-- [ ] T7: GitHub にプライベートリポジトリ `sdd-lite` を作って push し、`v0.1.0` のタグを付ける。外部への送信なので、実行前に必ず人間の確認を取る。（REQ-2, REQ-5）
-- [ ] T7a: 所有者と作者の表記を Organization `kibako-works` に移す（ADR 0005）。（REQ-2, REQ-5）
+- [x] T7: GitHub にプライベートリポジトリ `sdd-lite` を作って push し、`v0.1.0` のタグを付ける。外部への送信なので、実行前に必ず人間の確認を取る。（REQ-2, REQ-5）
+- [x] T7a: 所有者と作者の表記を Organization `kibako-works` に移す（ADR 0005）。（REQ-2, REQ-5）
   - marketplace.json・plugin.json・LICENSE・README の表記を `kibako-works` に書き換え、このリポジトリの `git config user.name` / `user.email` を ADR 0005 の作者にする。
   - 履歴のコミットの作者とコミッターを ADR 0005 の作者に書き換え、`v0.1.0` のタグを付け直す。
   - 人間が GitHub の画面で Organization `kibako-works` を作る。
   - リポジトリを `kibako-works` に移管し、`git remote` を新しい URL に変えて force push する。移管と push は、実行前に必ず人間の確認を取る。
-- [ ] T8: ローカルのマーケットプレイスを外し（`claude plugin marketplace remove sdd-lite`）、GitHub（プライベートリポジトリ）から導入し直して、T6 と同じ確認をする。プラグインがキャッシュのディレクトリから読まれる状態でも、ADR 0004 の `allowed-tools` で補助ファイルを確認なしに読めることを確かめる。（REQ-2）
+- [x] T8: ローカルのマーケットプレイスを外し（`claude plugin marketplace remove sdd-lite`）、GitHub（プライベートリポジトリ）から導入し直して、T6 と同じ確認をする。プラグインがキャッシュのディレクトリから読まれる状態でも、ADR 0004 の `allowed-tools` で補助ファイルを確認なしに読めることを確かめる。（REQ-2）
 - [ ] T9: 公開してよいかを確かめてから、リポジトリを public に切り替える。（REQ-2, REQ-5）
   - `/security-review` で脆弱性を確認する。
   - 6 章の REQ-5 の確認を、履歴（`git log -p --all`）まで含めてやり直す。勤務先や業務を示す語が無いことを、人間が読んで確認する。
   - 履歴を書き換える必要があれば、ここで行う（force push とタグの付け直しを含む）。
+  - force push する前のコミットは GitHub に残るため、履歴を書き換えたら、リポジトリを削除して作り直し、書き換えたあとの履歴を push する（ADR 0005）。
   - 切り替え（`gh repo edit --visibility public`）は、実行前に必ず人間の確認を取る。
   - 切り替えたあと、ローカルのマーケットプレイスを外して GitHub から入れ直し、`/plugin` の一覧に `sdd@sdd-lite` が出ることを確かめる。
 
