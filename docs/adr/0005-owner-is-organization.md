@@ -27,4 +27,4 @@
 
 ## 検証方法（任意）
 - `git log --format='%an <%ae>|%cn <%ce>' | sort -u` の結果が、`kibako-works <kibako-works@users.noreply.github.com>|kibako-works <kibako-works@users.noreply.github.com>` の 1 行だけであること。
-- `git grep -n -i 'kibako-works'` と、履歴の `git log -p --all -i -G 'kibako-works'` の結果が 0 件であること。
+- 作者の個人アカウント名で、作業ツリー（`git grep -n -i <名前>`）と履歴（`git log -p --all -i -G <名前>`）を検索し、0 件であること。名前そのものは公開物に書かないため、検索語は手元で指定する。
