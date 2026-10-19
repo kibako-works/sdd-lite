@@ -2,7 +2,7 @@
 
 - Status: Approved
 - 作成日: 2026-10-19
-- 関連 ADR: docs/adr/0001〜0004（0001〜0003 は T4、0004 は T6 で起票）
+- 関連 ADR: docs/adr/0001〜0005（0001〜0003 は T4、0004 は T6、0005 は T7a で起票）
 
 ## 1. 背景と目的
 - sdd は、軽量な SDD（デザインドキュメントと ADR で開発を進める方法）を Claude Code で回すためのスキル 5 つとサブエージェント 1 つ。
@@ -11,7 +11,7 @@
 - これまでは各自の `~/.claude/skills/` と `~/.claude/agents/` に置いて使っていた。これを Claude Code のプラグインとして公開リポジトリから配れるようにする。
 - 方針は「Claude Code 純正の機能を可能な限りそのまま使い、自作は足りない部分だけの最小限にする」。純正の機能に同じものが入ったら、そのスキルは外す（期限付きの運用）。
 - 成功の定義:
-  - GitHub の公開リポジトリ `<owner>/sdd-lite` から、`/plugin marketplace add <owner>/sdd-lite` と `/plugin install sdd@sdd-lite` で導入できる。
+  - GitHub の公開リポジトリ `kibako-works/sdd-lite` から、`/plugin marketplace add kibako-works/sdd-lite` と `/plugin install sdd@sdd-lite` で導入できる。
   - 導入後、`/sdd:ask`・`/sdd:init`・`/sdd:design`・`/sdd:adr`・`/sdd:ship` が、改名前と同じように動く。
 
 ## 2. スコープ
@@ -28,10 +28,10 @@
 
 ## 3. 要件
 - REQ-1: `claude plugin validate --strict .` が警告なしで通ること。
-- REQ-2: `/plugin marketplace add <owner>/sdd-lite` と `/plugin install sdd@sdd-lite` で導入できること。導入後、5 つのスキルとエージェント `sdd:verifier` が使えること。
+- REQ-2: `/plugin marketplace add kibako-works/sdd-lite` と `/plugin install sdd@sdd-lite` で導入できること。導入後、5 つのスキルとエージェント `sdd:verifier` が使えること。
 - REQ-3: `/sdd:design` と `/sdd:init` は、これまでどおり人間だけが起動できること（`disable-model-invocation: true` を維持する）。
 - REQ-4: 配布物に旧名（`ask-sdd`・`sdd-init`・`sdd-design`・`sdd-adr`・`sdd-ship`・`sdd-verifier`・`/sdd-*`）が残っていないこと。`/sdd:init` が導入先に書き込む CLAUDE.md のテンプレートも対象にする。
-- REQ-5: 公開物に、作者の勤務先や業務に関する情報、メールアドレス、`/home/<個人名>` のような個人環境のパスが含まれないこと。git の履歴も対象にする。作者の表記は GitHub のユーザー名だけにする。
+- REQ-5: 公開物に、作者の勤務先や業務に関する情報、メールアドレス、`/home/<個人名>` のような個人環境のパスが含まれないこと。git の履歴も対象にする。作者の表記は Organization `kibako-works` だけにする（ADR 0005）。
 - REQ-6: スキルが `${CLAUDE_SKILL_DIR}` 経由で、自分のディレクトリにある guide.md とテンプレートを読めること。
 - 非機能要件:
   - バージョンは semver で管理する。リリースのたびに `plugin.json` の `version` を上げ、`vX.Y.Z` のタグを付けて CHANGELOG.md に記録する。`version` を固定すると、上げない限り更新が利用者に届かないため。
@@ -92,7 +92,7 @@ sdd-lite/
   ```json
   {
     "name": "sdd-lite",
-    "owner": { "name": "<GitHub ユーザー名>", "url": "https://github.com/<GitHub ユーザー名>" },
+    "owner": { "name": "kibako-works", "url": "https://github.com/kibako-works" },
     "description": "軽量 SDD（デザインドキュメントと ADR）を Claude Code で回すプラグイン",
     "plugins": [
       { "name": "sdd", "source": "./plugins/sdd", "description": "軽量 SDD のスキル群と検証用サブエージェント" }
@@ -105,8 +105,8 @@ sdd-lite/
     "name": "sdd",
     "version": "0.1.0",
     "description": "軽量 SDD のスキル群と検証用サブエージェント",
-    "author": { "name": "<GitHub ユーザー名>", "url": "https://github.com/<GitHub ユーザー名>" },
-    "repository": "https://github.com/<GitHub ユーザー名>/sdd-lite",
+    "author": { "name": "kibako-works", "url": "https://github.com/kibako-works" },
+    "repository": "https://github.com/kibako-works/sdd-lite",
     "license": "MIT"
   }
   ```
@@ -117,7 +117,7 @@ sdd-lite/
 - 構成: 概要 → 前提 → インストール → 使い方 → 注意点 → 外す条件 → 外す手順 → 詳しく
 - 概要: 何をするプラグインか。ほかの SDD ツールより軽い代替として作ったこと。ほかのプロジェクトを評価する書き方はしない。
 - 前提: Claude Code が動く環境。完了時の手順で、Claude Code 同梱の `/simplify`・`/code-review`（必要なら `/verify`）を使う。PR 作成には gh CLI を使う。
-- インストール: `/plugin marketplace add <owner>/sdd-lite` → `/plugin install sdd@sdd-lite`。更新と削除の方法（`/plugin` の画面、または `claude plugin update` / `uninstall`）。
+- インストール: `/plugin marketplace add kibako-works/sdd-lite` → `/plugin install sdd@sdd-lite`。更新と削除の方法（`/plugin` の画面、または `claude plugin update` / `uninstall`）。
 - 使い方: 迷ったら `/sdd:ask <やりたいこと>` を使う。判断基準の正本は `plugins/sdd/skills/ask/guide.md` なので、そこへリンクし、guide.md の表や手順は README に重複させない（ADR 0003）。
 - 注意点:
   - 人間だけが起動できるスキルがある（`/sdd:design`・`/sdd:init`）。
@@ -158,7 +158,7 @@ sdd-lite/
 - `/sdd:sdd-design` のように旧名のままプラグインにする案: `sdd` が重複して冗長なため不採用。
 
 ## 5. 実装タスク
-- [ ] T1: `git init` し、LICENSE（MIT。著作者は GitHub のユーザー名）、`.claude-plugin/marketplace.json`、`plugins/sdd/.claude-plugin/plugin.json`、CHANGELOG.md（0.1.0 の項目）、`.gitignore` を置く。（対応要件: REQ-1）
+- [ ] T1: `git init` し、LICENSE（MIT。著作者は kibako-works。ADR 0005）、`.claude-plugin/marketplace.json`、`plugins/sdd/.claude-plugin/plugin.json`、CHANGELOG.md（0.1.0 の項目）、`.gitignore` を置く。（対応要件: REQ-1）
 - [ ] T2: 4 章の対応表に従って、スキルのディレクトリとエージェントのファイルを `git mv` で改名し、フロントマターの `name` と本文・guide.md・テンプレートの旧名を書き換える。（REQ-2, REQ-3, REQ-4, REQ-6）
 - [ ] T3: README.md を 4 章の章立てで書く。（REQ-2, REQ-5）
 - [ ] T4: docs/adr/0001〜0003 を起票する。（REQ-5）
@@ -166,6 +166,11 @@ sdd-lite/
 - [ ] T6: ローカルで動作を確認する。`claude --plugin-dir ./plugins/sdd` で起動するか、`claude plugin marketplace add ./` と `claude plugin install sdd@sdd-lite` で導入して、6 章の REQ-2・REQ-3・REQ-6 を確かめる。
   - `/sdd:ship` から検証役を呼ぶときの指定名（`subagent_type`）が `sdd:verifier` で通るかは公式ドキュメントに明記がないので、ここで実際に確かめる。通らなければ SKILL.md の書き方を直す。（REQ-2, REQ-3, REQ-6）
 - [ ] T7: GitHub にプライベートリポジトリ `sdd-lite` を作って push し、`v0.1.0` のタグを付ける。外部への送信なので、実行前に必ず人間の確認を取る。（REQ-2, REQ-5）
+- [ ] T7a: 所有者と作者の表記を Organization `kibako-works` に移す（ADR 0005）。（REQ-2, REQ-5）
+  - marketplace.json・plugin.json・LICENSE・README の表記を `kibako-works` に書き換え、このリポジトリの `git config user.name` / `user.email` を ADR 0005 の作者にする。
+  - 履歴のコミットの作者とコミッターを ADR 0005 の作者に書き換え、`v0.1.0` のタグを付け直す。
+  - 人間が GitHub の画面で Organization `kibako-works` を作る。
+  - リポジトリを `kibako-works` に移管し、`git remote` を新しい URL に変えて force push する。移管と push は、実行前に必ず人間の確認を取る。
 - [ ] T8: ローカルのマーケットプレイスを外し（`claude plugin marketplace remove sdd-lite`）、GitHub（プライベートリポジトリ）から導入し直して、T6 と同じ確認をする。プラグインがキャッシュのディレクトリから読まれる状態でも、ADR 0004 の `allowed-tools` で補助ファイルを確認なしに読めることを確かめる。（REQ-2）
 - [ ] T9: 公開してよいかを確かめてから、リポジトリを public に切り替える。（REQ-2, REQ-5）
   - `/security-review` で脆弱性を確認する。
@@ -183,12 +188,12 @@ sdd-lite/
 - REQ-3: Claude に「デザインドキュメントを作って」と頼んでも `/sdd:design` を自分で起動せず、人間に入力を案内する。
 - REQ-4: `grep -rnE 'sdd-(init|design|adr|ship|verifier)|ask-sdd|sdd-\*' plugins/ README.md CLAUDE.md` の結果が 0 件になる。
 - REQ-5:
-  - `grep -rnE '@[A-Za-z0-9.-]+\.[a-z]{2,}|/home/[a-z]' --exclude-dir=.git .` の結果が 0 件になる。
+  - `grep -rnE '@[A-Za-z0-9.-]+\.[a-z]{2,}|/home/[a-z]' --exclude-dir=.git . | grep -v 'kibako-works@users\.noreply\.github\.com'` の結果が 0 件になる。ADR 0005 で決めたコミットの作者のアドレスだけは除く。
   - 作者の勤務先や業務を示す語が無いことを、人間が README と ADR を読んで確認する。
-  - `git log --format='%an <%ae>'` に、GitHub が発行する noreply アドレス（ユーザー ID とユーザー名から成る、users.noreply.github.com のアドレス）以外が出ない。push 前に `git config user.email` を確認する。
+  - `git log --format='%an <%ae>'` の結果が `kibako-works <kibako-works@users.noreply.github.com>` だけになる（ADR 0005）。push 前に `git config user.email` を確認する。
 - REQ-6:
   - `/sdd:adr テスト` で ADR の雛形が出る（一時ディレクトリで実行し、書き込みは承認しない）。
   - `/sdd:init` で CLAUDE.md の案が `/sdd:*` の名前で出る。
 
 ## 7. 未決事項
-- なし。`<owner>`（GitHub のユーザー名）は、実装時に人間に確認して埋める。
+- なし。`<owner>` は Organization `kibako-works` に決めた（ADR 0005）。
