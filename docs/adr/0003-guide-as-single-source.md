@@ -1,6 +1,6 @@
 # 0003. 案内の判断基準の正本を guide.md に置き、スキルのディレクトリの外は読まない
 
-- Status: Accepted
+- Status: Superseded by 0006
 - 日付: 2026-10-19
 - 関連: docs/design/2026-10-initial-release.md
 
