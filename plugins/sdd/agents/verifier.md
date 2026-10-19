@@ -1,5 +1,5 @@
 ---
-name: sdd-verifier
+name: verifier
 description: デザインドキュメントの要件と実装・テストの整合性を検証する。実装完了時に使う。
 tools: Read, Grep, Glob, Bash
 metadata:
