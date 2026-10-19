@@ -3,6 +3,7 @@ name: ask
 description: 軽量 SDD（sdd プラグインのスキル・デザインドキュメント・ADR）の窓口。「/sdd:ask 〇〇したい」とやりたいことを書くか、引数なしで呼ぶと、今の状態と変更の規模から次に使う sdd のスキルと手順を案内する。軽量 SDD の進め方について、何から始めるか、次に何をするか、どのスキルを使うかを聞かれたときに使う。
 argument-hint: [やりたいこと（省略時は今の状態から次の手順を案内）]
 disable-model-invocation: false
+allowed-tools: Read(/${CLAUDE_SKILL_DIR}/*)
 metadata:
   kit: sdd
   reviewed: 2026-10-09

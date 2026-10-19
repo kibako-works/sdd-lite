@@ -3,6 +3,7 @@ name: init
 description: 今のプロジェクトに軽量SDD（CLAUDE.md・docs/design/・docs/adr/）を導入する
 argument-hint: [プロジェクトルート（省略時はカレント）]
 disable-model-invocation: true
+allowed-tools: Read(/${CLAUDE_SKILL_DIR}/*)
 metadata:
   kit: sdd
   reviewed: 2026-09-30

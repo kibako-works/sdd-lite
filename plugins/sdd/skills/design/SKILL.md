@@ -3,6 +3,7 @@ name: design
 description: 新機能・中規模以上の変更のデザインドキュメントを作成する（Plan Mode で実行）
 argument-hint: <機能名や概要>
 disable-model-invocation: true
+allowed-tools: Read(/${CLAUDE_SKILL_DIR}/*)
 metadata:
   kit: sdd
   reviewed: 2026-09-30

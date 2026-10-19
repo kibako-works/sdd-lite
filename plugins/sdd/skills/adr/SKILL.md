@@ -3,6 +3,7 @@ name: adr
 description: ADR を起票する
 argument-hint: <判断のタイトル>
 disable-model-invocation: false
+allowed-tools: Read(/${CLAUDE_SKILL_DIR}/*)
 metadata:
   kit: sdd
   reviewed: 2026-09-30
