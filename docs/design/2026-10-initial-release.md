@@ -165,8 +165,14 @@ sdd-lite/
 - [ ] T5: 6 章の grep と `claude plugin validate --strict .` で確認する。（REQ-1, REQ-4, REQ-5）
 - [ ] T6: ローカルで動作を確認する。`claude --plugin-dir ./plugins/sdd` で起動するか、`claude plugin marketplace add ./` と `claude plugin install sdd@sdd-lite` で導入して、6 章の REQ-2・REQ-3・REQ-6 を確かめる。
   - `/sdd:ship` から検証役を呼ぶときの指定名（`subagent_type`）が `sdd:verifier` で通るかは公式ドキュメントに明記がないので、ここで実際に確かめる。通らなければ SKILL.md の書き方を直す。（REQ-2, REQ-3, REQ-6）
-- [ ] T7: GitHub に公開リポジトリ `sdd-lite` を作って push し、`v0.1.0` のタグを付ける。外部への公開なので、実行前に必ず人間の確認を取る。（REQ-2, REQ-5）
-- [ ] T8: ローカルのマーケットプレイスを外し（`claude plugin marketplace remove sdd-lite`）、GitHub から導入し直して、T6 と同じ確認をする。（REQ-2）
+- [ ] T7: GitHub にプライベートリポジトリ `sdd-lite` を作って push し、`v0.1.0` のタグを付ける。外部への送信なので、実行前に必ず人間の確認を取る。（REQ-2, REQ-5）
+- [ ] T8: ローカルのマーケットプレイスを外し（`claude plugin marketplace remove sdd-lite`）、GitHub（プライベートリポジトリ）から導入し直して、T6 と同じ確認をする。プラグインがキャッシュのディレクトリから読まれる状態でも、ADR 0004 の `allowed-tools` で補助ファイルを確認なしに読めることを確かめる。（REQ-2）
+- [ ] T9: 公開してよいかを確かめてから、リポジトリを public に切り替える。（REQ-2, REQ-5）
+  - `/security-review` で脆弱性を確認する。
+  - 6 章の REQ-5 の確認を、履歴（`git log -p --all`）まで含めてやり直す。勤務先や業務を示す語が無いことを、人間が読んで確認する。
+  - 履歴を書き換える必要があれば、ここで行う（force push とタグの付け直しを含む）。
+  - 切り替え（`gh repo edit --visibility public`）は、実行前に必ず人間の確認を取る。
+  - 切り替えたあと、ローカルのマーケットプレイスを外して GitHub から入れ直し、`/plugin` の一覧に `sdd@sdd-lite` が出ることを確かめる。
 
 ## 6. テスト・検証方法
 - REQ-1: `claude plugin validate --strict .` が警告なしで終わる。
