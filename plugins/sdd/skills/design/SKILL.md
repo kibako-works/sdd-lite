@@ -1,22 +1,24 @@
 ---
 name: design
-description: 新機能・中規模以上の変更のデザインドキュメントを作成する（Plan Mode で実行）
-argument-hint: <機能名や概要>
+description: Create a design doc for a new feature or a medium or larger change (run in Plan Mode)
+argument-hint: <feature name or summary>
 disable-model-invocation: true
 allowed-tools: Read(/${CLAUDE_SKILL_DIR}/*)
 metadata:
   kit: sdd
-  reviewed: 2026-09-30
-  retire-when: Claude Code 純正の Plan Mode がデザインドキュメント形式の計画をリポジトリ内 Markdown として保存・承認できるようになったら削除する
+  reviewed: 2026-10-20
+  retire-when: Delete when Claude Code's built-in Plan Mode can save and approve a plan in design doc form as Markdown in the repository
 ---
-対象: $ARGUMENTS
+Target: $ARGUMENTS
 
-このスキルは Plan Mode で実行する。
+Language: the configured language is `${user_config.language}`. If it is exactly `ja`, write all conversation and the design doc in Japanese and use `template.ja.md`. Otherwise (including when the value is empty or was not substituted), write in English and use `template.md`. Below, "the template" means the file chosen here.
 
-0. docs/design/ や docs/adr/ が無ければ、/sdd:init を案内する。
-1. CLAUDE.md、関連コード、docs/adr/ の Accepted な ADR を読む。
-2. 要件・スコープ・制約について、不明点を1問ずつ質問する（推測で埋めない）。
-3. ${CLAUDE_SKILL_DIR}/template.md に沿って計画をまとめ、承認を求める。
-4. 承認後、docs/design/YYYY-MM-<slug>.md として保存し、Status を Approved にする。
-5. 代替案の比較など重要な判断があれば /sdd:adr の起票を提案する。
-実装コードはこのスキルでは書かないこと。
+Run this skill in Plan Mode.
+
+0. If docs/design/ or docs/adr/ is missing, point the user to /sdd:init.
+1. Read CLAUDE.md, the related code, and the Accepted ADRs in docs/adr/.
+2. Ask about anything unclear in the requirements, scope, and constraints, one question at a time (don't fill gaps by guessing).
+3. Summarize the plan following the template at `${CLAUDE_SKILL_DIR}/` (the file chosen above) and ask for approval.
+4. After approval, save it as docs/design/YYYY-MM-<slug>.md with Status set to Approved.
+5. If there are important decisions, such as a comparison of alternatives, propose recording them with /sdd:adr.
+Don't write implementation code in this skill.
