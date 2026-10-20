@@ -1,152 +1,152 @@
-# sdd の使い方（判断基準）
+# How to use sdd (decision criteria)
 
-このファイルは sdd の案内の判断基準の正本です。`/sdd:ask` が読んで案内に使います。人間が読んでもかまいません。
+This file is the canonical source of the decision criteria that sdd uses for guidance. `/sdd:ask` reads it to guide you. You can read it too. The Japanese translation is [guide.ja.md](guide.ja.md); update it in the same change as this file.
 
-## 全体の流れ
+## Overall flow
 
 ```mermaid
 flowchart TD
-    S["変更を始める"] --> J{"変更の規模は？"}
-    J -->|"新機能・中規模以上"| D["/sdd:design で<br/>デザインドキュメント作成"]
-    J -->|"小さいが<br/>設計判断あり"| A["/sdd:adr で ADR 起票"]
-    J -->|"小さく<br/>判断なし"| P["Plan Mode で計画"]
-    D --> DA{"人間が承認"}
+    S["Start a change"] --> J{"Size of the change?"}
+    J -->|"New feature /<br/>medium or larger"| D["Create a design doc<br/>with /sdd:design"]
+    J -->|"Small, with a<br/>design decision"| A["Record an ADR<br/>with /sdd:adr"]
+    J -->|"Small, with<br/>no decision"| P["Plan in Plan Mode"]
+    D --> DA{"Human approves"}
     A --> P
-    DA --> I["実装タスクを1つずつ実施<br/>タスクごとに確認"]
-    P --> PA{"人間が承認"}
+    DA --> I["Implement the tasks one by one<br/>check after each task"]
+    P --> PA{"Human approves"}
     PA --> I
-    I --> F["完了時の手順<br/>検証 → 整理 → レビュー → ADR 確認"]
-    F --> R["本番での確認"]
-    R --> C["コミット・PR<br/>（git 管理下のみ）"]
+    I --> F["Completion steps<br/>verify → clean up → review → check ADRs"]
+    F --> R["Check in production"]
+    R --> C["Commit and PR<br/>(git repositories only)"]
 ```
 
-## 0. 前提と導入
+## 0. Prerequisites and setup
 
-プロジェクトに次の3つがあることを確認します。無ければ導入します。
+Make sure the project has the following three items. If not, set them up.
 
-| 必要なもの | 役割 |
+| Required | Role |
 |---|---|
-| `CLAUDE.md` | プロジェクトの概要・コマンド・開発フロー・規約 |
-| `docs/design/` | デザインドキュメントの置き場所 |
-| `docs/adr/` | ADR（判断記録）の置き場所 |
+| `CLAUDE.md` | Project overview, commands, development flow, and conventions |
+| `docs/design/` | Where design docs live |
+| `docs/adr/` | Where ADRs (decision records) live |
 
-**導入手順**
-1. プロジェクトのルートで Claude Code を起動する。
-2. 人間が `/sdd:init` を実行する。
-3. Claude が CLAUDE.md の案（既にあれば追記の差分案）と、`docs/design/`・`docs/adr/`（`0001` の ADR を含む）の作成案を示す。
-4. 内容を確認して承認する。承認すると書き込まれる。コミットはされない。
-5. CLAUDE.md の「よく使うコマンド」に、テスト・Lint・起動のコマンドが書かれていることを確認する。後の手順で使う。
+**Setup steps**
+1. Start Claude Code at the project root.
+2. A human runs `/sdd:init`.
+3. Claude proposes a CLAUDE.md (or, if one exists, a diff to append) and the creation of `docs/design/` and `docs/adr/` (including ADR `0001`).
+4. Review the proposal and approve it. Approving writes the files. Nothing is committed.
+5. Check that the "Common commands" section of CLAUDE.md lists the test, lint, and run commands. Later steps use them.
 
-## 1. 変更の規模を判定する
+## 1. Decide the size of the change
 
-変更を始める前に、次の表で区分を決めます。迷ったら、上の区分を選びます。
+Before starting a change, choose a category from this table. When in doubt, choose the higher category.
 
-| 区分 | 目安 | 進め方 |
+| Category | Guideline | How to proceed |
 |---|---|---|
-| A. 新機能・中規模以上 | 複数ファイル・新しいコマンドや機能・要件の整理が要る | 手順 2-A |
-| B. 小さいが設計判断あり | 1ファイル程度。ただし、技術選定・書式や構造の変更・トレードオフのある判断を含む | 手順 2-B |
-| C. 小さく判断なし | 1ファイル程度で、既存の方針どおりに直すだけ（不具合修正・文言修正など） | 手順 2-C |
+| A. New feature / medium or larger | Multiple files, a new command or feature, or requirements that need sorting out | Step 2-A |
+| B. Small, with a design decision | About one file, but includes a technology choice, a change in format or structure, or a decision with trade-offs | Step 2-B |
+| C. Small, with no decision | About one file, simply fixing things along existing policy (bug fixes, wording fixes, and so on) | Step 2-C |
 
-「設計判断」とは、後から「なぜこうしたのか」を問われうる選択のことです。迷ったら B にして ADR を残します。
+A "design decision" is a choice someone may later ask "why did we do it this way?" about. When in doubt, choose B and leave an ADR.
 
-## 2. 区分ごとの手順
+## 2. Steps for each category
 
-### 2-A. 新機能・中規模以上
+### 2-A. New feature / medium or larger
 
-1. Plan Mode に入る（Shift+Tab で切り替える）。
-2. 人間が `/sdd:design <機能名や概要>` を実行する。
-3. Claude の質問に1問ずつ答える。
-4. Claude が示すデザインドキュメントの案を確認する。要件（REQ-n）・やらないこと・実装タスク（Tn）・検証方法が揃っているかを見る。
-5. 承認する。`docs/design/YYYY-MM-<slug>.md` に Status: Approved で保存される。
-6. Claude が ADR の起票を提案したら、手順 2-B の 1〜3 と同じ要領で ADR を作る。
-7. 手順 2-D に進む。
+1. Enter Plan Mode (switch with Shift+Tab).
+2. A human runs `/sdd:design <feature name or summary>`.
+3. Answer Claude's questions one at a time.
+4. Review the design doc Claude proposes. Check that it has requirements (REQ-n), non-goals, implementation tasks (Tn), and verification methods.
+5. Approve it. It is saved as `docs/design/YYYY-MM-<slug>.md` with Status: Approved.
+6. If Claude proposes recording an ADR, create it the same way as steps 1–3 of 2-B.
+7. Go to step 2-D.
 
-### 2-B. 小さいが設計判断あり
+### 2-B. Small, with a design decision
 
-1. Claude に `/sdd:adr <判断のタイトル>` を実行させる（人間が入力してもよい）。
-2. Claude が示す ADR の下書きを確認する。Context（背景）・Decision（決定）・Consequences（結果）が書かれているか、既存の ADR と矛盾していないかを見る。
-3. 承認する。`docs/adr/NNNN-<slug>.md` に保存される。
-4. 手順 2-C に進む。
+1. Have Claude run `/sdd:adr <decision title>` (a human may type it instead).
+2. Review the ADR draft Claude shows. Check that it has Context, Decision, and Consequences, and that it doesn't contradict existing ADRs.
+3. Approve it. It is saved as `docs/adr/NNNN-<slug>.md`.
+4. Go to step 2-C.
 
-### 2-C. 小さく判断なし（2-B の続きを含む）
+### 2-C. Small, with no decision (including the continuation of 2-B)
 
-1. Plan Mode に入る。
-2. 変更の内容を Claude に伝え、計画を作らせる。計画には、変更するファイル・手順・検証方法を含めさせる。
-3. 計画を確認して承認する。
-4. 手順 2-D に進む。
+1. Enter Plan Mode.
+2. Tell Claude what to change and have it make a plan. The plan should include the files to change, the steps, and how to verify.
+3. Review and approve the plan.
+4. Go to step 2-D.
 
-### 2-D. 実装
+### 2-D. Implementation
 
-1. デザインドキュメントの実装タスク（2-A の場合）か、計画の手順（2-B・2-C の場合）を、上から1つずつ実装させる。
-2. タスクを1つ終えるごとに、CLAUDE.md の「よく使うコマンド」にあるテスト・Lint を実行して確認する。
-3. 実装中に新しい設計判断が出てきたら、その時点で `/sdd:adr` を実行する。
-4. Status が Accepted の ADR に反する変更が必要になったら、実装を止める。新しい ADR で既存の ADR を Superseded にする提案をさせ、承認を得てから進める。
-5. すべてのタスクが終わったら、手順 3 に進む。
+1. Have Claude implement the implementation tasks of the design doc (for 2-A) or the steps of the plan (for 2-B and 2-C) one at a time, from the top.
+2. After each task, run the tests and lint listed in "Common commands" of CLAUDE.md to check it.
+3. If a new design decision comes up during implementation, run `/sdd:adr` at that point.
+4. If a change would go against an ADR whose Status is Accepted, stop implementing. Have Claude propose a new ADR that marks the existing ADR as Superseded, and continue only after approval.
+5. When all tasks are done, go to step 3.
 
-## 3. 完了時の手順
+## 3. Completion steps
 
-上から順に実行します。手順 3-1〜3-5 は Claude に `/sdd:ship` を実行させればまとめて進みます。1つずつ実行してもかまいません。アプリの動作確認が必要なら、3-1 で同梱スキル `/verify` も使えます。
+Run these from the top. Steps 3-1 to 3-5 run together when you have Claude run `/sdd:ship`. You may also run them one at a time. If you need to check the app's behavior, you can also use the bundled `/verify` skill in 3-1.
 
-| # | 手順 | 実行するもの | 確認すること |
+| # | Step | What to run | What to check |
 |---|---|---|---|
-| 3-1 | 要件と実装の突き合わせ | sdd:verifier サブエージェント（`/sdd:ship` が起動） | 要件ごとに「満たす」と判定されている |
-| 3-2 | テスト・Lint・型チェック | CLAUDE.md の「よく使うコマンド」 | すべて通る |
-| 3-3 | コードの整理 | `/simplify` | 指摘への対応（修正 / 見送り）が報告されている |
-| 3-4 | バグの確認 | `/code-review` | 指摘が無いか、修正済み |
-| 3-5 | ADR の漏れ確認とドキュメント更新 | Claude に確認させる | ADR にすべき判断が残っていない。デザインドキュメントのタスクのチェックと Status（Implemented）が更新されている |
-| 3-6 | 本番での確認 | 人間が実行 | 本番環境・本番データで期待どおりに動く |
-| 3-7 | コミット・PR | `/sdd:ship` の最後の手順 | 変更内容を確認してから承認する |
+| 3-1 | Match requirements against the implementation | sdd:verifier subagent (started by `/sdd:ship`) | Each requirement is judged "met" |
+| 3-2 | Tests, lint, type checks | "Common commands" in CLAUDE.md | Everything passes |
+| 3-3 | Clean up the code | `/simplify` | The response to each finding (fixed / skipped) is reported |
+| 3-4 | Check for bugs | `/code-review` | No findings, or all fixed |
+| 3-5 | Check for missing ADRs and update docs | Have Claude check | No decision that should be an ADR is left. The design doc's task checkboxes and Status (Implemented) are updated |
+| 3-6 | Check in production | Run by a human | It works as expected in the production environment with production data |
+| 3-7 | Commit and PR | Last step of `/sdd:ship` | Review the changes before approving |
 
-- 3-3・3-4 はコードを書き換えることがあるので、3-6 より前に済ませます。本番での確認は、コードの修正がすべて終わってから行います。
-- `/sdd:ship` は、3-5 まで進めたあと、変更内容を提示して承認を得てからコミットと PR 作成（3-7）を行います。3-6 を行う場合は、承認の前に済ませてください。
-- 3-6 は、本番に書き込む・外部に公開するなど、取り消しにくい操作を含みます。コマンドは人間が自分の端末で実行します。
-- 3-3・3-4 で書き換えが入ったら、3-2 をもう一度実行します。
+- 3-3 and 3-4 may rewrite code, so finish them before 3-6. Check in production only after all code fixes are done.
+- `/sdd:ship` runs up to 3-5, then shows the changes and commits and creates the PR (3-7) after approval. If you do 3-6, finish it before approving.
+- 3-6 includes operations that are hard to undo, such as writing to production or publishing externally. A human runs those commands in their own terminal.
+- If 3-3 or 3-4 rewrote anything, run 3-2 again.
 
-## 4. 環境・状況ごとの違い
+## 4. Differences by environment and situation
 
-| 状況 | 変わる手順 | やり方 |
+| Situation | Affected step | How |
 |---|---|---|
-| git 管理外のディレクトリ | 3-3・3-4 | 差分が取れないので、`/simplify <ファイルパス>`・`/code-review <ファイルパス>` のように対象を指定する |
-| git 管理外のディレクトリ | 3-7 | コミット・PR は行わない。`/sdd:ship` を使う場合は、3-1〜3-5 で止める |
-| デザインドキュメントが無い（2-B・2-C） | 3-1 | sdd:verifier には、ADR のファイルと Plan Mode の計画ファイル（既定では `~/.claude/plans/`。設定の `plansDirectory` で変わる）を要件として渡す |
-| デザインドキュメントが無い（2-B・2-C） | 3-5 | タスクのチェックと Status の更新は無い。代わりに、関連するドキュメント（README やモジュールの説明）が更新されているかを確認する |
-| 自動テストが無い | 2-D・3-2 | CLAUDE.md に書かれた代わりの確認方法（構文チェック・セルフテストなど）を使う |
+| Directory not under git | 3-3, 3-4 | No diff is available, so specify targets, like `/simplify <file path>` and `/code-review <file path>` |
+| Directory not under git | 3-7 | No commit or PR. If you use `/sdd:ship`, stop after 3-1 to 3-5 |
+| No design doc (2-B, 2-C) | 3-1 | Give sdd:verifier the ADR file and the Plan Mode plan file (by default in `~/.claude/plans/`; changed by the `plansDirectory` setting) as the requirements |
+| No design doc (2-B, 2-C) | 3-5 | There are no task checkboxes or Status to update. Instead, check that related docs (README or module descriptions) are updated |
+| No automated tests | 2-D, 3-2 | Use the alternative checks written in CLAUDE.md (syntax checks, self-tests, and so on) |
 
-## 5. コマンド一覧
+## 5. Command list
 
-| コマンド | 用途 | 起動できる人 | 使う手順 |
+| Command | Purpose | Who can start it | Used in step |
 |---|---|---|---|
-| `/sdd:ask` | どのスキルを使うか迷ったときの窓口（案内だけで、スキルは実行しない） | 人間・Claude | すべて |
-| `/sdd:init` | プロジェクトへの導入 | 人間のみ | 0 |
-| `/sdd:design` | デザインドキュメント作成（Plan Mode で実行） | 人間のみ | 2-A |
-| `/sdd:adr` | ADR 起票 | 人間・Claude | 2-A, 2-B, 2-D |
-| `/sdd:ship` | 完了時の手順の一括実行 | 人間・Claude | 3 |
-| `/simplify` | コードの整理（Claude Code 同梱） | 人間・Claude | 3-3 |
-| `/code-review` | バグの確認（Claude Code 同梱） | 人間・Claude | 3-4 |
-| Plan Mode | 計画の作成と承認（Shift+Tab で切り替え） | 人間 | 2-A, 2-C |
+| `/sdd:ask` | Entry point when you're unsure which skill to use (guidance only; it doesn't run skills) | Human, Claude | All |
+| `/sdd:init` | Set up a project | Human only | 0 |
+| `/sdd:design` | Create a design doc (run in Plan Mode) | Human only | 2-A |
+| `/sdd:adr` | Record an ADR | Human, Claude | 2-A, 2-B, 2-D |
+| `/sdd:ship` | Run the completion steps together | Human, Claude | 3 |
+| `/simplify` | Clean up the code (bundled with Claude Code) | Human, Claude | 3-3 |
+| `/code-review` | Check for bugs (bundled with Claude Code) | Human, Claude | 3-4 |
+| Plan Mode | Create and approve a plan (switch with Shift+Tab) | Human | 2-A, 2-C |
 
-「人間のみ」のコマンドは、`SKILL.md` で `disable-model-invocation: true` になっています。Claude からは起動できないので、Claude が案内したら人間が入力します。
+"Human only" commands have `disable-model-invocation: true` in their `SKILL.md`. Claude can't start them, so when Claude points you to one, a human types it.
 
-## 6. 現在地の判定
+## 6. Determining where you are
 
-`/sdd:ask` は、次の表と依頼文から、現在地と次の手順を決めます。判定できないことは推測せず、1問ずつ聞きます。
+`/sdd:ask` determines where you are and the next step from the following table and the request text. It doesn't guess what it can't determine; it asks one question at a time.
 
-### 状態から決める
+### Decide from the state
 
-上の行から順に当てはめます。
+Apply the rows from the top.
 
-| 状態 | 現在地 | 次の手順 |
+| State | Where you are | Next step |
 |---|---|---|
-| CLAUDE.md・`docs/design/`・`docs/adr/` のどれかが無い | 導入前 | 0（`/sdd:init`） |
-| Status が Approved のデザインドキュメントがある | 実装中／完了前 | タスクがすべてチェック済みなら 3（`/sdd:ship`）。未チェックが残っていれば、どこまで進んだかを聞く（実装中 → 2-D／実装が終わった → 3）。タスクのチェックは 3-5 で付けるため、未チェックでも実装が終わっていることがある |
-| Approved のデザインドキュメントが無く、差分（未コミットの変更か、デフォルトブランチに無いコミット）がある。または git 管理外で、作業中だと答えた | 作業中（2-B・2-C の続き） | どこまで進んだかを聞く（計画がまだ → 2-C／実装中 → 2-D／実装が終わった → 3） |
-| Approved のデザインドキュメントが無く、差分も無い。または git 管理外で、まだ始めていないと答えた | 着手前 | 1（規模の判定） |
+| Any of CLAUDE.md, `docs/design/`, or `docs/adr/` is missing | Before setup | 0 (`/sdd:init`) |
+| There is a design doc whose Status is Approved | Implementing / before completion | If all tasks are checked, 3 (`/sdd:ship`). If unchecked tasks remain, ask how far you've gotten (implementing → 2-D / implementation finished → 3). Tasks are checked in 3-5, so implementation may be finished even with unchecked tasks |
+| No Approved design doc, and there is a diff (uncommitted changes or commits not on the default branch). Or not under git, and the user answered that work is in progress | Work in progress (continuing 2-B or 2-C) | Ask how far you've gotten (no plan yet → 2-C / implementing → 2-D / implementation finished → 3) |
+| No Approved design doc and no diff. Or not under git, and the user answered that work hasn't started | Before starting | 1 (decide the size) |
 
-- Status が Approved のデザインドキュメントが複数あるときは、一覧を示して、どれを対象にするかを聞きます。
-- git 管理外のディレクトリでは差分が取れないので、Approved のデザインドキュメントが無ければ、作業中かまだ始めていないかを聞きます。
-- 「設計中」（Plan Mode で `/sdd:design` を進めている途中）は、状態からは判定しません。`/sdd:design` は承認されてから初めてファイルを保存するためです。
+- When there are multiple design docs whose Status is Approved, list them and ask which one is the target.
+- In a directory not under git, no diff is available, so if there is no Approved design doc, ask whether work is in progress or hasn't started.
+- "Designing" (partway through `/sdd:design` in Plan Mode) isn't determined from the state, because `/sdd:design` saves the file only after approval.
 
-### 依頼文を使う
+### Use the request text
 
-- 着手前: 依頼文があれば、そこから 1 の区分を判定します。無ければ、`/sdd:ask <やりたいこと>` で呼び直すよう案内します。
-- それ以外（導入前を除く）: 依頼が今の作業の続きなら、次の手順のうち依頼に合う段を案内します（例: 実装中に設計判断が出てきた → 2-D の 3（`/sdd:adr`）、PR を作りたい → 3（`/sdd:ship`））。別の変更なら、今の作業が残っていることを伝えたうえで、1 の区分を判定します。
+- Before starting: if there is request text, use it to decide the category in 1. If not, tell the user to call again with `/sdd:ask <what you want to do>`.
+- Otherwise (except before setup): if the request continues the current work, point to the part of the next step that fits the request (for example, a design decision came up during implementation → 3 of 2-D (`/sdd:adr`); want to create a PR → 3 (`/sdd:ship`)). If it's a different change, say that the current work remains, then decide the category in 1.
