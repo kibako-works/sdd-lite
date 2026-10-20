@@ -1,17 +1,19 @@
 ---
 name: init
-description: 今のプロジェクトに軽量SDD（CLAUDE.md・docs/design/・docs/adr/）を導入する
-argument-hint: [プロジェクトルート（省略時はカレント）]
+description: Set up lightweight SDD (CLAUDE.md, docs/design/, docs/adr/) in the current project
+argument-hint: [project root (defaults to the current directory)]
 disable-model-invocation: true
 allowed-tools: Read(/${CLAUDE_SKILL_DIR}/*)
 metadata:
   kit: sdd
-  reviewed: 2026-09-30
-  retire-when: Claude Code 純正の /init などがデザインドキュメント・ADR 用ディレクトリと開発フローの雛形まで生成するようになったら削除する
+  reviewed: 2026-10-20
+  retire-when: Delete when Claude Code's built-in /init or similar generates the design doc and ADR directories and a development flow template
 ---
-対象: $ARGUMENTS
+Target: $ARGUMENTS
 
-1. 対象プロジェクトのルートを決める（引数があればそれ、無ければ git root かカレント）。
-2. CLAUDE.md が無ければ、${CLAUDE_SKILL_DIR}/claude-md-template.md を元に、リポジトリを調べて分かる箇所（技術スタック・コマンド・主要ディレクトリ）を埋めた案を作る。既にある場合は上書きせず、「開発フロー」「設計上の決定事項」の節で不足している分だけを追記する差分案を作る。
-3. docs/design/ と docs/adr/ を作り、docs/adr/0001-record-architecture-decisions.md を ${CLAUDE_SKILL_DIR}/adr-0001.md から今日の日付で作る案を作る。既に docs/adr/ があればスキップして報告する。
-4. すべての案を提示し、ユーザーの承認を得てから書き込む。コミットはしない。
+Language: the configured language is `${user_config.language}`. If it is exactly `ja`, write all conversation and generated files in Japanese and use `claude-md-template.ja.md` and `adr-0001.ja.md`. Otherwise (including when the value is empty or was not substituted), write in English and use `claude-md-template.md` and `adr-0001.md`. Below, "the CLAUDE.md template" and "the ADR 0001 template" mean the files chosen here.
+
+1. Decide the target project root (the argument if given; otherwise the git root or the current directory).
+2. If CLAUDE.md doesn't exist, draft one from the CLAUDE.md template at `${CLAUDE_SKILL_DIR}/`, filling in what you can learn by examining the repository (tech stack, commands, main directories). If it exists, don't overwrite it; draft a diff that appends only what is missing from the "Development flow" and "Design decisions" sections (or the sections with the same role, whatever language they are written in).
+3. Draft creating docs/design/ and docs/adr/, and creating docs/adr/0001-record-architecture-decisions.md from the ADR 0001 template at `${CLAUDE_SKILL_DIR}/` with today's date. If docs/adr/ already exists, skip this and report it.
+4. Show all drafts, and write them only after the user approves. Don't commit.
