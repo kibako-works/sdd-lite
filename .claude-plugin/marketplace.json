@@ -4,12 +4,12 @@
     "name": "kibako-works",
     "url": "https://github.com/kibako-works"
   },
-  "description": "軽量 SDD（デザインドキュメントと ADR）を Claude Code で回すプラグイン",
+  "description": "A plugin for running lightweight SDD (design docs and ADRs) with Claude Code",
   "plugins": [
     {
       "name": "sdd",
       "source": "./plugins/sdd",
-      "description": "軽量 SDD のスキル群と検証用サブエージェント"
+      "description": "Lightweight SDD skills and a verification subagent"
     }
   ]
 }

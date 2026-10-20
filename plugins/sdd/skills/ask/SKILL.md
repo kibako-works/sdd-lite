@@ -1,30 +1,32 @@
 ---
 name: ask
-description: 軽量 SDD（sdd プラグインのスキル・デザインドキュメント・ADR）の窓口。「/sdd:ask 〇〇したい」とやりたいことを書くか、引数なしで呼ぶと、今の状態と変更の規模から次に使う sdd のスキルと手順を案内する。軽量 SDD の進め方について、何から始めるか、次に何をするか、どのスキルを使うかを聞かれたときに使う。
-argument-hint: [やりたいこと（省略時は今の状態から次の手順を案内）]
+description: Entry point for lightweight SDD (the sdd plugin's skills, design docs, and ADRs). Call it as "/sdd:ask <what you want to do>", or with no arguments, and it tells you which sdd skill and steps to use next, based on the current state and the size of the change. Use it when asked how to proceed with lightweight SDD - where to start, what to do next, or which skill to use.
+argument-hint: [what you want to do (omit to get the next step from the current state)]
 disable-model-invocation: false
 allowed-tools: Read(/${CLAUDE_SKILL_DIR}/*)
 metadata:
   kit: sdd
-  reviewed: 2026-10-09
-  retire-when: Claude Code 純正の機能が、スキル群の中から使うものを案内・振り分けるようになったら、または sdd の他のスキルがすべて外れたら削除する
+  reviewed: 2026-10-20
+  retire-when: Delete when a Claude Code built-in feature guides users to, or routes them among, the skills in a set, or when all other sdd skills have been removed
 ---
-対象: $ARGUMENTS
+Target: $ARGUMENTS
 
-このスキルは案内だけを行う。スキルの実行とファイルの書き込みはしない。案内は guide.md に書かれた判断基準だけに基づいて行い、guide.md に無いもの（軽量 SDD の進め方に関係しない依頼を含む）は「sdd の範囲外」と伝えて終える。推測で他のツールやスキルを勧めない。
+Language: the configured language is `${user_config.language}`. If it is exactly `ja`, write all conversation in Japanese and read `guide.ja.md`. Otherwise (including when the value is empty or was not substituted), write in English and read `guide.md`. Below, "the guide" means the file chosen here. If Claude Code's own `language` setting tells you to always respond in a particular language, use that language for conversation instead.
 
-1. ${CLAUDE_SKILL_DIR}/guide.md を読む。
-2. guide.md の「6. 現在地の判定」の表に必要な状態を読み取る。中身は読まず、有無と件数だけを、なるべくまとめて取る。
+This skill only gives guidance. It doesn't run skills or write files. Base the guidance only on the criteria in the guide. For anything not in the guide (including requests unrelated to how to proceed with lightweight SDD), say it is outside the scope of sdd and stop. Don't guess and recommend other tools or skills.
+
+1. Read the guide at `${CLAUDE_SKILL_DIR}/` (the file chosen above).
+2. Collect the state needed for the table in section 6 of the guide. Don't read file contents; get only presence and counts, in as few calls as possible.
    - `ls -d CLAUDE.md docs/design docs/adr`
-   - Approved のデザインドキュメント: `grep -l '^- Status: Approved' docs/design/*.md`。見つかったファイルごとに、未チェックのタスクの数を `grep -cF -- '- [ ]' <ファイル>` で数える。
-   - git 管理下か: `git rev-parse --is-inside-work-tree`。管理外なら、以降の git のコマンドは使わない。
-   - 未コミットの変更: `git status --porcelain`
-   - デフォルトブランチに無いコミット: デフォルトブランチを `git symbolic-ref --short refs/remotes/origin/HEAD` で調べ（取れなければ `main` か `master` のうち存在するほう）、`git rev-list --count <デフォルトブランチ>..HEAD` で数える。今いるのがデフォルトブランチなら、上流にまだ push していないコミットを `git rev-list --count @{u}..HEAD` で数える。
-   - これらで判断できなければ、推測せずに聞く。
-3. guide.md の 6 節（表と「依頼文を使う」）で、現在地と次の手順を決める。
-4. 質問したときは、答えを受けて手順 3 から判定し直す。決まったら、次の形で案内して終える。
-   - 現在地と、そう判定した理由
-   - 次に入力するコマンド（そのまま貼れる形。引数の例を含む）
-   - その前にすること（例: Plan Mode に入る）
-   - 人間しか起動できないコマンドなら、そのこと
-   - その後の流れの概要
+   - Approved design docs: `grep -l '^- Status: Approved' docs/design/*.md`. For each file found, count the unchecked tasks with `grep -cF -- '- [ ]' <file>`.
+   - Under git: `git rev-parse --is-inside-work-tree`. If not, don't use the git commands below.
+   - Uncommitted changes: `git status --porcelain`
+   - Commits not on the default branch: find the default branch with `git symbolic-ref --short refs/remotes/origin/HEAD` (if that fails, whichever of `main` or `master` exists), and count with `git rev-list --count <default branch>..HEAD`. If you are on the default branch, count the commits not yet pushed upstream with `git rev-list --count @{u}..HEAD`.
+   - If you can't decide from these, ask instead of guessing.
+3. Use section 6 of the guide (the table and "Use the request text") to decide where the user is and the next step.
+4. If you asked a question, decide again from step 3 with the answer. Once decided, give guidance in this form and stop.
+   - Where the user is, and why you decided so
+   - The command to type next (ready to paste, with an example argument)
+   - What to do before it (for example, enter Plan Mode)
+   - Whether the command can only be started by a human
+   - An overview of what follows

@@ -1,27 +1,27 @@
-# プロジェクト概要
-- 目的：<このプロダクトが誰の何を解決するか 1〜2行>
-- 技術スタック：<言語 / FW / DB / インフラ>
-- 主要ディレクトリ：src/ … / tests/ … / docs/ …
+# Project overview
+- Purpose: <whose problem this product solves and what it is, in 1-2 lines>
+- Tech stack: <language / framework / DB / infrastructure>
+- Main directories: src/ ... / tests/ ... / docs/ ...
 
-# よく使うコマンド
-- テスト：<例: pnpm test>
-- Lint / 型チェック：<例: pnpm lint && pnpm typecheck>
-- 起動：<例: pnpm dev>
+# Common commands
+- Test: <e.g. pnpm test>
+- Lint / type check: <e.g. pnpm lint && pnpm typecheck>
+- Run: <e.g. pnpm dev>
 
-# 開発フロー（必ず守る）
-1. 新機能・中規模以上の変更は、実装前に docs/design/ にデザインドキュメントを作る（/sdd:design）。
-2. デザインドキュメントは人間の承認を得てから実装に入る。
-3. 小さな修正（1ファイル程度・設計判断なし）は Plan Mode で計画を示すだけでよい。
-4. 実装はデザインドキュメントの「実装タスク」を上から1つずつ進め、タスクごとにテストを通す。
-5. 技術選定・構造変更・トレードオフのある判断をしたら docs/adr/ に ADR を起票する（/sdd:adr）。
-6. 完了時は /sdd:ship で検証・ADR 確認・PR 作成を行う。
+# Development flow (always follow)
+1. For a new feature or a medium or larger change, create a design doc in docs/design/ before implementing (/sdd:design).
+2. Start implementing only after a human approves the design doc.
+3. For a small fix (about one file, no design decision), just show a plan in Plan Mode.
+4. Implement the "Implementation tasks" of the design doc one at a time from the top, and make the tests pass after each task.
+5. When you make a technology choice, a structural change, or a decision with trade-offs, record an ADR in docs/adr/ (/sdd:adr).
+6. When done, use /sdd:ship to verify, check ADRs, and create the PR.
 
-# 設計上の決定事項
-- 過去の判断は docs/adr/ を参照すること。Status が Accepted の ADR に反する実装をしない。
-- ADR と矛盾する変更が必要なら、実装前に新しい ADR で既存 ADR を Superseded にする提案をする。
+# Design decisions
+- Refer to docs/adr/ for past decisions. Don't implement anything that goes against an ADR whose Status is Accepted.
+- If a change contradicts an ADR, propose a new ADR that marks the existing one as Superseded before implementing.
 
-# コーディング規約
-- <チーム固有のルールを箇条書き>
+# Coding conventions
+- <list team-specific rules>
 
-# やってはいけないこと
-- <過去に Claude が犯したミスをここに1行ずつ追記していく>
+# Don'ts
+- <add, one line at a time, mistakes Claude has made in the past>

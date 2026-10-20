@@ -1,17 +1,17 @@
-# NNNN. <判断のタイトル>
+# NNNN. <Decision title>
 
 - Status: Proposed | Accepted | Superseded by NNNN
-- 日付: YYYY-MM-DD
-- 関連: docs/design/...
+- Date: YYYY-MM-DD
+- Related: docs/design/...
 
-## Context（背景）
-<判断が必要になった状況・制約>
+## Context
+<The situation and constraints that required a decision>
 
-## Decision（決定）
-<何を選んだか。エージェントが守れるよう「〜すること / 〜しないこと」で書く>
+## Decision
+<What we chose. Write it as "Do ... / Don't ..." so agents can follow it>
 
-## Consequences（結果）
-<良くなること・悪くなること・今後の制約>
+## Consequences
+<What gets better, what gets worse, and constraints going forward>
 
-## 検証方法（任意）
-<この決定が守られているか確認するコマンドやチェック>
+## Verification (optional)
+<Commands or checks to confirm this decision is followed>

@@ -1,11 +1,20 @@
 {
   "name": "sdd",
-  "version": "0.1.0",
-  "description": "軽量 SDD のスキル群と検証用サブエージェント",
+  "version": "0.2.0",
+  "description": "Lightweight SDD skills and a verification subagent",
   "author": {
     "name": "kibako-works",
     "url": "https://github.com/kibako-works"
   },
   "repository": "https://github.com/kibako-works/sdd-lite",
-  "license": "MIT"
+  "license": "MIT",
+  "userConfig": {
+    "language": {
+      "type": "string",
+      "title": "Language",
+      "description": "Language for conversations and generated files (en: English, ja: Japanese)",
+      "options": ["en", "ja"],
+      "default": "en"
+    }
+  }
 }
