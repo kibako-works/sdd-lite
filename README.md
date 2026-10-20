@@ -51,6 +51,7 @@ claude plugin marketplace remove sdd-lite
 You can choose the language of the skills' conversation and of the files they generate (CLAUDE.md, design docs, ADRs): English (`en`) or Japanese (`ja`). The default is English.
 
 - You are asked for the language when you enable the plugin.
+- If you set Claude Code's own `language` setting, the conversation follows that setting instead, and this setting still decides the language of the generated files.
 - To change it later, open `/config` and choose again in sdd's Language row.
 - The setting is saved per user (`pluginConfigs["sdd@sdd-lite"].options.language` in your user settings). It can't be set per project.
 - In the same repository, ADRs and design docs may end up in mixed languages depending on each user's setting. If you want them consistent, decide the language in your CLAUDE.md conventions and have everyone match their setting.

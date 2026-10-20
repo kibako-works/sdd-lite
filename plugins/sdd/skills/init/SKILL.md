@@ -11,7 +11,7 @@ metadata:
 ---
 Target: $ARGUMENTS
 
-Language: the configured language is `${user_config.language}`. If it is exactly `ja`, write all conversation and generated files in Japanese and use `claude-md-template.ja.md` and `adr-0001.ja.md`. Otherwise (including when the value is empty or was not substituted), write in English and use `claude-md-template.md` and `adr-0001.md`. Below, "the CLAUDE.md template" and "the ADR 0001 template" mean the files chosen here.
+Language: the configured language is `${user_config.language}`. If it is exactly `ja`, write all conversation and generated files in Japanese and use `claude-md-template.ja.md` and `adr-0001.ja.md`. Otherwise (including when the value is empty or was not substituted), write in English and use `claude-md-template.md` and `adr-0001.md`. Below, "the CLAUDE.md template" and "the ADR 0001 template" mean the files chosen here. If Claude Code's own `language` setting tells you to always respond in a particular language, use that language for conversation instead; the generated files still follow the rule above.
 
 1. Decide the target project root (the argument if given; otherwise the git root or the current directory).
 2. If CLAUDE.md doesn't exist, draft one from the CLAUDE.md template at `${CLAUDE_SKILL_DIR}/`, filling in what you can learn by examining the repository (tech stack, commands, main directories). If it exists, don't overwrite it; draft a diff that appends only what is missing from the "Development flow" and "Design decisions" sections (or the sections with the same role, whatever language they are written in).

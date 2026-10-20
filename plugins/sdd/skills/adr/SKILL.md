@@ -11,7 +11,7 @@ metadata:
 ---
 Target: $ARGUMENTS
 
-Language: the configured language is `${user_config.language}`. If it is exactly `ja`, write all conversation and the ADR in Japanese and use `template.ja.md`. Otherwise (including when the value is empty or was not substituted), write in English and use `template.md`. Below, "the template" means the file chosen here.
+Language: the configured language is `${user_config.language}`. If it is exactly `ja`, write all conversation and the ADR in Japanese and use `template.ja.md`. Otherwise (including when the value is empty or was not substituted), write in English and use `template.md`. Below, "the template" means the file chosen here. If Claude Code's own `language` setting tells you to always respond in a particular language, use that language for conversation instead; the generated files still follow the rule above.
 
 0. If docs/adr/ is missing, point the user to /sdd:init.
 1. Choose the number as the highest number in docs/adr/ plus 1.

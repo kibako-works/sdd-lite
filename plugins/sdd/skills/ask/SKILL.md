@@ -11,7 +11,7 @@ metadata:
 ---
 Target: $ARGUMENTS
 
-Language: the configured language is `${user_config.language}`. If it is exactly `ja`, write all conversation in Japanese and read `guide.ja.md`. Otherwise (including when the value is empty or was not substituted), write in English and read `guide.md`. Below, "the guide" means the file chosen here.
+Language: the configured language is `${user_config.language}`. If it is exactly `ja`, write all conversation in Japanese and read `guide.ja.md`. Otherwise (including when the value is empty or was not substituted), write in English and read `guide.md`. Below, "the guide" means the file chosen here. If Claude Code's own `language` setting tells you to always respond in a particular language, use that language for conversation instead.
 
 This skill only gives guidance. It doesn't run skills or write files. Base the guidance only on the criteria in the guide. For anything not in the guide (including requests unrelated to how to proceed with lightweight SDD), say it is outside the scope of sdd and stop. Don't guess and recommend other tools or skills.
 
