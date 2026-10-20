@@ -80,7 +80,7 @@ Each skill and agent is removed when a Claude Code built-in feature can take its
 
 | Target | Retired when |
 |---|---|
-| `/sdd:ask` | A Claude Code built-in feature guides users to, or routes them among, the skills in a set, or all other sdd skills have been removed |
+| `/sdd:ask` | A Claude Code built-in feature guides users to, or routes them among, the skills in a set, or when all other sdd skills have been removed |
 | `/sdd:init` | Claude Code's built-in /init or similar generates the design doc and ADR directories and a development flow template |
 | `/sdd:design` | Claude Code's built-in Plan Mode can save and approve a plan in design doc form as Markdown in the repository |
 | `/sdd:adr` | Claude Code provides recording and numbering of ADRs (decision records) as a built-in feature |

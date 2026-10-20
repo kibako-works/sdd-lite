@@ -5,11 +5,11 @@ This file records the changes to this project. Versions follow [Semantic Version
 ## [0.2.0] - 2026-10-20
 
 ### Added
-- A `language` setting (`en` / `ja`, default `en`). You are asked for it when you enable the plugin, and you can change it later in `/config`. All skills and `sdd:verifier` converse and generate files in the chosen language.
+- A `language` setting (`en` / `ja`, default `en`). You are asked for it when you enable the plugin, and you can change it later in `/config`. All skills and `sdd:verifier` converse and generate files in the chosen language. If you set Claude Code's own `language` setting, the conversation follows that setting instead.
 - Japanese versions of the supporting files (`*.ja.md`), and `README.ja.md`.
 
 ### Changed
-- The skill and agent instructions, README, CHANGELOG, guide, templates, and manifest descriptions are now written in English. Japanese translations sit alongside them.
+- The skill and agent instructions, README, CHANGELOG, guide, templates, and manifest descriptions are now written in English. The README, the guide, and the templates have Japanese translations alongside them.
 - Requires Claude Code v2.1.271 or later.
 - If you used 0.1.0, the output becomes English after updating. To keep using Japanese, choose `ja` in `/config`.
 
