@@ -1,15 +1,17 @@
 ---
 name: ship
-description: 検証・ADR 確認・PR 作成
+description: Verify, check ADRs, and create a PR
 disable-model-invocation: false
 metadata:
   kit: sdd
-  reviewed: 2026-09-30
-  retire-when: Claude Code 純正機能または同梱スキルが、検証・ADR 確認・コミット・PR 作成を一括で行えるようになったら削除する
+  reviewed: 2026-10-20
+  retire-when: Delete when a Claude Code built-in feature or bundled skill can verify, check ADRs, commit, and create a PR in one go
 ---
-1. sdd:verifier サブエージェントで、デザインドキュメントの要件と実装・テストを突き合わせる。アプリの動作確認が必要なら、同梱スキル /verify の利用も選べる。デザインドキュメントが無い変更では、関連する ADR と Plan Mode の計画ファイルを要件として渡す。
-2. テスト・Lint・型チェックを実行し、失敗があれば修正する。
-3. Claude Code の同梱スキル /simplify で変更差分を整理し、同じく同梱スキル /code-review で差分のバグを確認する。
-4. 今回の変更で ADR にすべき判断が漏れていないか確認し、あれば /sdd:adr を提案する。
-5. デザインドキュメントがあれば、タスクのチェックと Status を更新する。無い変更では、関連するドキュメント（README など）が更新されているかを確認する。
-6. git 管理外のディレクトリでは、ここで終える（コミット・PR は行わない）。デフォルトブランチにいる場合は、コミットの前に作業ブランチを作る。変更内容を提示し、ユーザーの承認後にコミットと PR 作成を行う。コミットメッセージはプロジェクトの規約（CLAUDE.md や AGENTS.md）に従い、規約が無ければ Conventional Commits に従う。PR 作成には gh CLI を使い、PR 本文にデザインドキュメントと ADR へのリンクを含める。コミットと PR は必ずユーザーの承認を得てから行う。
+Language: the configured language is `${user_config.language}`. If it is exactly `ja`, write all conversation and reports in Japanese. Otherwise (including when the value is empty or was not substituted), write in English. Follow the project's conventions for the language of commit messages and PR bodies; if there are none, use the language chosen here.
+
+1. With the sdd:verifier subagent, match the requirements in the design doc against the implementation and tests. If you need to check the app's behavior, you can also choose the bundled /verify skill. For a change without a design doc, pass the related ADRs and the Plan Mode plan file as the requirements.
+2. Run the tests, lint, and type checks, and fix any failures.
+3. Clean up the diff with Claude Code's bundled /simplify skill, and check the diff for bugs with the also-bundled /code-review skill.
+4. Check whether any decision in this change that should be an ADR is missing, and if so, propose /sdd:adr.
+5. If there is a design doc, update its task checkboxes and Status. For a change without one, check that related docs (README and so on) are updated.
+6. In a directory not under git, stop here (no commit or PR). If you are on the default branch, create a working branch before committing. Show the changes, and commit and create the PR after the user approves. Follow the project's conventions (CLAUDE.md or AGENTS.md) for commit messages; if there are none, follow Conventional Commits. Use the gh CLI to create the PR, and include links to the design doc and ADRs in the PR body. Always get the user's approval before committing and creating the PR.
