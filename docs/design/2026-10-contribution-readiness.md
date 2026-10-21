@@ -114,7 +114,7 @@
 
 ## 5. 実装タスク
 - [x] T1: ADR 0007（作者名の扱い）を起票し、ADR 0005 を Superseded にする（対応要件: REQ-1）
-- [ ] T2: ADR 0008（main の保護・取り込み方法・配布する ref）を起票し、実施済みの設定を記録する（対応要件: REQ-2）
+- [x] T2: ADR 0008（main の保護・取り込み方法・配布する ref）を起票し、実施済みの設定を記録する（対応要件: REQ-2）
 - [ ] T3: SECURITY.md を置く（対応要件: REQ-3）
 - [ ] T4: CONTRIBUTING.md を置き、README から案内する。README.ja.md も同じ変更で更新する（対応要件: REQ-4）
 - [ ] T5: CODEOWNERS・PR テンプレート・Issue フォームを置く（対応要件: REQ-5, REQ-6）
