@@ -99,6 +99,8 @@ Each skill and agent is removed when a Claude Code built-in feature can take its
 - Decision criteria and when to use each skill: [plugins/sdd/skills/ask/guide.md](plugins/sdd/skills/ask/guide.md)
 - Design decisions: [docs/adr/](docs/adr/) (in Japanese)
 - Changelog: [CHANGELOG.md](CHANGELOG.md)
+- Contributing: [CONTRIBUTING.md](CONTRIBUTING.md)
+- Reporting a vulnerability: [SECURITY.md](SECURITY.md)
 
 ## License
 

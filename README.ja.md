@@ -99,6 +99,8 @@ claude plugin marketplace remove sdd-lite
 - 判断基準と使い分け: [plugins/sdd/skills/ask/guide.ja.md](plugins/sdd/skills/ask/guide.ja.md)（正本は英語の [guide.md](plugins/sdd/skills/ask/guide.md)）
 - 設計上の判断: [docs/adr/](docs/adr/)
 - 変更履歴: [CHANGELOG.md](CHANGELOG.md)
+- コントリビュートの方法: [CONTRIBUTING.md](CONTRIBUTING.md)（英語）
+- 脆弱性の報告: [SECURITY.md](SECURITY.md)（英語）
 
 ## ライセンス
 
