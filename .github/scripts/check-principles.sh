@@ -44,6 +44,12 @@ for f in "$ROOT"/plugins/sdd/skills/*/SKILL.md "$ROOT"/plugins/sdd/agents/*.md; 
   [ -f "$f" ] && files+=("$f")
 done
 
+# Also avoids expanding an empty array, which fails under set -u in bash 3.2 (macOS).
+if [ "${#files[@]}" -eq 0 ]; then
+  echo "NG: no skills or agents found under $ROOT/plugins/sdd"
+  exit 1
+fi
+
 if [ "${#files[@]}" -gt "$MAX_COMPONENTS" ]; then
   fail "${#files[@]} skills and agents in total (limit $MAX_COMPONENTS)"
 fi
@@ -61,7 +67,7 @@ for f in "${files[@]}"; do
   if ! grep -qE '^[[:space:]]*retire-when:' <<<"$fm"; then
     fail "$name: no retire-when in the frontmatter"
   fi
-  reviewed=$(sed -nE 's/^[[:space:]]*reviewed:[[:space:]]*([^[:space:]]+).*/\1/p' <<<"$fm" | head -n 1)
+  reviewed=$(sed -nE 's/^[[:space:]]*reviewed:[[:space:]]*["'\'']?([^"'\''[:space:]]+).*/\1/p' <<<"$fm" | head -n 1)
   if [ -z "$reviewed" ]; then
     fail "$name: no reviewed in the frontmatter"
     continue
