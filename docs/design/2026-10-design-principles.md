@@ -55,9 +55,9 @@
   - `docs/adr/0009-design-principles.md`（新規）
   - `.github/scripts/check-principles.sh`（新規）: `ROOT=${1:-.}`、`TODAY=${CHECK_TODAY:-$(date +%F)}`。予算の値はスクリプトの先頭に定数で置き、ADR 0009 の番号をコメントで示す。
   - `.github/workflows/validate.yml`（変更）: 既存の CI（ADR 0008 でマージに必須）に、スクリプトの実行と `shellcheck .github/scripts/*.sh` の 2 段を足す。別のワークフローにすると、必須のチェックに加えるために Ruleset の変更が要るため。
-  - `docs/review-routine.md`（新規）: Routine が読む手順書。①スクリプトを実行する ②公式の変更履歴（code.claude.com/docs の changelog と What's new）で、直近 8 日（前回の実行と 1 日重ねる）の変更を読む ③各スキルの `retire-when` と突き合わせる ④撤去候補か違反があれば、英語の Issue を 1 件立てる（同じ月の Issue が既にあれば追記する）⑤何も無ければ何もしない。
+  - `docs/review-routine.md`（新規）: Routine が読む手順書。①スクリプトを実行する ②公式の変更履歴（版ごとに日付がある `anthropics/claude-code` の feed.xml を主に、What's new を補助に）で、直近 8 日（前回の実行と 1 日重ねる）の変更を読む ③各スキルの `retire-when` と突き合わせる ④撤去候補か違反があれば、英語の Issue を 1 件立てる（同じ月の Issue が既にあれば追記する）⑤何も無ければ何もしない。
   - `CLAUDE.md`（変更）: 概要に原則 3 行と ADR 0009 へのリンク、コマンドに `bash .github/scripts/check-principles.sh`。
-  - Routine（リポジトリ外・claude.ai の設定）: 毎週月曜 9:07 に実行。プロンプトは「docs/review-routine.md の手順に従う」だけにして、手順の正本をリポジトリに置く。
+  - Routine（リポジトリ外・claude.ai の設定）: 毎週月曜 23:49（JST）に実行。プロンプトは「docs/review-routine.md の手順に従う」だけにして、手順の正本をリポジトリに置く。
 - 検討した代替案と不採用理由:
   - 原則を CLAUDE.md だけに書く: 毎回読まれるが、変えるときに理由が残らず、なし崩しに書き換わる。ADR にすれば変更に Superseded の手続きが要る。
   - Routine だけで予算を見る: 週 1 回なので、違反が最大 1 週間混ざり続ける。変更のたびに止まらない。
@@ -87,4 +87,6 @@
 
 ## 7. 未決事項
 - Routine の既定の cloud environment（Trusted のネットワーク）から code.claude.com を読めるか、Issue を立てる権限（Claude GitHub App）があるかは、T6 で確かめる。読めない・立てられない場合は、environment の許可リストか GitHub App の導入を人間が行う。
+  - 追記（T6 の 1 回目の実行、2026-10-21）: code.claude.com は読めた。GitHub の MCP ツール（issue_write・add_issue_comment）はセッションに用意されていたが、該当が無かったので Issue の作成は試していない。
+  - 追記（同じ実行で分かったこと）: What's new の最新のまとめは Week 37（9/7〜11）で、実行日から 6 週間遅れていた。changelog のページは版に日付が無い。そのため直近 8 日の更新を読めず、見張りとして働かなかった。版ごとに日付がある公式の feed.xml を主な情報源にし、What's new を補助にした。
 - `reviewed` の期限切れで CI が赤になると、無関係な PR も止まる。見直しを強制するための意図した挙動とし、見直しの結果は `reviewed` の日付を更新する 1 行の変更で反映する。運用して煩わしければ、新しい ADR で警告に格下げする。

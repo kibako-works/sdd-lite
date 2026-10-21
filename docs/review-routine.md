@@ -14,9 +14,9 @@
 
 ## 2. 純正機能の更新を読む
 - 対象の期間は、実行日の 8 日前から実行日まで（前回の実行と 1 日重ねる）。
-- https://code.claude.com/docs/en/whats-new で、対象の期間に入る週のまとめを読む。
-- 詳しく知りたい項目だけ、https://code.claude.com/docs/en/changelog で確かめる。ページがとても大きいので、全部は読まない。
-- ページを読めなかったときは、読めなかった URL と理由を控え、3 を飛ばして 4 に進む。
+- 主な情報源は、公式の変更履歴の Atom フィード https://raw.githubusercontent.com/anthropics/claude-code/main/feed.xml にする。版ごとの `<entry>` の `<updated>` が対象の期間に入るものを、すべて読む。changelog のページ（https://code.claude.com/docs/en/changelog）は日付が無く、とても大きいので読まない。
+- 補助として、https://code.claude.com/docs/en/whats-new に対象の期間に入る週のまとめがあれば読む。まとめの公開は数週間遅れることがあるので、無くても読めなかった扱いにはしない。
+- フィードを読めなかったとき、またはフィードの最も古い版が対象の期間の始まりより新しい（期間をカバーしきれていない）ときは、URL と理由を控える。フィードを読めなかったときは 3 を飛ばして 4 に進む。
 
 ## 3. 撤去条件と突き合わせる
 - `plugins/sdd/skills/*/SKILL.md` と `plugins/sdd/agents/*.md` のフロントマターから、`retire-when` を読む。
@@ -27,7 +27,7 @@
 - 次のどれかがあるときだけ、Issue を立てるか追記する。
   - 1 の予算チェックが 0 以外で終わった
   - 撤去候補か要確認がある
-  - 2 で公式のページを読めなかった
+  - 2 でフィードを読めなかったか、フィードが期間をカバーしきれていなかった
 - タイトルは `Principles review YYYY-MM`（実行した年月）にする。
 - 同じタイトルの open な Issue があり、その作成者がこの Routine を実行しているアカウントなら、新しく立てずにコメントで追記する。そうでなければ新しく立てる。
 - 本文（コメントも同じ）は次の形にする。該当が無い節は `None` と書く。
@@ -47,7 +47,7 @@ YYYY-MM-DD to YYYY-MM-DD
 ## Needs a closer look
 - <same format as above>
 
-## Sources not read
+## Sources not read or not covering the period
 - <URL>: <reason>
 ```
 
