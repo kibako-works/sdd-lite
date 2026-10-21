@@ -26,7 +26,7 @@
   - fork からの PR では、外部のコントリビューター全員について、実行に作者の承認を必須にする。
   - GITHUB_TOKEN の既定の権限は read にし、Actions に PR の作成と承認を許可しない。
 - Secret scanning・Push protection・Private vulnerability reporting を有効にしておくこと。
-- 受け入れの準備ができるまでは、PR と Issue の作成を協力者だけにすること。開放するときは、協力者以外の PR の同時オープン数を 1 件に制限すること。
+- 受け入れの準備ができるまでは、PR と Issue の作成を協力者だけにすること。開放するときは、書き込み権限のない人の PR の同時オープン数を、下書きも含めて 1 件に制限すること（Interaction limits の Pull request limits。期限はなく、変えるまで続く）。
 
 ## Consequences（結果）
 - main の履歴の書き換えと削除は、作者を含めて誰にもできない。間違えたときは、revert のコミットで直す。

@@ -1,6 +1,6 @@
 # コントリビュートの受け入れ準備
 
-- Status: Approved
+- Status: Implemented
 - 作成日: 2026-10-22
 - 関連 ADR: docs/adr/0005-owner-is-organization.md（Superseded にする予定）、docs/adr/0007-author-naming.md（T1 で起票）、docs/adr/0008-main-protection-and-distribution.md（T2 で起票）
 
@@ -125,8 +125,9 @@
 - [x] T7: `require-pr-main` を強化し、`protect-tags` と `restrict-tag-creation` を作る（対応要件: REQ-2, REQ-5, REQ-7, REQ-11）
 - [x] T8: CLAUDE.md の開発フローに、main への取り込み方法、外部の PR のレビュー手順、荒らしへの対応手順を書き足す（対応要件: REQ-2, REQ-10, REQ-12）
 - [x] T9: ADR 0008 と、GitHub の実際の設定が一致していることを確かめる（対応要件: REQ-2, REQ-8, REQ-11, REQ-12）
-  - API で確かめられない次の 3 つは、作者がブラウザで設定する: Organization の 2FA 必須化、Issue の作成を協力者だけにする設定、CODEOWNERS で指定したチーム `@kibako-works/maintainers` の作成（作者を入れ、このリポジトリに Write 以上の権限を付ける）。
-- [ ] T10: 作者の確認を得てから、Issue と PR の作成を開放し、PR 数の上限を設定する（対応要件: REQ-12）
+  - API で確かめられない次の 3 つは、作者がブラウザで設定し、完了した（`codeowners/errors` は空、チームは Visible で Write）: Organization の 2FA 必須化、Issue の作成を協力者だけにする設定、CODEOWNERS で指定したチーム `@kibako-works/maintainers` の作成（作者を入れ、このリポジトリに Write 以上の権限を付ける）。
+- [x] T10: 作者の確認を得てから、Issue と PR の作成を開放し、PR 数の上限を設定する（対応要件: REQ-12）
+  - 2026-10-22 に開放した。Pull request limits は REST API がないため画面で設定した。期限はなく、変えるまで続く（画面の説明文で確認）。
 
 ## 6. テスト・検証方法
 - 共通: 各タスクのあとに `claude plugin validate --strict .` が警告なしで通ること。

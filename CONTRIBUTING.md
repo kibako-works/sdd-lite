@@ -2,12 +2,7 @@
 
 Thanks for your interest in `sdd`. This file explains how to report problems and propose changes.
 
-## Current status
-
-Creating new issues and pull requests is limited to collaborators for now, while the contribution process is being set up. Until it opens:
-
-- To report a bug or request a feature, comment on an existing issue if there is a related one. The maintainer will open a new issue for you if needed.
-- To report a vulnerability, follow [SECURITY.md](SECURITY.md). Never report it in public.
+To report a vulnerability, follow [SECURITY.md](SECURITY.md). Never report it in public.
 
 ## Reporting issues
 
@@ -22,7 +17,7 @@ Creating new issues and pull requests is limited to collaborators for now, while
 3. Follow the development flow below.
 4. Open a pull request and fill in the template.
 
-Once pull requests open to everyone, each person can have one open pull request at a time.
+Each person without write access can have one open pull request at a time, including drafts.
 
 ### Development flow
 

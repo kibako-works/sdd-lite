@@ -32,9 +32,9 @@
 - ワークフローの実行を承認する前に、`.github/` に差分がないこと、または差分を読んで問題がないことを確かめる。
 
 # 荒らしへの対応
-- 準備ができるまでは、PR と Issue の作成を協力者だけに制限している（Settings → General → Features）。開放するかどうかは作者が決める。
-- 荒らしが来たら、Settings → Moderation options → Interaction limits で一時的に制限し、該当するユーザーを Organization でブロックする。スパムの Issue は削除し、GitHub に報告する。
-- 開放するときに、協力者以外の PR の同時オープン数の上限（1 件）を設定する。Interaction limits の一部なので、期限なしで続くかを開放のときに確かめる。
+- Issue と PR の作成は全員に開放している。荒らしが続くときは、Settings → General → Features で作成を協力者だけ（Collaborators only）に戻せる。
+- 荒らしが来たら、Settings → Moderation → Interaction limits の「Temporary interaction restrictions」で期間を決めて制限し、該当するユーザーを Organization でブロックする。スパムの Issue は削除し、GitHub に報告する。
+- 書き込み権限のない人の PR の同時オープン数は、下書きも含めて 1 件に制限している（Settings → Moderation → Interaction limits → Pull request limits）。この設定に期限はなく、変えるまで続く。
 
 # 設計上の決定事項
 - 過去の判断は docs/adr/ を参照すること。Status が Accepted の ADR に反する実装をしない。
