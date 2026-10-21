@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# ADR 0007 の予算を確かめる。違反があればすべて表示して 1 で終わる。
+# ADR 0009 の予算を確かめる。違反があればすべて表示して 1 で終わる。
 # 使い方: bash scripts/check-principles.sh [リポジトリのルート]
 # 実行日は CHECK_TODAY=YYYY-MM-DD で差し替えられる。
 set -u
 
-# 予算（ADR 0007）
+# 予算（ADR 0009）
 MAX_COMPONENTS=6
 MAX_GUIDE_LINES=160
 MAX_REVIEWED_DAYS=60
@@ -78,7 +78,7 @@ for f in "${files[@]}"; do
 done
 
 if [ "$failures" -gt 0 ]; then
-  echo "予算の違反が $failures 件ある（docs/adr/0007-design-principles.md）"
+  echo "予算の違反が $failures 件ある（docs/adr/0009-design-principles.md）"
   exit 1
 fi
 echo "OK"
