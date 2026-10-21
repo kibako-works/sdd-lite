@@ -30,3 +30,4 @@ This skill only gives guidance. It doesn't run skills or write files. Base the g
    - What to do before it (for example, enter Plan Mode)
    - Whether the command can only be started by a human
    - An overview of what follows
+hidden​text
