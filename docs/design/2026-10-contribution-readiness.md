@@ -121,9 +121,9 @@
 - [x] T3: SECURITY.md を置く（対応要件: REQ-3）
 - [x] T4: CONTRIBUTING.md を置き、README から案内する。README.ja.md も同じ変更で更新する（対応要件: REQ-4）
 - [x] T5: CODEOWNERS・PR テンプレート・Issue フォームを置く（対応要件: REQ-5, REQ-6）
-- [ ] T6: CI（validate.yml）を置き、PR で成功することを確かめる（対応要件: REQ-7, REQ-8, REQ-9）
+- [x] T6: CI（validate.yml）を置き、PR で成功することを確かめる（対応要件: REQ-7, REQ-8, REQ-9）
 - [x] T7: `require-pr-main` を強化し、`protect-tags` と `restrict-tag-creation` を作る（対応要件: REQ-2, REQ-5, REQ-7, REQ-11）
-- [ ] T8: CLAUDE.md の開発フローに、main への取り込み方法、外部の PR のレビュー手順、荒らしへの対応手順を書き足す（対応要件: REQ-2, REQ-10, REQ-12）
+- [x] T8: CLAUDE.md の開発フローに、main への取り込み方法、外部の PR のレビュー手順、荒らしへの対応手順を書き足す（対応要件: REQ-2, REQ-10, REQ-12）
 - [ ] T9: ADR 0008 と、GitHub の実際の設定が一致していることを確かめる（対応要件: REQ-2, REQ-8, REQ-11, REQ-12）
 - [ ] T10: 作者の確認を得てから、Issue と PR の作成を開放し、PR 数の上限を設定する（対応要件: REQ-12）
 
