@@ -15,7 +15,7 @@
 ## 2. スコープ
 - やること:
   - ADR 0009「設計原則」を起票する（原則・予算・原案の要点を Context に書き写す）。
-  - 予算チェックのスクリプト `scripts/check-principles.sh` を作る。
+  - 予算チェックのスクリプト `.github/scripts/check-principles.sh` を作る。
   - GitHub Actions で push と PR のたびにスクリプトを実行する。
   - CLAUDE.md に原則の要約 3 行・ADR 0009 へのリンク・検証コマンドを足す。
   - 月 1 回の見直しの手順書をリポジトリに置き、それを読む Routine（cloud scheduled task）を `/schedule` で登録する。
@@ -33,7 +33,7 @@
   - 原則 4（ツール非依存）: 成果物（デザインドキュメント・ADR）は素の Markdown にし、特定ツールの形式に依存させないこと。
   - 予算: スキルとエージェントの合計は 6 以下、guide.md は 160 行以下、`reviewed` は 60 日以内。予算を変えるには新しい ADR が要る。
 - REQ-2: ADR 0009 の Context に、原案の要点（cc-sdd で疲弊した点、Anthropic・AWS/Spotify・Google・Shopify から取り入れたこと、当初の構成）が書かれていること。
-- REQ-3: `scripts/check-principles.sh` が、次のどれかに当てはまると 0 以外で終わり、当てはまる項目をすべて表示すること。当てはまらなければ 0 で終わること。
+- REQ-3: `.github/scripts/check-principles.sh` が、次のどれかに当てはまると 0 以外で終わり、当てはまる項目をすべて表示すること。当てはまらなければ 0 で終わること。
   - `plugins/sdd/skills/*/SKILL.md` と `plugins/sdd/agents/*.md` の数の合計が 6 を超える
   - `plugins/sdd/skills/ask/guide.md` が 160 行を超える
   - スキルかエージェントのフロントマターに `retire-when:` か `reviewed:` が無い
@@ -53,10 +53,10 @@
   - 既存の仕組みを再利用する。「Accepted な ADR に反する実装をしない／反するなら Superseded にする ADR を先に出す」という CLAUDE.md と ADR 0001 の規則がそのまま原則の見張り役になる。
 - ファイル構成（追加・変更）:
   - `docs/adr/0009-design-principles.md`（新規）
-  - `scripts/check-principles.sh`（新規）: `ROOT=${1:-.}`、`TODAY=${CHECK_TODAY:-$(date +%F)}`。予算の値はスクリプトの先頭に定数で置き、ADR 0009 の番号をコメントで示す。
+  - `.github/scripts/check-principles.sh`（新規）: `ROOT=${1:-.}`、`TODAY=${CHECK_TODAY:-$(date +%F)}`。予算の値はスクリプトの先頭に定数で置き、ADR 0009 の番号をコメントで示す。
   - `.github/workflows/check-principles.yml`（新規）: `ubuntu-latest` で checkout してスクリプトを実行するだけ。
   - `docs/review-routine.md`（新規）: Routine が読む手順書。①スクリプトを実行する ②公式の変更履歴（code.claude.com/docs の changelog と What's new）で、前回の実行以降の変更を読む ③各スキルの `retire-when` と突き合わせる ④撤去候補か違反があれば、Issue を 1 件立てる（同じ月の Issue が既にあれば追記する）⑤何も無ければ何もしない。
-  - `CLAUDE.md`（変更）: 概要に原則 3 行と ADR 0009 へのリンク、コマンドに `bash scripts/check-principles.sh`。
+  - `CLAUDE.md`（変更）: 概要に原則 3 行と ADR 0009 へのリンク、コマンドに `bash .github/scripts/check-principles.sh`。
   - Routine（リポジトリ外・claude.ai の設定）: 毎月 1 日 9:07 に実行。プロンプトは「docs/review-routine.md の手順に従う」だけにして、手順の正本をリポジトリに置く。
 - 検討した代替案と不採用理由:
   - 原則を CLAUDE.md だけに書く: 毎回読まれるが、変えるときに理由が残らず、なし崩しに書き換わる。ADR にすれば変更に Superseded の手続きが要る。
@@ -66,7 +66,7 @@
 
 ## 5. 実装タスク
 - [x] T1: `/sdd:adr` で ADR 0009「設計原則」を起票する。Context に原案の要点、Decision に原則 1〜4 と予算、Consequences に既知の違反（userConfig の言語設定、guide.md の「迷ったら重い方」）と、それを直すデザインドキュメントを書く（対応要件: REQ-1, REQ-2）
-- [x] T2: `scripts/check-principles.sh` を作る。今のリポジトリで 0 で終わることと、違反を仕込んだ一時的なコピーで 0 以外になることを確かめる（REQ-3）
+- [x] T2: `.github/scripts/check-principles.sh` を作る。今のリポジトリで 0 で終わることと、違反を仕込んだ一時的なコピーで 0 以外になることを確かめる（REQ-3）
 - [x] T3: `.github/workflows/check-principles.yml` を作る（REQ-4）
 - [x] T4: CLAUDE.md に原則の要約・リンク・検証コマンドを足す（REQ-5）
 - [ ] T5: `docs/review-routine.md` を作る（REQ-6）
@@ -75,7 +75,7 @@
 ## 6. テスト・検証方法
 - REQ-1・REQ-2: ADR 0009 を読み、原則 1〜4・予算・原案の要点があること、Status が Accepted であることを確かめる。
 - REQ-3: 次をすべて確かめる。
-  - 今のリポジトリで `bash scripts/check-principles.sh` が 0 で終わる。
+  - 今のリポジトリで `bash .github/scripts/check-principles.sh` が 0 で終わる。
   - 一時的なコピー（スクラッチ領域）で、スキルを 1 つ足す／guide.md を 161 行にする／SKILL.md から `retire-when:` を消す、をそれぞれ行うと 0 以外で終わり、該当項目が表示される。
   - `CHECK_TODAY=2027-01-01` で実行すると、`reviewed: 2026-10-20` が期限切れとして検出される。`CHECK_TODAY=2026-12-19`（60 日後）では検出されない。
   - `shellcheck` が使えれば警告が無いこと。

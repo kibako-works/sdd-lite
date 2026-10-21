@@ -25,7 +25,7 @@
   - `plugins/sdd/skills/ask/guide.md` は 160 行以下にすること。
   - `reviewed` の日付は、実行日から 60 日以内に保つこと。
 - 原則と予算を変えるときは、新しい ADR でこの ADR を Superseded にすること。予算の超過を、この ADR を変えずに認めないこと。
-- 予算は `scripts/check-principles.sh` で機械的に確かめ、CI（push と PR）で実行すること。
+- 予算は `.github/scripts/check-principles.sh` で機械的に確かめ、CI（push と PR）で実行すること。
 
 ## Consequences（結果）
 - 追加のたびに照らす物差しがリポジトリに残る。CLAUDE.md と ADR 0001 の規則（Accepted な ADR に反する実装をしない）が、そのまま原則の見張りになる。
@@ -36,5 +36,5 @@
   - guide.md の判断基準「迷ったら重い方」は、原則 1 に反する。「軽い方への反転と ship の段階化」で直す。
 
 ## 検証方法（任意）
-- `bash scripts/check-principles.sh` が 0 で終わること。
+- `bash .github/scripts/check-principles.sh` が 0 で終わること。
 - `grep -n '0009' CLAUDE.md` の結果が 1 件以上であること。

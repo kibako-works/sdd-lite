@@ -10,7 +10,7 @@
 # よく使うコマンド
 - 検証：`claude plugin validate --strict .`
 - 公開物のチェック（個人情報・不可視の文字）：`bash .github/scripts/check-public-files.sh`
-- 予算チェック：`bash scripts/check-principles.sh`（ADR 0009。CI でも実行する）
+- 予算チェック：`bash .github/scripts/check-principles.sh`（ADR 0009。CI でも実行する）
 - ローカルで試す：`claude --plugin-dir ./plugins/sdd`
 
 # 開発フロー（必ず守る）
