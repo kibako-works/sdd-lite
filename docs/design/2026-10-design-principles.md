@@ -1,6 +1,6 @@
 # 設計原則の明文化と予算チェック
 
-- Status: Approved
+- Status: Implemented
 - 作成日: 2026-10-22
 - 関連 ADR: docs/adr/0009-design-principles.md（T1 で起票）、docs/adr/0001-record-architecture-decisions.md
 
@@ -71,7 +71,7 @@
 - [x] T3: `.github/workflows/validate.yml` に予算チェックと shellcheck の段を足す（REQ-4）
 - [x] T4: CLAUDE.md に原則の要約・リンク・検証コマンドを足す（REQ-5）
 - [x] T5: `docs/review-routine.md` を作る（REQ-6）
-- [ ] T6: PR を作って CI が緑になることを確かめる。マージ後に `/schedule` で Routine を登録し、手動で 1 回実行して、Issue を立てない（または意図どおり立てる）ことを確かめる。push・PR・Routine の登録は人間の確認を取ってから行う（REQ-4, REQ-6）
+- [x] T6: PR を作って CI が緑になることを確かめる。マージ後に `/schedule` で Routine を登録し、手動で 1 回実行して、Issue を立てない（または意図どおり立てる）ことを確かめる。push・PR・Routine の登録は人間の確認を取ってから行う（REQ-4, REQ-6）
 
 ## 6. テスト・検証方法
 - REQ-1・REQ-2: ADR 0009 を読み、原則 1〜4・予算・原案の要点があること、Status が Accepted であることを確かめる。
@@ -89,4 +89,5 @@
 - Routine の既定の cloud environment（Trusted のネットワーク）から code.claude.com を読めるか、Issue を立てる権限（Claude GitHub App）があるかは、T6 で確かめる。読めない・立てられない場合は、environment の許可リストか GitHub App の導入を人間が行う。
   - 追記（T6 の 1 回目の実行、2026-10-21）: code.claude.com は読めた。GitHub の MCP ツール（issue_write・add_issue_comment）はセッションに用意されていたが、該当が無かったので Issue の作成は試していない。
   - 追記（同じ実行で分かったこと）: What's new の最新のまとめは Week 37（9/7〜11）で、実行日から 6 週間遅れていた。changelog のページは版に日付が無い。そのため直近 8 日の更新を読めず、見張りとして働かなかった。版ごとに日付がある公式の feed.xml を主な情報源にし、What's new を補助にした。
+  - 追記（T6 の 2 回目の実行、2026-10-21）: feed.xml から期間（10/13〜10/21）の版 v2.1.299〜v2.1.307 を読み、各 `retire-when` と突き合わせて該当なしで終わった。コードの変更・push・Issue の作成は無かった。Issue を実際に立てられるかは、最初に該当が出たときに確かめる。立てられなければ、Claude GitHub App の導入を人間が行う。
 - `reviewed` の期限切れで CI が赤になると、無関係な PR も止まる。見直しを強制するための意図した挙動とし、見直しの結果は `reviewed` の日付を更新する 1 行の変更で反映する。運用して煩わしければ、新しい ADR で警告に格下げする。
