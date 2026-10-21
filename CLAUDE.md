@@ -2,10 +2,15 @@
 - 目的：軽量 SDD（デザインドキュメントと ADR）を Claude Code で回すプラグイン `sdd` を、公開マーケットプレイス `sdd-lite` として配布する
 - 技術スタック：Markdown（Claude Code のスキル・サブエージェント）、JSON（プラグインのマニフェスト）
 - 主要ディレクトリ：plugins/sdd/（skills/・agents/・.claude-plugin/）/ .claude-plugin/ … マーケットプレイス定義 / docs/ … デザインドキュメントと ADR
+- 設計原則（正本は docs/adr/0007-design-principles.md）：
+  - 軽さ：承認は設計と PR の 2 回まで。迷ったら軽い方を選ぶ。
+  - 純正優先：純正で代替できるものは作らない。足すときは「純正で代替できない理由」と retire-when をデザインドキュメントに書く。
+  - 速やかな撤去：スキルとエージェントは retire-when と reviewed を持ち、予算（合計 6 以下・guide.md 160 行以下・reviewed 60 日以内）を守る。
 
 # よく使うコマンド
 - 検証：`claude plugin validate --strict .`
 - 公開物のチェック（個人情報・不可視の文字）：`bash .github/scripts/check-public-files.sh`
+- 予算チェック：`bash scripts/check-principles.sh`（ADR 0007。CI でも実行する）
 - ローカルで試す：`claude --plugin-dir ./plugins/sdd`
 
 # 開発フロー（必ず守る）

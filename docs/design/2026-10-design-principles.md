@@ -68,7 +68,7 @@
 - [x] T1: `/sdd:adr` で ADR 0007「設計原則」を起票する。Context に原案の要点、Decision に原則 1〜4 と予算、Consequences に既知の違反（userConfig の言語設定、guide.md の「迷ったら重い方」）と、それを直すデザインドキュメントを書く（対応要件: REQ-1, REQ-2）
 - [x] T2: `scripts/check-principles.sh` を作る。今のリポジトリで 0 で終わることと、違反を仕込んだ一時的なコピーで 0 以外になることを確かめる（REQ-3）
 - [x] T3: `.github/workflows/check-principles.yml` を作る（REQ-4）
-- [ ] T4: CLAUDE.md に原則の要約・リンク・検証コマンドを足す（REQ-5）
+- [x] T4: CLAUDE.md に原則の要約・リンク・検証コマンドを足す（REQ-5）
 - [ ] T5: `docs/review-routine.md` を作る（REQ-6）
 - [ ] T6: PR を作って CI が緑になることを確かめる。マージ後に `/schedule` で Routine を登録し、手動で 1 回実行して、Issue を立てない（または意図どおり立てる）ことを確かめる。push・PR・Routine の登録は人間の確認を取ってから行う（REQ-4, REQ-6）
 
