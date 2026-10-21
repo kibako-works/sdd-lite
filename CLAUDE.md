@@ -34,7 +34,7 @@
 # 荒らしへの対応
 - 準備ができるまでは、PR と Issue の作成を協力者だけに制限している（Settings → General → Features）。開放するかどうかは作者が決める。
 - 荒らしが来たら、Settings → Moderation options → Interaction limits で一時的に制限し、該当するユーザーを Organization でブロックする。スパムの Issue は削除し、GitHub に報告する。
-- 協力者以外の PR の同時オープン数は、開放後も 1 件に制限しておく。
+- 開放するときに、協力者以外の PR の同時オープン数の上限（1 件）を設定する。Interaction limits の一部なので、期限なしで続くかを開放のときに確かめる。
 
 # 設計上の決定事項
 - 過去の判断は docs/adr/ を参照すること。Status が Accepted の ADR に反する実装をしない。

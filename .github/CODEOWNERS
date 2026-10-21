@@ -1,4 +1,4 @@
-# Changes to these paths require a review from the maintainers (ADR 0008).
+# Changes to these paths require a review from the maintainers team (ADR 0008).
 /plugins/       @kibako-works/maintainers
 /.claude-plugin/ @kibako-works/maintainers
 /.github/       @kibako-works/maintainers

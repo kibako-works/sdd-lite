@@ -22,7 +22,7 @@ Creating new issues and pull requests is limited to collaborators for now, while
 3. Follow the development flow below.
 4. Open a pull request and fill in the template.
 
-Each person can have one open pull request at a time.
+Once pull requests open to everyone, each person can have one open pull request at a time.
 
 ### Development flow
 

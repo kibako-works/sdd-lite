@@ -42,7 +42,7 @@
   - 配布する内容は main のまま固定しない。
 - REQ-3: SECURITY.md があり、GitHub の Private vulnerability reporting で報告するよう案内していること。対象範囲（スキル・エージェントの指示、`allowed-tools`、マニフェスト）、サポートするバージョン（最新のリリースだけ）、最初の返答の目安（14 日以内）を書いていること。
 - REQ-4: CONTRIBUTING.md があり、次を案内していること。Issue と PR の出し方、開発フロー（デザインドキュメントと ADR）、ローカルでの試し方と検証のコマンド、言語の規約（ADR 0006）、Conventional Commits、ライセンス。
-- REQ-5: `plugins/` と `.claude-plugin/` と `.github/` の変更には、CODEOWNERS（`@kibako-works` の作者）のレビューが必要であること。
+- REQ-5: `plugins/` と `.claude-plugin/` と `.github/` の変更には、CODEOWNERS で指定したチーム `@kibako-works/maintainers`（作者が入る）のレビューが必要であること。
 - REQ-6: PR テンプレートに、`allowed-tools`・シェル実行・スキルのディレクトリの外のパスを変える場合は理由を書く、というチェック項目があること。Issue はバグ報告と機能要望のフォームにし、脆弱性は Issue ではなく SECURITY.md の窓口へ誘導すること。
 - REQ-7: PR と main への push のたびに CI が `claude plugin validate --strict .` と個人情報のチェックを実行し、PR を必須にする Ruleset がその成功を必須にすること。
 - REQ-8: CI は最小権限で動き、外から動かされないこと。
@@ -71,7 +71,7 @@
 - 全体方針: GitHub の設定（Ruleset・Actions）と、リポジトリのファイル（`.github/` とルートの文書）の 2 つで守る。判断は ADR に残し、ファイルは英語の正本だけを置く。
 - 実施済みの設定（このデザインドキュメントの前に、人間の指示で実施した。T2 の ADR に記録する）:
   - Ruleset `protect-main-history`（id 25595086）: 既定のブランチで `deletion`・`non_fast_forward`。bypass なし。
-  - Ruleset `require-pr-main`（id 25596424）: 既定のブランチで `pull_request`（承認 0 件）。bypass は OrganizationAdmin（always）。
+  - Ruleset `require-pr-main`（id 25596424）: 既定のブランチで `pull_request`（承認 0 件。T7 で強化する前の記録）。bypass は OrganizationAdmin（always）。
   - Secret scanning と Push protection を有効にした。
   - Private vulnerability reporting を有効にした。
   - Actions: 許可するアクションを GitHub 製と認証済み（verified）のものに限り、SHA 固定を必須にした。

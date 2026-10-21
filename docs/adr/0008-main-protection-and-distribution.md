@@ -14,7 +14,8 @@
 ## Decision（決定）
 - main を 2 つの Ruleset で守ること。
   - `protect-main-history`: force push（`non_fast_forward`）と削除（`deletion`）を禁止する。bypass できる人を置かない。
-  - `require-pr-main`: PR を必須にする。承認 1 件以上、コードオーナーのレビュー、新しい push での承認の取り消し、会話の解決、CI（validate）の成功を必須にする。bypass できるのは OrganizationAdmin だけにする。
+  - `require-pr-main`: PR を必須にする。承認 1 件以上、コードオーナーのレビュー、新しい push での承認の取り消し、最後の push をした人以外の承認（`require_last_push_approval`）、会話の解決、CI（validate）の成功を必須にする。GitHub の既定で有効な `require_extra_approval_for_unattributed_changes` もそのままにする。bypass できるのは OrganizationAdmin だけにする。
+- コードオーナーは、個人アカウントではなく Organization のチーム `@kibako-works/maintainers` にすること（ADR 0007）。チームには作者を入れ、このリポジトリに Write 以上の権限を付ける。
 - 外部の PR は、レビューして承認してから取り込むこと。作者自身の変更は、PR で CI を通したうえで、admin の bypass を使って、ローカルで fast-forward マージして push してよい。GitHub の画面でのマージも禁止しない（ADR 0007）。
 - タグ `v*` を 2 つの Ruleset で守ること。bypass はその Ruleset のすべてのルールにかかるため、bypass の要らないルールと分ける。
   - `protect-tags`: 更新（`update`）と削除（`deletion`）を禁止する。bypass できる人を置かない。
