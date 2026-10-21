@@ -99,7 +99,9 @@
   - 個人情報と不可視の文字のチェックは `.github/scripts/check-public-files.sh` にまとめ、手元でも同じものを実行できるようにする。メールアドレスは `*@users.noreply.github.com` と `noreply@github.com` を除く。
   - 不可視の文字のチェック（REQ-9）を実行する。対象は U+200B〜U+200F、U+202A〜U+202E、U+2060〜U+2064、U+2066〜U+2069、U+FEFF とする。
   - REQ-8 の制約は、ワークフローの冒頭のコメントにも書き、変更する人が気づけるようにする。
-- Ruleset `protect-tags`（新規）: `refs/tags/v*` で `update`・`deletion` を禁止し、`creation` は OrganizationAdmin だけ bypass できるようにする。
+- タグの Ruleset（新規）: bypass はその Ruleset のすべてのルールにかかるため、2 つに分ける。
+  - `protect-tags`: `refs/tags/v*` で `update`・`deletion` を禁止する。bypass なし。
+  - `restrict-tag-creation`: `refs/tags/v*` で `creation` を禁止する。bypass は OrganizationAdmin だけ。
 - 開放するとき（T10）: Issue と PR の作成を「All users」に戻し、Interaction limits の Pull request limits を 1 件（下書きも数える）にする。
 - Ruleset の強化（`require-pr-main` を更新する）:
   - 承認 1 件以上、コードオーナーのレビュー必須、新しい push で承認を取り消す、会話の解決を必須にする。
@@ -120,7 +122,7 @@
 - [x] T4: CONTRIBUTING.md を置き、README から案内する。README.ja.md も同じ変更で更新する（対応要件: REQ-4）
 - [x] T5: CODEOWNERS・PR テンプレート・Issue フォームを置く（対応要件: REQ-5, REQ-6）
 - [ ] T6: CI（validate.yml）を置き、PR で成功することを確かめる（対応要件: REQ-7, REQ-8, REQ-9）
-- [ ] T7: `require-pr-main` を強化し、`protect-tags` を作る（対応要件: REQ-2, REQ-5, REQ-7, REQ-11）
+- [x] T7: `require-pr-main` を強化し、`protect-tags` と `restrict-tag-creation` を作る（対応要件: REQ-2, REQ-5, REQ-7, REQ-11）
 - [ ] T8: CLAUDE.md の開発フローに、main への取り込み方法、外部の PR のレビュー手順、荒らしへの対応手順を書き足す（対応要件: REQ-2, REQ-10, REQ-12）
 - [ ] T9: ADR 0008 と、GitHub の実際の設定が一致していることを確かめる（対応要件: REQ-2, REQ-8, REQ-11, REQ-12）
 - [ ] T10: 作者の確認を得てから、Issue と PR の作成を開放し、PR 数の上限を設定する（対応要件: REQ-12）
@@ -136,7 +138,7 @@
 - REQ-8: `gh api repos/kibako-works/sdd-lite/actions/permissions/fork-pr-contributor-approval` が `all_external_contributors` を返すこと。ワークフローのアクションがすべて 40 文字の SHA で書かれていること。`grep -hnE 'pull_request_target|issue_comment|workflow_run|workflow_dispatch|\$\{\{ *github\.event' .github/workflows/*.yml | grep -vE '^[0-9]+:\s*#'` が 0 件であること（ワークフロー冒頭の注意書きのコメントは除く）。
 - REQ-9: 一時的なブランチで、SKILL.md にゼロ幅文字（U+200B）を入れると、ローカルで同じチェックが失敗すること（CI での確認は REQ-7 の失敗 PR と兼ねてよい）。
 - REQ-10: CLAUDE.md に REQ-10 の 4 項目が書かれていること（人間が読んで確認する）。
-- REQ-11: `gh api repos/kibako-works/sdd-lite/rules/branches/main` とは別に、`gh api repos/kibako-works/sdd-lite/rulesets` に `protect-tags` があり、対象が `refs/tags/v*` であること。
+- REQ-11: `gh api repos/kibako-works/sdd-lite/rules/branches/main` とは別に、`gh api repos/kibako-works/sdd-lite/rulesets` に `protect-tags`（bypass なし）と `restrict-tag-creation`（bypass は OrganizationAdmin だけ）があり、どちらも対象が `refs/tags/v*` であること。
 - REQ-12: 開放前は、協力者でないアカウント（ログアウトした状態で画面を確認する）に「New issue」「New pull request」が出ないこと。`gh api repos/kibako-works/sdd-lite --jq .pull_request_creation_policy` が `collaborators_only` を返すこと。
 
 ## 7. 未決事項

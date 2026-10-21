@@ -16,7 +16,9 @@
   - `protect-main-history`: force push（`non_fast_forward`）と削除（`deletion`）を禁止する。bypass できる人を置かない。
   - `require-pr-main`: PR を必須にする。承認 1 件以上、コードオーナーのレビュー、新しい push での承認の取り消し、会話の解決、CI（validate）の成功を必須にする。bypass できるのは OrganizationAdmin だけにする。
 - 外部の PR は、レビューして承認してから取り込むこと。作者自身の変更は、PR で CI を通したうえで、admin の bypass を使って、ローカルで fast-forward マージして push してよい。GitHub の画面でのマージも禁止しない（ADR 0007）。
-- タグ `v*` を Ruleset `protect-tags` で守ること。更新と削除は禁止し、作成は OrganizationAdmin だけ bypass できるようにする。
+- タグ `v*` を 2 つの Ruleset で守ること。bypass はその Ruleset のすべてのルールにかかるため、bypass の要らないルールと分ける。
+  - `protect-tags`: 更新（`update`）と削除（`deletion`）を禁止する。bypass できる人を置かない。
+  - `restrict-tag-creation`: 作成（`creation`）を禁止する。bypass できるのは OrganizationAdmin だけにする。
 - 配布する内容は main のまま固定しないこと。marketplace.json のプラグインの source は相対パス（`./plugins/sdd`）のままにする。リリースのたびに `version` を上げる運用（ADR 0002）は変えない。
 - GitHub Actions を次の設定にすること。
   - 使えるアクションは、GitHub 製と認証済み（verified）のものに限り、SHA での固定を必須にする。
@@ -27,6 +29,7 @@
 
 ## Consequences（結果）
 - main の履歴の書き換えと削除は、作者を含めて誰にもできない。間違えたときは、revert のコミットで直す。
+- 付けたタグは、作者を含めて誰にも付け替えたり消したりできない。間違えたときは、次のバージョンを出して直す。
 - 外部の人の変更は、作者のレビューと CI を通らないと main に入らない。
 - 作者は 1 人なので、自分の変更は bypass で入れることになり、第三者のレビューは受けない。CI と、デザインドキュメント・ADR の手順で補う。
 - 作者のアカウントか `gh` のトークンが乗っ取られると、bypass で main に入れられてしまう。2FA と、外部の PR をレビューするときの手順（CLAUDE.md）で守る。
@@ -35,7 +38,7 @@
 - すべて無料プランで使える機能なので、費用はかからない。パブリックリポジトリでは標準ランナーの Actions も無料である。
 
 ## 検証方法（任意）
-- `gh api repos/kibako-works/sdd-lite/rulesets --jq '.[].name'` に `protect-main-history`・`require-pr-main`・`protect-tags` があり、それぞれの内容（`gh api repos/kibako-works/sdd-lite/rulesets/<id>`）が Decision と一致すること。
+- `gh api repos/kibako-works/sdd-lite/rulesets --jq '.[].name'` に `protect-main-history`・`require-pr-main`・`protect-tags`・`restrict-tag-creation` があり、それぞれの内容（`gh api repos/kibako-works/sdd-lite/rulesets/<id>`）が Decision と一致すること。
 - `gh api repos/kibako-works/sdd-lite/actions/permissions` が `"allowed_actions":"selected"` と `"sha_pinning_required":true` を返すこと。
 - `gh api repos/kibako-works/sdd-lite/actions/permissions/fork-pr-contributor-approval` が `all_external_contributors` を返すこと。
 - `gh api repos/kibako-works/sdd-lite --jq .security_and_analysis` で、`secret_scanning` と `secret_scanning_push_protection` が `enabled` であること。
