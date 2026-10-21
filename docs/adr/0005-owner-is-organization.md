@@ -1,6 +1,6 @@
 # 0005. 公開物の所有者と作者の表記は Organization kibako-works にする
 
-- Status: Accepted
+- Status: Superseded by 0007
 - 日付: 2026-10-20
 - 関連: docs/design/2026-10-initial-release.md
 
