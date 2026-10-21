@@ -117,7 +117,7 @@
 - [x] T2: ADR 0008（main の保護・取り込み方法・配布する ref）を起票し、実施済みの設定を記録する（対応要件: REQ-2）
 - [x] T3: SECURITY.md を置く（対応要件: REQ-3）
 - [x] T4: CONTRIBUTING.md を置き、README から案内する。README.ja.md も同じ変更で更新する（対応要件: REQ-4）
-- [ ] T5: CODEOWNERS・PR テンプレート・Issue フォームを置く（対応要件: REQ-5, REQ-6）
+- [x] T5: CODEOWNERS・PR テンプレート・Issue フォームを置く（対応要件: REQ-5, REQ-6）
 - [ ] T6: CI（validate.yml）を置き、PR で成功することを確かめる（対応要件: REQ-7, REQ-8, REQ-9）
 - [ ] T7: `require-pr-main` を強化し、`protect-tags` を作る（対応要件: REQ-2, REQ-5, REQ-7, REQ-11）
 - [ ] T8: CLAUDE.md の開発フローに、main への取り込み方法、外部の PR のレビュー手順、荒らしへの対応手順を書き足す（対応要件: REQ-2, REQ-10, REQ-12）

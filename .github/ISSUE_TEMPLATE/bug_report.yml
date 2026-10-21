@@ -1,0 +1,52 @@
+name: Bug report
+description: Report something that doesn't work as described
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        To report a vulnerability, don't use this form. Follow SECURITY.md instead.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What you did, what you expected, and what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Run `/sdd:...`
+        2. ...
+    validations:
+      required: true
+  - type: input
+    id: claude-code-version
+    attributes:
+      label: Claude Code version
+      description: The output of `claude --version`.
+    validations:
+      required: true
+  - type: input
+    id: plugin-version
+    attributes:
+      label: Plugin version
+      description: Shown in `/plugin` or `claude plugin list`.
+    validations:
+      required: true
+  - type: dropdown
+    id: language
+    attributes:
+      label: Language setting
+      options:
+        - en
+        - ja
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional context
+      description: Remove email addresses, absolute paths, and other personal information before posting.

@@ -1,0 +1,27 @@
+name: Feature request
+description: Suggest a new feature or a change
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What are you trying to do, and what gets in the way?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: What would you like to happen?
+    validations:
+      required: true
+  - type: textarea
+    id: built-in
+    attributes:
+      label: Claude Code built-in features
+      description: sdd adds skills only for what Claude Code's built-in features don't cover. Does a built-in feature already cover this?
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
