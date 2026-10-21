@@ -77,7 +77,7 @@
 - REQ-3: 次をすべて確かめる。
   - 今のリポジトリで `bash scripts/check-principles.sh` が 0 で終わる。
   - 一時的なコピー（スクラッチ領域）で、スキルを 1 つ足す／guide.md を 161 行にする／SKILL.md から `retire-when:` を消す、をそれぞれ行うと 0 以外で終わり、該当項目が表示される。
-  - `CHECK_TODAY=2027-01-01` で実行すると、`reviewed: 2026-10-20` が期限切れとして検出される。`CHECK_TODAY=2026-12-19`（59 日後）では検出されない。
+  - `CHECK_TODAY=2027-01-01` で実行すると、`reviewed: 2026-10-20` が期限切れとして検出される。`CHECK_TODAY=2026-12-19`（60 日後）では検出されない。
   - `shellcheck` が使えれば警告が無いこと。
 - REQ-4: T6 の PR で、ワークフローが実行されて緑になること。
 - REQ-5: `grep -n 'check-principles' CLAUDE.md` と `grep -n '0007' CLAUDE.md` が 1 件以上であること。
