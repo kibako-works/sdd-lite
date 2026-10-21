@@ -66,7 +66,7 @@
 
 ## 5. 実装タスク
 - [x] T1: `/sdd:adr` で ADR 0007「設計原則」を起票する。Context に原案の要点、Decision に原則 1〜4 と予算、Consequences に既知の違反（userConfig の言語設定、guide.md の「迷ったら重い方」）と、それを直すデザインドキュメントを書く（対応要件: REQ-1, REQ-2）
-- [ ] T2: `scripts/check-principles.sh` を作る。今のリポジトリで 0 で終わることと、違反を仕込んだ一時的なコピーで 0 以外になることを確かめる（REQ-3）
+- [x] T2: `scripts/check-principles.sh` を作る。今のリポジトリで 0 で終わることと、違反を仕込んだ一時的なコピーで 0 以外になることを確かめる（REQ-3）
 - [ ] T3: `.github/workflows/check-principles.yml` を作る（REQ-4）
 - [ ] T4: CLAUDE.md に原則の要約・リンク・検証コマンドを足す（REQ-5）
 - [ ] T5: `docs/review-routine.md` を作る（REQ-6）
