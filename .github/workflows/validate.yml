@@ -1,0 +1,47 @@
+# Validates the marketplace and checks the public files on every pull request and push to main.
+#
+# Security constraints (docs/design/2026-10-contribution-readiness.md, REQ-8). Keep them when editing:
+# - Trigger only on pull_request and push to main. Don't use pull_request_target, issue_comment,
+#   workflow_run, or workflow_dispatch.
+# - Don't put event data (${{ github.event.* }}, PR titles, branch names) into run: steps.
+# - Pin every action to a full commit SHA. Don't use caches.
+# - Keep permissions read-only and don't persist credentials.
+name: validate
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CLAUDE_CODE_VERSION: 2.1.306
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Check public files
+        run: bash .github/scripts/check-public-files.sh
+
+      # Install without lifecycle scripts, then run only Claude Code's own postinstall,
+      # which copies the native binary from the platform package.
+      - name: Install Claude Code
+        run: |
+          npm install --global --ignore-scripts --no-audit --no-fund "@anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}"
+          node "$(npm root --global)/@anthropic-ai/claude-code/install.cjs"
+          claude --version
+
+      - name: Validate the marketplace and the plugin
+        run: claude plugin validate --strict .

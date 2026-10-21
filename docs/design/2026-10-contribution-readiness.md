@@ -93,9 +93,10 @@
 
 - CI（`validate.yml`）:
   - トリガーは `pull_request` と main への `push`。`permissions: contents: read`。
-  - `actions/checkout` と `actions/setup-node` を SHA で固定する。
-  - `npm install -g @anthropic-ai/claude-code@<固定した版>` で入れ、`claude plugin validate --strict .` を実行する。認証情報は不要である（空の HOME で通ることを確認した）。
-  - 初回リリースのデザインドキュメントにある個人情報のチェック（`grep -rnE '@[A-Za-z0-9.-]+\.[a-z]{2,}|/home/[a-z]' --exclude-dir=.git .`）を、誤検知を除いたうえで実行する。
+  - アクションは `actions/checkout` だけを SHA で固定して使う。Node はランナーに入っているものを使い、`actions/setup-node` は使わない（依存するアクションを減らすため）。
+  - Claude Code は `npm install --global --ignore-scripts @anthropic-ai/claude-code@2.1.306` で入れ、そのあと Claude Code 自身の `install.cjs` だけを実行する。`install.cjs` は、プラットフォーム別の optional dependency からネイティブのバイナリをコピーするだけで、ネットワークにはアクセスしない。`--ignore-scripts` だけでは `claude native binary not installed` で動かないことを確かめた。
+  - `claude plugin validate --strict .` を実行する。認証情報は不要である（空の HOME で通ることを確認した）。
+  - 個人情報と不可視の文字のチェックは `.github/scripts/check-public-files.sh` にまとめ、手元でも同じものを実行できるようにする。メールアドレスは `*@users.noreply.github.com` と `noreply@github.com` を除く。
   - 不可視の文字のチェック（REQ-9）を実行する。対象は U+200B〜U+200F、U+202A〜U+202E、U+2060〜U+2064、U+2066〜U+2069、U+FEFF とする。
   - REQ-8 の制約は、ワークフローの冒頭のコメントにも書き、変更する人が気づけるようにする。
 - Ruleset `protect-tags`（新規）: `refs/tags/v*` で `update`・`deletion` を禁止し、`creation` は OrganizationAdmin だけ bypass できるようにする。
@@ -132,11 +133,11 @@
 - REQ-4・REQ-6: GitHub の画面で Issue を新規作成するとフォームが 2 つ出て、空の Issue が作れず、脆弱性の報告先へのリンクが出ること。PR を作るとテンプレートが入ること。
 - REQ-5: CODEOWNERS に構文エラーがないこと（GitHub の CODEOWNERS ファイルの画面にエラーが出ない）。`plugins/` を変える PR でレビュー依頼が自動で付くこと。
 - REQ-7: T6 の PR で CI が成功すること。わざと validate が失敗する変更をした一時的な PR で CI が失敗し、マージできないこと（確認後に閉じる）。
-- REQ-8: `gh api repos/kibako-works/sdd-lite/actions/permissions/fork-pr-contributor-approval` が `all_external_contributors` を返すこと。ワークフローのアクションがすべて 40 文字の SHA で書かれていること。`grep -nE 'pull_request_target|issue_comment|workflow_run|workflow_dispatch|\$\{\{ *github\.event' .github/workflows/*.yml` が 0 件であること。
+- REQ-8: `gh api repos/kibako-works/sdd-lite/actions/permissions/fork-pr-contributor-approval` が `all_external_contributors` を返すこと。ワークフローのアクションがすべて 40 文字の SHA で書かれていること。`grep -hnE 'pull_request_target|issue_comment|workflow_run|workflow_dispatch|\$\{\{ *github\.event' .github/workflows/*.yml | grep -vE '^[0-9]+:\s*#'` が 0 件であること（ワークフロー冒頭の注意書きのコメントは除く）。
 - REQ-9: 一時的なブランチで、SKILL.md にゼロ幅文字（U+200B）を入れると、ローカルで同じチェックが失敗すること（CI での確認は REQ-7 の失敗 PR と兼ねてよい）。
 - REQ-10: CLAUDE.md に REQ-10 の 4 項目が書かれていること（人間が読んで確認する）。
 - REQ-11: `gh api repos/kibako-works/sdd-lite/rules/branches/main` とは別に、`gh api repos/kibako-works/sdd-lite/rulesets` に `protect-tags` があり、対象が `refs/tags/v*` であること。
 - REQ-12: 開放前は、協力者でないアカウント（ログアウトした状態で画面を確認する）に「New issue」「New pull request」が出ないこと。`gh api repos/kibako-works/sdd-lite --jq .pull_request_creation_policy` が `collaborators_only` を返すこと。
 
 ## 7. 未決事項
-- CI で使う Claude Code の版と、npm の install スクリプトを無効にしても動くか（T6 で確かめ、結果をこのドキュメントに追記する）。
+- なし（CI で使う Claude Code の版と、install スクリプトの扱いは T6 で決めた。4 章の CI を参照）。
