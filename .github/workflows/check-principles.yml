@@ -1,0 +1,17 @@
+name: check-principles
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - run: bash scripts/check-principles.sh
+      - run: shellcheck scripts/check-principles.sh
