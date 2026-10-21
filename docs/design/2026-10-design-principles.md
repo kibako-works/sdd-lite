@@ -54,7 +54,7 @@
 - ファイル構成（追加・変更）:
   - `docs/adr/0009-design-principles.md`（新規）
   - `.github/scripts/check-principles.sh`（新規）: `ROOT=${1:-.}`、`TODAY=${CHECK_TODAY:-$(date +%F)}`。予算の値はスクリプトの先頭に定数で置き、ADR 0009 の番号をコメントで示す。
-  - `.github/workflows/check-principles.yml`（新規）: `ubuntu-latest` で checkout してスクリプトを実行するだけ。
+  - `.github/workflows/validate.yml`（変更）: 既存の CI（ADR 0008 でマージに必須）に、スクリプトの実行と `shellcheck .github/scripts/*.sh` の 2 段を足す。別のワークフローにすると、必須のチェックに加えるために Ruleset の変更が要るため。
   - `docs/review-routine.md`（新規）: Routine が読む手順書。①スクリプトを実行する ②公式の変更履歴（code.claude.com/docs の changelog と What's new）で、前回の実行以降の変更を読む ③各スキルの `retire-when` と突き合わせる ④撤去候補か違反があれば、Issue を 1 件立てる（同じ月の Issue が既にあれば追記する）⑤何も無ければ何もしない。
   - `CLAUDE.md`（変更）: 概要に原則 3 行と ADR 0009 へのリンク、コマンドに `bash .github/scripts/check-principles.sh`。
   - Routine（リポジトリ外・claude.ai の設定）: 毎月 1 日 9:07 に実行。プロンプトは「docs/review-routine.md の手順に従う」だけにして、手順の正本をリポジトリに置く。
@@ -67,7 +67,7 @@
 ## 5. 実装タスク
 - [x] T1: `/sdd:adr` で ADR 0009「設計原則」を起票する。Context に原案の要点、Decision に原則 1〜4 と予算、Consequences に既知の違反（userConfig の言語設定、guide.md の「迷ったら重い方」）と、それを直すデザインドキュメントを書く（対応要件: REQ-1, REQ-2）
 - [x] T2: `.github/scripts/check-principles.sh` を作る。今のリポジトリで 0 で終わることと、違反を仕込んだ一時的なコピーで 0 以外になることを確かめる（REQ-3）
-- [x] T3: `.github/workflows/check-principles.yml` を作る（REQ-4）
+- [x] T3: `.github/workflows/validate.yml` に予算チェックと shellcheck の段を足す（REQ-4）
 - [x] T4: CLAUDE.md に原則の要約・リンク・検証コマンドを足す（REQ-5）
 - [ ] T5: `docs/review-routine.md` を作る（REQ-6）
 - [ ] T6: PR を作って CI が緑になることを確かめる。マージ後に `/schedule` で Routine を登録し、手動で 1 回実行して、Issue を立てない（または意図どおり立てる）ことを確かめる。push・PR・Routine の登録は人間の確認を取ってから行う（REQ-4, REQ-6）

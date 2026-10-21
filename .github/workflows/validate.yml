@@ -1,4 +1,4 @@
-# Validates the marketplace and checks the public files on every pull request and push to main.
+# Validates the marketplace and checks the public files and the budgets on every pull request and push to main.
 #
 # Security constraints (docs/design/2026-10-contribution-readiness.md, REQ-8). Keep them when editing:
 # - Trigger only on pull_request and push to main. Don't use pull_request_target, issue_comment,
@@ -34,6 +34,12 @@ jobs:
 
       - name: Check public files
         run: bash .github/scripts/check-public-files.sh
+
+      - name: Check the budgets in ADR 0009
+        run: bash .github/scripts/check-principles.sh
+
+      - name: Lint the shell scripts
+        run: shellcheck .github/scripts/*.sh
 
       # Install without lifecycle scripts, then run only Claude Code's own postinstall,
       # which copies the native binary from the platform package.
