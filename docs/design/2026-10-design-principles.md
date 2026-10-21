@@ -10,7 +10,7 @@
 - 成功の定義:
   - 原則がリポジトリ内の Accepted な ADR として残り、CLAUDE.md から毎回参照される。原則を変えるには新しい ADR が要る。
   - 予算（スキル数・guide の大きさ・撤去条件・見直しの鮮度）の違反を、ローカルと CI で機械的に検出できる。
-  - 月 1 回、PC を開いていなくても、純正機能の更新と各スキルの retire-when が突き合わされ、撤去候補や見直し切れがあれば Issue で知らされる。
+  - 週 1 回、PC を開いていなくても、純正機能の更新と各スキルの retire-when が突き合わされ、撤去候補や見直し切れがあれば Issue で知らされる。
 
 ## 2. スコープ
 - やること:
@@ -18,12 +18,12 @@
   - 予算チェックのスクリプト `.github/scripts/check-principles.sh` を作る。
   - GitHub Actions で push と PR のたびにスクリプトを実行する。
   - CLAUDE.md に原則の要約 3 行・ADR 0009 へのリンク・検証コマンドを足す。
-  - 月 1 回の見直しの手順書をリポジトリに置き、それを読む Routine（cloud scheduled task）を `/schedule` で登録する。
+  - 週 1 回の見直しの手順書をリポジトリに置き、それを読む Routine（cloud scheduled task）を `/schedule` で登録する。
 - やらないこと（Non-goals）:
   - 既存の原則違反の解消。userConfig の言語設定（原則 2 に反する）は次のデザインドキュメント「純正 language 設定への統合」で、guide.md の「迷ったら重い方」（原則 1 に反する）はその次の「軽い方への反転と ship の段階化」で直す。この ADR では既知の違反として記録するだけにする。
   - プラグイン本体（plugins/）の変更。利用者に届く変更が無いので、version は上げない。
   - Routine による自動のコード変更・push・PR 作成。
-  - `claude plugin validate` の CI 化（CI に Claude Code を入れる必要があり、今回の範囲を超える）。
+  - `claude plugin validate` の CI 化（docs/design/2026-10-contribution-readiness.md で `validate.yml` として実施済み）。
 
 ## 3. 要件
 - REQ-1: docs/adr/0009 に、次の原則が「〜すること / 〜しないこと」の形で Accepted として書かれていること。
@@ -40,7 +40,7 @@
   - `reviewed:` の日付が、実行日から 60 日より前
 - REQ-4: GitHub Actions が、main への push とすべての PR で REQ-3 のスクリプトを実行し、失敗したらチェックが赤になること。
 - REQ-5: CLAUDE.md の「プロジェクト概要」に原則の要約と ADR 0009 へのリンクがあり、「よく使うコマンド」の検証にスクリプトが入っていること。
-- REQ-6: 月 1 回の Routine が、リポジトリ内の手順書に従って、Claude Code の公式の変更履歴と各スキルの `retire-when` を突き合わせ、撤去候補か予算違反（REQ-3）があるときだけ GitHub Issue を立てること。コードの変更・push・PR 作成はしないこと。
+- REQ-6: 週 1 回の Routine が、リポジトリ内の手順書に従って、Claude Code の公式の変更履歴と各スキルの `retire-when` を突き合わせ、撤去候補か予算違反（REQ-3）があるときだけ GitHub Issue を立てること。Issue はコントリビューターも読むので英語で書くこと。コードの変更・push・PR 作成はしないこと。
 - 非機能要件:
   - 移植性: スクリプトは bash と標準的なコマンド（grep・awk・date）だけで動き、GNU（Linux・WSL・CI）と BSD（macOS）の `date` の両方で日付を計算できること。
   - テストしやすさ: 対象のルートを引数で、実行日を環境変数で差し替えられること。
@@ -49,18 +49,19 @@
 ## 4. 設計
 - 全体方針:
   - 原則の正本は ADR 0009。CLAUDE.md は要約とリンクだけを持ち、内容を重複させない（ADR 0006 の「README に guide の表を重複させない」と同じ考え方）。
-  - 見張りは 3 層にする。①毎回読まれる CLAUDE.md（原則の要約）、②変更のたびの CI（予算）、③月 1 回の Routine（純正機能の更新と撤去条件の突き合わせ）。
+  - 見張りは 3 層にする。①毎回読まれる CLAUDE.md（原則の要約）、②変更のたびの CI（予算）、③週 1 回の Routine（純正機能の更新と撤去条件の突き合わせ）。
   - 既存の仕組みを再利用する。「Accepted な ADR に反する実装をしない／反するなら Superseded にする ADR を先に出す」という CLAUDE.md と ADR 0001 の規則がそのまま原則の見張り役になる。
 - ファイル構成（追加・変更）:
   - `docs/adr/0009-design-principles.md`（新規）
   - `.github/scripts/check-principles.sh`（新規）: `ROOT=${1:-.}`、`TODAY=${CHECK_TODAY:-$(date +%F)}`。予算の値はスクリプトの先頭に定数で置き、ADR 0009 の番号をコメントで示す。
   - `.github/workflows/validate.yml`（変更）: 既存の CI（ADR 0008 でマージに必須）に、スクリプトの実行と `shellcheck .github/scripts/*.sh` の 2 段を足す。別のワークフローにすると、必須のチェックに加えるために Ruleset の変更が要るため。
-  - `docs/review-routine.md`（新規）: Routine が読む手順書。①スクリプトを実行する ②公式の変更履歴（code.claude.com/docs の changelog と What's new）で、前回の実行以降の変更を読む ③各スキルの `retire-when` と突き合わせる ④撤去候補か違反があれば、Issue を 1 件立てる（同じ月の Issue が既にあれば追記する）⑤何も無ければ何もしない。
+  - `docs/review-routine.md`（新規）: Routine が読む手順書。①スクリプトを実行する ②公式の変更履歴（code.claude.com/docs の changelog と What's new）で、直近 8 日（前回の実行と 1 日重ねる）の変更を読む ③各スキルの `retire-when` と突き合わせる ④撤去候補か違反があれば、英語の Issue を 1 件立てる（同じ月の Issue が既にあれば追記する）⑤何も無ければ何もしない。
   - `CLAUDE.md`（変更）: 概要に原則 3 行と ADR 0009 へのリンク、コマンドに `bash .github/scripts/check-principles.sh`。
-  - Routine（リポジトリ外・claude.ai の設定）: 毎月 1 日 9:07 に実行。プロンプトは「docs/review-routine.md の手順に従う」だけにして、手順の正本をリポジトリに置く。
+  - Routine（リポジトリ外・claude.ai の設定）: 毎週月曜 9:07 に実行。プロンプトは「docs/review-routine.md の手順に従う」だけにして、手順の正本をリポジトリに置く。
 - 検討した代替案と不採用理由:
   - 原則を CLAUDE.md だけに書く: 毎回読まれるが、変えるときに理由が残らず、なし崩しに書き換わる。ADR にすれば変更に Superseded の手続きが要る。
-  - Routine だけで予算を見る: 月 1 回なので、違反が 1 か月混ざり続ける。変更のたびに止まらない。
+  - Routine だけで予算を見る: 週 1 回なので、違反が最大 1 週間混ざり続ける。変更のたびに止まらない。
+  - Routine を月 1 回にする: What's new は週ごとのまとめなので、1 か月に読む量は頻度によらずほぼ同じで、週 1 回で増えるのは毎回の固定の手間だけである。月 1 回では撤去候補に気付くまで最大 1 か月かかり、原則 3 の「速やかな撤去」に合わない。
   - Routine が下書き PR を作る: 人間の確認なしに push が起きるので、CLAUDE.md の禁止事項に反する。
   - `/loop` や Desktop の scheduled tasks: PC を開いていないと動かない。
 
