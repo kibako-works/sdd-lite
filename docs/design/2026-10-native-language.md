@@ -66,7 +66,7 @@
 - [x] T1: `/sdd:adr` の手順で ADR 0010「言語は純正の language 設定と CLAUDE.md の規約に任せる」を起票し、ADR 0006 を `Superseded by 0010` にする。CLAUDE.md の「コーディング規約」の参照を直す（対応要件: REQ-9, REQ-10）
 - [x] T2: plugin.json から `userConfig` を削除し、`version` を 0.3.0 にする（REQ-1）
 - [x] T3: ask・ship・verifier の言語の段落を削除し、ship と verifier の文書と報告の言語の決め方を書く。guide.ja.md を削除し、guide.md の 3 行目を直す（REQ-2, REQ-4, REQ-5）
-- [ ] T4: design・adr・init の言語の段落を、生成文書の言語の決め方に置き換え、`.ja.md` を削除する。init の CLAUDE.md テンプレートに言語の規約の行を足す（REQ-2, REQ-3, REQ-5, REQ-6）
+- [x] T4: design・adr・init の言語の段落を、生成文書の言語の決め方に置き換え、`.ja.md` を削除する。init の CLAUDE.md テンプレートに言語の規約の行を足す（REQ-2, REQ-3, REQ-5, REQ-6）
 - [ ] T5: README.md・README.ja.md・CHANGELOG.md・CONTRIBUTING.md・PR テンプレート・バグ報告テンプレートを直す（REQ-7, REQ-8, REQ-10）
 - [ ] T6: 一時的な git リポジトリで、`--plugin-dir` と `claude -p` を使い、次の 3 通りで `/sdd:init` と `/sdd:adr` を実行し、生成ファイルの言語と判定の記法を確かめる。①本体の `language` が `japanese`・規約なし ②本体の設定なし・英語で依頼・規約なし ③本体の `language` が `japanese`・CLAUDE.md に英語の規約あり（REQ-3, REQ-6）
 
