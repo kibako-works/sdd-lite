@@ -1,6 +1,6 @@
 # How to use sdd (decision criteria)
 
-This file is the canonical source of the decision criteria that sdd uses for guidance. `/sdd:ask` reads it to guide you. You can read it too. The Japanese translation is [guide.ja.md](guide.ja.md); update it in the same change as this file.
+This file is the canonical source of the decision criteria that sdd uses for guidance. `/sdd:ask` reads it to guide you. You can read it too.
 
 ## Overall flow
 
