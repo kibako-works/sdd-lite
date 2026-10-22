@@ -1,6 +1,6 @@
 # 軽い方への反転と ship の段階化
 
-- Status: Approved
+- Status: Implemented
 - 作成日: 2026-10-23
 - 関連 ADR: docs/adr/0009-design-principles.md、docs/adr/0011-lighter-default-and-ship-categories.md（T1 で起票）
 
@@ -75,7 +75,7 @@
 - [x] T2: ship の SKILL.md を書き換え、引数で区分を上書きできるよう argument-hint を足す。verifier に ADR との整合だけを確かめる使い方を足す（REQ-3〜REQ-7）
 - [x] T3: guide.md の §1・§2-C・§3・§4 を直し、160 行以下に収める（REQ-1, REQ-2）
 - [x] T4: plugin.json を 0.4.0 にし、CHANGELOG.md・README.md・README.ja.md を直す（REQ-9）
-- [ ] T5: 一時的な git リポジトリで `--plugin-dir` と `claude -p` を使い、コミットの直前で止める指示を付けて `/sdd:ship` を実行し、宣言された区分と実行した手順を確かめる。①文言の修正だけ（C、verifier と `/simplify` なし、`/code-review low`）②ADR を追加したブランチ（B）③依存関係のファイルを変えた修正（C から B に上がる）④Approved のデザインドキュメントあり（A）⑤`/sdd:ship C` で上書き（REQ-3〜REQ-6）
+- [x] T5: 一時的な git リポジトリで `--plugin-dir` と `claude -p` を使い、コミットの直前で止める指示を付けて `/sdd:ship` を実行し、宣言された区分と実行した手順を確かめる。①文言の修正だけ（C、verifier と `/simplify` なし、`/code-review low`）②ADR を追加したブランチ（B）③依存関係のファイルを変えた修正（C から B に上がる）④Approved のデザインドキュメントあり（A）⑤`/sdd:ship C` で上書き（REQ-3〜REQ-6）
 
 ## 6. テスト・検証方法
 - 共通（タスクごと）: `claude plugin validate --strict .`、`bash .github/scripts/check-principles.sh`、`bash .github/scripts/check-public-files.sh` が通ること。
@@ -87,3 +87,10 @@
 
 ## 7. 未決事項
 - なし。
+- 追記（T5 の結果、Claude Code v2.1.306）: 一時的な git リポジトリ（Python、main から `work` ブランチ）で、コミットの直前で止める指示を付けて `/sdd:ship` を実行した。
+  - ①docstring の誤字の修正だけ: 「Category C」と宣言。verifier と `/simplify` を省き、`/code-review low` を実行した。
+  - ②ADR の追加とテストだけの変更: 「Category B」と宣言。verifier は ADR との整合だけを確かめ、`/simplify` は省き、`/code-review` は level なしで実行した。
+  - ③誤字の修正と requirements.txt への依存の追加: 基本は C で、依存関係に触れるため「Category B」に上がった。verifier は ADR との整合だけを確かめ、ADR の漏れ（依存の追加）を指摘した。
+  - ④Approved のデザインドキュメントありで sub を追加: 「Category A」と宣言。verifier で REQ を照合し、`/simplify` と `/code-review`（level なし）を実行し、Status を Implemented にした。
+  - ⑤③と同じ変更で `/sdd:ship C`: 上書きで「Category C」と宣言し、上書きが無ければ B だったことも添えた。verifier と `/simplify` を省き、`/code-review low` を実行した。
+  - 最初の②は、公開関数 `add` に入力の検証を足す変更だったため、規則どおり B から A に上がった（公開 API と入力の検証に触れる）。B の手順を確かめるため、公開 API に触れない変更で作り直した。
