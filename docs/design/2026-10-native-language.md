@@ -31,9 +31,9 @@
 - REQ-1: plugin.json に `userConfig` が無く、`version` が 0.3.0 であること。
 - REQ-2: どのスキルとエージェントの本文にも `user_config` と `.ja.md` への言及が無く、会話の言語を指定する指示も無いこと（会話は本体の設定と既定の振る舞いに任せる）。
 - REQ-3: init・design・adr が生成するファイル（CLAUDE.md・デザインドキュメント・ADR）は、プロジェクトの CLAUDE.md（または AGENTS.md）に文書の言語の規約があればそれに従い、無ければ会話の言語で書かれること。テンプレートの見出しはその言語に訳してよいが、現在地の判定に使う記法（`- Status: Draft | Approved | Implemented`、`- [ ]` / `- [x]`）は訳さないこと。
-- REQ-4: ship は、コミットメッセージと PR の本文をプロジェクトの規約の言語で、無ければ会話の言語で書くこと。verifier は会話の言語で報告すること。
+- REQ-4: ship は、コミットメッセージと PR の本文をプロジェクトの規約の言語で、無ければ会話の言語で書くこと。verifier は言語を指定せず、その報告は ship が会話の言語でまとめること（レビューの指摘 2 で変更）。
 - REQ-5: `plugins/sdd/skills/` の下に `.ja.md` が無いこと。ask は英語の guide.md だけを読み、会話の言語で案内すること。
-- REQ-6: init の CLAUDE.md テンプレートの「Coding conventions」に、生成文書の言語を決める行（`- Language of design docs and ADRs: <e.g. English>`）があること。
+- REQ-6: init の CLAUDE.md テンプレートの「Coding conventions」に、生成文書・コミット・PR の言語を決める行（`- Language of documents (design docs, ADRs), commit messages, and PRs: <e.g. English>`）があること。既存の CLAUDE.md に追記するときも、言語の行が無ければ追記の案に含め、追記は既存の CLAUDE.md の言語で書くこと（レビューの指摘 1・3 で変更）。
 - REQ-7: README.md と README.ja.md が、次を案内していること。会話の言語は本体の `language` 設定（`/config` または settings.json の `"language"`）で決まること。生成文書の言語は CLAUDE.md の規約で決まり、無ければ会話の言語になること。0.2.0 で `ja` を使っていた利用者は本体の `"language": "japanese"` に移ること。前提の Claude Code の版は、必須の条件ではなく「v2.1.306 で確認」と書くこと。
 - REQ-8: CHANGELOG.md の 0.3.0 に、破壊的変更として設定の削除と移行の手順が書かれていること。
 - REQ-9: ADR 0010 が Accepted で、ADR 0006 の Status が `Superseded by 0010` であること。ADR 0006 の決定のうち、次は ADR 0010 で引き継ぐこと。利用者向けの文書は英語を正本にすること。README には日本語訳 README.ja.md を置き、同じ変更で更新すること。開発用の文書は日本語で書くこと。guide.md を判断基準の正本とすること。スキルのディレクトリの外を読まないこと。README に guide の表を重複させないこと。
@@ -86,3 +86,4 @@
   - ②本体の設定なし・英語で依頼・規約なしで `/sdd:init`: すべて英語になり、規約の行は `Language of design docs and ADRs: English`。
   - ③本体の `language` が `japanese`・CLAUDE.md に英語の規約ありで、日本語で `/sdd:adr` を依頼: 会話は日本語で、ADR は英語で生成された。
   - ship と verifier は本文の確認だけで、E2E は行っていない。
+- 追記（レビューの指摘 1・3 への対応後）: 規約の無い日本語の CLAUDE.md がある状態で、本体の設定なし・英語で `/sdd:init` を実行した。会話は英語で、追記された節と言語の行（「ドキュメント（設計書、ADR）、コミットメッセージ、PR の言語：日本語」）は日本語になり、ADR 0001 もその規約に従って日本語で生成された。

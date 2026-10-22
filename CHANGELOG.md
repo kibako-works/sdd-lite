@@ -10,7 +10,7 @@ This file records the changes to this project. Versions follow [Semantic Version
 
 ### Changed
 - Removed the Japanese versions of the skills' supporting files (`*.ja.md`). The templates are in English; their headings are translated when writing in another language, while the `- Status:` lines and `- [ ]` checkboxes stay as they are. `README.ja.md` remains.
-- The CLAUDE.md template from `/sdd:init` has a line for the language of design docs and ADRs.
+- `/sdd:init` adds a line to CLAUDE.md that sets the language of documents (design docs, ADRs), commit messages, and PRs, also when it appends to an existing CLAUDE.md.
 - Claude Code v2.1.271 or later is no longer required. Tested with v2.1.306.
 
 ## [0.2.0] - 2026-10-20

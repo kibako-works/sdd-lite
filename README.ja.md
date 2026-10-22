@@ -51,7 +51,7 @@ claude plugin marketplace remove sdd-lite
 sdd は、言語の設定を持ちません。
 
 - 会話は Claude Code 本体の `language` 設定に従います。`/config` で設定するか、settings.json に `"language": "japanese"` などを書きます。設定が無ければ、Claude は書き込んだ言語で答えます。
-- スキルが生成するファイル（CLAUDE.md・デザインドキュメント・ADR）と、`/sdd:ship` のコミットメッセージ・PR の本文は、プロジェクトの CLAUDE.md（または AGENTS.md）で決めた文書の言語に従います。決めていなければ、会話の言語で書きます。`/sdd:init` が作る CLAUDE.md には、そのための行があります。
+- スキルが生成するファイル（CLAUDE.md・デザインドキュメント・ADR）と、`/sdd:ship` のコミットメッセージ・PR の本文は、プロジェクトの CLAUDE.md（または AGENTS.md）で決めた文書の言語に従います。決めていなければ、会話の言語で書きます。`/sdd:init` は、そのための行を CLAUDE.md に入れます。
 - テンプレートは英語です。ほかの言語で書くときは見出しを訳しますが、`- Status:` の行と `- [ ]` のチェックボックスは英語のままにします。スキルが現在地の判定に使うためです。
 - 0.2.0 で `ja` を選んでいた場合、その設定はもう効きません。代わりに Claude Code の `language` を `japanese` にし、プロジェクトの文書を日本語にしたい場合は CLAUDE.md にそう書いてください。ユーザー設定の `pluginConfigs["sdd@sdd-lite"].options.language` は消してかまいません。
 

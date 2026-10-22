@@ -21,7 +21,7 @@
 - If a change contradicts an ADR, propose a new ADR that marks the existing one as Superseded before implementing.
 
 # Coding conventions
-- Language of design docs and ADRs: <e.g. English>
+- Language of documents (design docs, ADRs), commit messages, and PRs: <e.g. English>
 - <list team-specific rules>
 
 # Don'ts

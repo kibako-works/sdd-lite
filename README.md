@@ -51,7 +51,7 @@ claude plugin marketplace remove sdd-lite
 sdd has no language setting of its own.
 
 - The conversation follows Claude Code's own `language` setting. Set it in `/config`, or add `"language": "japanese"` (for example) to your settings.json. Without it, Claude answers in the language you write in.
-- The files the skills generate (CLAUDE.md, design docs, ADRs) and the commit messages and PR bodies from `/sdd:ship` follow the documents language in your project's CLAUDE.md (or AGENTS.md). If it has none, they are written in the language of the conversation. The CLAUDE.md that `/sdd:init` creates has a line for this.
+- The files the skills generate (CLAUDE.md, design docs, ADRs) and the commit messages and PR bodies from `/sdd:ship` follow the documents language in your project's CLAUDE.md (or AGENTS.md). If it has none, they are written in the language of the conversation. `/sdd:init` adds a line for this to your CLAUDE.md.
 - The templates are in English. When writing in another language, the headings are translated, but the `- Status:` lines and `- [ ]` checkboxes stay in English, because the skills use them to find where you are.
 - If you chose `ja` in 0.2.0, that setting no longer has any effect. Set Claude Code's `language` to `japanese` instead, and if you want the project's documents in Japanese, write that in your CLAUDE.md. You can delete `pluginConfigs["sdd@sdd-lite"].options.language` from your user settings.
 
