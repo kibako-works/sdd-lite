@@ -35,6 +35,7 @@
   - userConfig の言語設定（ADR 0006）は、純正の `language` 設定と重なっており、原則 2 に反する。「純正 language 設定への統合」で直し、ADR 0006 を Superseded にする。
   - guide.md の判断基準「迷ったら重い方」は、原則 1 に反する。「軽い方への反転と ship の段階化」で直す。
 - 追記（2026-10-22）: userConfig の言語設定の違反は、ADR 0010 で解消した。
+- 追記（2026-10-23）: guide.md の「迷ったら重い方」の違反は、ADR 0011 で解消した。
 
 ## 検証方法（任意）
 - `bash .github/scripts/check-principles.sh` が 0 で終わること。
