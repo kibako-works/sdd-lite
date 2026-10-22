@@ -39,7 +39,7 @@ Make sure the project has the following three items. If not, set them up.
 
 ## 1. Decide the size of the change
 
-Before starting a change, choose a category from this table. When in doubt, choose the higher category.
+Before starting a change, choose a category from this table. When in doubt, choose the lower category, and move up when needed (see 2-C and 2-D).
 
 | Category | Guideline | How to proceed |
 |---|---|---|
@@ -47,7 +47,7 @@ Before starting a change, choose a category from this table. When in doubt, choo
 | B. Small, with a design decision | About one file, but includes a technology choice, a change in format or structure, or a decision with trade-offs | Step 2-B |
 | C. Small, with no decision | About one file, simply fixing things along existing policy (bug fixes, wording fixes, and so on) | Step 2-C |
 
-A "design decision" is a choice someone may later ask "why did we do it this way?" about. When in doubt, choose B and leave an ADR.
+A "design decision" is a choice someone may later ask "why did we do it this way?" about. A missed ADR is caught by the ADR check in `/sdd:ship`.
 
 ## 2. Steps for each category
 
@@ -72,6 +72,7 @@ A "design decision" is a choice someone may later ask "why did we do it this way
 
 1. Enter Plan Mode.
 2. Tell Claude what to change and have it make a plan. The plan should include the files to change, the steps, and how to verify.
+   - If a design decision comes up while planning, record it with `/sdd:adr` first (move up to B). If the requirements turn out to need sorting out, or it becomes a new feature, switch to `/sdd:design` (move up to A).
 3. Review and approve the plan.
 4. Go to step 2-D.
 
@@ -86,6 +87,8 @@ A "design decision" is a choice someone may later ask "why did we do it this way
 ## 3. Completion steps
 
 Run these from the top. Steps 3-1 to 3-5 run together when you have Claude run `/sdd:ship`. You may also run them one at a time. If you need to check the app's behavior, you can also use the bundled `/verify` skill in 3-1.
+
+`/sdd:ship` first declares the category in one line and scales the steps. A: all steps. B: 3-1 checks only consistency with ADRs, and 3-3 runs only when the diff adds or changes logic. C: skips 3-1 and 3-3, and runs 3-4 as `/code-review low`. The category comes from the design doc (A) or an ADR added on the branch (B), and is raised if the diff touches configuration, public APIs, dependencies, security, or places your CLAUDE.md lists. To override it, run `/sdd:ship <A|B|C>`. The rules are in ship's `SKILL.md`.
 
 | # | Step | What to run | What to check |
 |---|---|---|---|
@@ -108,7 +111,7 @@ Run these from the top. Steps 3-1 to 3-5 run together when you have Claude run `
 |---|---|---|
 | Directory not under git | 3-3, 3-4 | No diff is available, so specify targets, like `/simplify <file path>` and `/code-review <file path>` |
 | Directory not under git | 3-7 | No commit or PR. If you use `/sdd:ship`, stop after 3-1 to 3-5 |
-| No design doc (2-B, 2-C) | 3-1 | Give sdd:verifier the ADR file and the Plan Mode plan file (by default in `~/.claude/plans/`; changed by the `plansDirectory` setting) as the requirements |
+| No design doc (2-B, 2-C) | 3-1 | B checks only consistency with ADRs, and C skips it. If raised to A, sdd:verifier uses the Plan Mode plan file (by default in `~/.claude/plans/`) as the requirements |
 | No design doc (2-B, 2-C) | 3-5 | There are no task checkboxes or Status to update. Instead, check that related docs (README or module descriptions) are updated |
 | No automated tests | 2-D, 3-2 | Use the alternative checks written in CLAUDE.md (syntax checks, self-tests, and so on) |
 
