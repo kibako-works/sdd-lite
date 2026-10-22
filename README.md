@@ -14,7 +14,7 @@ A marketplace that distributes `sdd`, a plugin for running lightweight SDD (deve
 | `/sdd:init` | Sets up CLAUDE.md, `docs/design/`, and `docs/adr/` in a project |
 | `/sdd:design` | Creates a design doc for a new feature or a medium or larger change |
 | `/sdd:adr` | Records an ADR (decision record) |
-| `/sdd:ship` | Runs verification, ADR checks, and commit and PR creation together at completion |
+| `/sdd:ship` | Runs verification, ADR checks, and commit and PR creation together at completion, scaled to the size of the change |
 | `sdd:verifier` | Subagent that matches the requirements in a design doc against the implementation and tests |
 
 There are other tools for spec-driven development, but this was made as a lighter alternative that is easier to start with. It uses Claude Code's built-in features (Plan Mode, `/simplify`, `/code-review`, and so on) as they are wherever possible, and adds skills only for what is missing. When a built-in feature covers the same thing, that skill is removed ([Retirement conditions](#retirement-conditions)).
@@ -71,6 +71,7 @@ The overall flow, how to decide the size of a change, and when to use each skill
 - `/sdd:init` writes nothing until it shows its proposal and gets your approval. It doesn't commit either.
 - When Claude itself calls `/sdd:ask` or `/sdd:adr`, you are asked to approve running the skill, because the skill has permission to read its own files (guide.md and templates). To skip the prompt, allow `Skill(sdd:ask)` and `Skill(sdd:adr)` in your permission settings (`/permissions`).
 - `/sdd:ship` always gets approval before committing and creating a PR. Commit messages follow the project's conventions (CLAUDE.md or AGENTS.md), or Conventional Commits if there are none.
+- `/sdd:ship` first declares the change's category in one line and skips steps a small change doesn't need. The category is A if there is an approved design doc, B if the branch adds an ADR, and C otherwise, and it is raised when the diff touches configuration, public APIs, dependencies, security, or places your CLAUDE.md lists. To override it, run `/sdd:ship A` (or `B`, `C`). Details are in the [guide](plugins/sdd/skills/ask/guide.md).
 
 ## Retirement conditions
 

@@ -2,6 +2,13 @@
 
 This file records the changes to this project. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.4.0] - 2026-10-23
+
+### Changed
+- The decision criteria now say: when in doubt about the size of a change, choose the lower category and move up when needed. While planning, a design decision moves the change up to B (`/sdd:adr`), and requirements that need sorting out move it up to A (`/sdd:design`).
+- `/sdd:ship` scales its steps to the change's category and declares the category in one line before starting. A (an approved design doc) runs all steps. B (an ADR added on the branch) has `sdd:verifier` check only consistency with ADRs and runs `/simplify` only when logic is added or changed. C (neither) skips `sdd:verifier` and `/simplify` and runs `/code-review low`. The category is raised when the diff touches configuration, shared constants, public APIs, schemas, dependencies, security, or places listed in your CLAUDE.md, and never lowered. Override it with `/sdd:ship <A|B|C>`.
+- `sdd:verifier` can check only consistency with ADRs when asked.
+
 ## [0.3.0] - 2026-10-22
 
 ### Breaking changes
