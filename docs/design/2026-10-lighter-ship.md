@@ -72,7 +72,7 @@
 
 ## 5. 実装タスク
 - [x] T1: `/sdd:adr` の手順で ADR 0011「規模は軽い方を既定にし、ship を区分で段階化する」を起票し、ADR 0009 に違反の解消を追記する（対応要件: REQ-8）
-- [ ] T2: ship の SKILL.md を書き換え、引数で区分を上書きできるよう argument-hint を足す。verifier に ADR との整合だけを確かめる使い方を足す（REQ-3〜REQ-7）
+- [x] T2: ship の SKILL.md を書き換え、引数で区分を上書きできるよう argument-hint を足す。verifier に ADR との整合だけを確かめる使い方を足す（REQ-3〜REQ-7）
 - [ ] T3: guide.md の §1・§2-C・§3・§4 を直し、160 行以下に収める（REQ-1, REQ-2）
 - [ ] T4: plugin.json を 0.4.0 にし、CHANGELOG.md・README.md・README.ja.md を直す（REQ-9）
 - [ ] T5: 一時的な git リポジトリで `--plugin-dir` と `claude -p` を使い、コミットの直前で止める指示を付けて `/sdd:ship` を実行し、宣言された区分と実行した手順を確かめる。①文言の修正だけ（C、verifier と `/simplify` なし、`/code-review low`）②ADR を追加したブランチ（B）③依存関係のファイルを変えた修正（C から B に上がる）④Approved のデザインドキュメントあり（A）⑤`/sdd:ship C` で上書き（REQ-3〜REQ-6）
