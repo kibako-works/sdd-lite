@@ -1,6 +1,6 @@
 # 純正 language 設定への統合（ADR 0006 の置き換え）
 
-- Status: Approved
+- Status: Implemented
 - 作成日: 2026-10-22
 - 関連 ADR: docs/adr/0006-i18n.md（Superseded にする）、docs/adr/0009-design-principles.md、docs/adr/0010-native-language.md（T1 で起票）
 
@@ -47,7 +47,7 @@
 - 全体方針:
   - 会話の言語には触れない。本体の `language` 設定があればそれに、無ければ Claude の既定の振る舞い（利用者の言語に合わせる）に任せる。
   - 生成文書の言語は、各スキルの本文に 1 文で書く。英語の指示文の例: 「Write the generated file in the language that the project's CLAUDE.md (or AGENTS.md) specifies for documents; if it specifies none, use the language of the conversation. Translate the template's headings into that language, but keep `- Status: ...` values and `- [ ]` checkboxes as they are.」
-  - テンプレートは英語の 1 本にする。見出しを訳した文書も、判定の記法が同じなので ask の判定（`grep '^- Status: Approved'`・`- [ ]`）はそのまま働く。
+  - テンプレートは英語の 1 本にする。見出しを訳した文書も、判定の記法が同じなので ask の判定（`grep '^- Status: Implemented'`・`- [ ]`）はそのまま働く。
   - 本体の `language` 設定は自由記述（例: `"japanese"`）で、プラグインからは値を読めない。プラグインが値を読んで分岐する必要が無い設計にする。
 - ファイル構成（変更後）:
   - `plugins/sdd/skills/ask/`: `SKILL.md`、`guide.md`
@@ -68,7 +68,7 @@
 - [x] T3: ask・ship・verifier の言語の段落を削除し、ship と verifier の文書と報告の言語の決め方を書く。guide.ja.md を削除し、guide.md の 3 行目を直す（REQ-2, REQ-4, REQ-5）
 - [x] T4: design・adr・init の言語の段落を、生成文書の言語の決め方に置き換え、`.ja.md` を削除する。init の CLAUDE.md テンプレートに言語の規約の行を足す（REQ-2, REQ-3, REQ-5, REQ-6）
 - [x] T5: README.md・README.ja.md・CHANGELOG.md・CONTRIBUTING.md・PR テンプレート・バグ報告テンプレートを直す（REQ-7, REQ-8, REQ-10）
-- [ ] T6: 一時的な git リポジトリで、`--plugin-dir` と `claude -p` を使い、次の 3 通りで `/sdd:init` と `/sdd:adr` を実行し、生成ファイルの言語と判定の記法を確かめる。①本体の `language` が `japanese`・規約なし ②本体の設定なし・英語で依頼・規約なし ③本体の `language` が `japanese`・CLAUDE.md に英語の規約あり（REQ-3, REQ-6）
+- [x] T6: 一時的な git リポジトリで、`--plugin-dir` と `claude -p` を使い、次の 3 通りで `/sdd:init` と `/sdd:adr` を実行し、生成ファイルの言語と判定の記法を確かめる。①本体の `language` が `japanese`・規約なし ②本体の設定なし・英語で依頼・規約なし ③本体の `language` が `japanese`・CLAUDE.md に英語の規約あり（REQ-3, REQ-6）
 
 ## 6. テスト・検証方法
 - 共通（タスクごと）: `claude plugin validate --strict .`、`bash .github/scripts/check-principles.sh`、`bash .github/scripts/check-public-files.sh` が通ること。
@@ -81,3 +81,8 @@
 
 ## 7. 未決事項
 - なし。
+- 追記（T6 の結果、Claude Code v2.1.306）: 利用者の設定を外し（`--setting-sources project,local`）、`--settings` で本体の `language` を与えて確かめた。
+  - ①本体の `language` が `japanese`・規約なしで `/sdd:init`: 会話・CLAUDE.md・ADR 0001 が日本語になった。CLAUDE.md の規約の行は「設計ドキュメントと ADR の言語: 日本語」。同じリポジトリで `/sdd:design` も日本語で生成され、`- Status: Approved` と `- [ ]` は英語のままだった。`/sdd:ask` も日本語で案内した。
+  - ②本体の設定なし・英語で依頼・規約なしで `/sdd:init`: すべて英語になり、規約の行は `Language of design docs and ADRs: English`。
+  - ③本体の `language` が `japanese`・CLAUDE.md に英語の規約ありで、日本語で `/sdd:adr` を依頼: 会話は日本語で、ADR は英語で生成された。
+  - ship と verifier は本文の確認だけで、E2E は行っていない。
