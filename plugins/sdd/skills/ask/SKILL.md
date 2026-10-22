@@ -6,7 +6,7 @@ disable-model-invocation: false
 allowed-tools: Read(/${CLAUDE_SKILL_DIR}/*)
 metadata:
   kit: sdd
-  reviewed: 2026-10-22
+  reviewed: 2026-10-23
   retire-when: Delete when a Claude Code built-in feature guides users to, or routes them among, the skills in a set, or when all other sdd skills have been removed
 ---
 Target: $ARGUMENTS

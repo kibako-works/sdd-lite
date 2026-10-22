@@ -71,7 +71,7 @@ The overall flow, how to decide the size of a change, and when to use each skill
 - `/sdd:init` writes nothing until it shows its proposal and gets your approval. It doesn't commit either.
 - When Claude itself calls `/sdd:ask` or `/sdd:adr`, you are asked to approve running the skill, because the skill has permission to read its own files (guide.md and templates). To skip the prompt, allow `Skill(sdd:ask)` and `Skill(sdd:adr)` in your permission settings (`/permissions`).
 - `/sdd:ship` always gets approval before committing and creating a PR. Commit messages follow the project's conventions (CLAUDE.md or AGENTS.md), or Conventional Commits if there are none.
-- `/sdd:ship` first declares the change's category in one line and skips steps a small change doesn't need. The category is A if there is an approved design doc, B if the branch adds an ADR, and C otherwise, and it is raised when the diff touches configuration, public APIs, dependencies, security, or places your CLAUDE.md lists. To override it, run `/sdd:ship A` (or `B`, `C`). Details are in the [guide](plugins/sdd/skills/ask/guide.md).
+- `/sdd:ship` first declares the change's category in one line and skips steps a small change doesn't need. The category is A if there is an approved design doc, B if the branch adds an ADR, and C otherwise, and it is raised when the diff touches places such as runtime configuration, public APIs, dependencies, security, or places your CLAUDE.md lists (the full list is in ship's `SKILL.md`). To override it, run `/sdd:ship A` (or `B`, `C`). Details are in the [guide](plugins/sdd/skills/ask/guide.md).
 
 ## Retirement conditions
 

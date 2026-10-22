@@ -88,7 +88,7 @@ A "design decision" is a choice someone may later ask "why did we do it this way
 
 Run these from the top. Steps 3-1 to 3-5 run together when you have Claude run `/sdd:ship`. You may also run them one at a time. If you need to check the app's behavior, you can also use the bundled `/verify` skill in 3-1.
 
-`/sdd:ship` first declares the category in one line and scales the steps. A: all steps. B: 3-1 checks only consistency with ADRs, and 3-3 runs only when the diff adds or changes logic. C: skips 3-1 and 3-3, and runs 3-4 as `/code-review low`. The category comes from the design doc (A) or an ADR added on the branch (B), and is raised if the diff touches configuration, public APIs, dependencies, security, or places your CLAUDE.md lists. To override it, run `/sdd:ship <A|B|C>`. The rules are in ship's `SKILL.md`.
+`/sdd:ship` first declares the category in one line and scales the steps. A: all steps. B: 3-1 checks only consistency with ADRs, and 3-3 runs only when the diff adds or changes logic. C: skips 3-1 and 3-3, and runs 3-4 as `/code-review low`. The category comes from the design doc (A) or an ADR added on the branch (B), and C is raised to B if the diff touches places such as runtime configuration, public APIs, dependencies, security, or places your CLAUDE.md lists. To override it, run `/sdd:ship <A|B|C>`. The rules are in ship's `SKILL.md`.
 
 | # | Step | What to run | What to check |
 |---|---|---|---|
@@ -111,7 +111,7 @@ Run these from the top. Steps 3-1 to 3-5 run together when you have Claude run `
 |---|---|---|
 | Directory not under git | 3-3, 3-4 | No diff is available, so specify targets, like `/simplify <file path>` and `/code-review <file path>` |
 | Directory not under git | 3-7 | No commit or PR. If you use `/sdd:ship`, stop after 3-1 to 3-5 |
-| No design doc (2-B, 2-C) | 3-1 | B checks only consistency with ADRs, and C skips it. If raised to A, sdd:verifier uses the Plan Mode plan file (by default in `~/.claude/plans/`) as the requirements |
+| No design doc (2-B, 2-C) | 3-1 | B checks only consistency with ADRs, and C skips it. If raised to A, sdd:verifier uses the Plan Mode plan file (by default in `~/.claude/plans/`) and the related ADRs as the requirements |
 | No design doc (2-B, 2-C) | 3-5 | There are no task checkboxes or Status to update. Instead, check that related docs (README or module descriptions) are updated |
 | No automated tests | 2-D, 3-2 | Use the alternative checks written in CLAUDE.md (syntax checks, self-tests, and so on) |
 
