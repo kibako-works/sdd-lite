@@ -63,7 +63,7 @@
   - README.ja.md も削除する: 日本語の利用者が入口で読めなくなる。README は 1 本で保守の手間が小さいので残す（ユーザーの決定）。
 
 ## 5. 実装タスク
-- [ ] T1: `/sdd:adr` の手順で ADR 0010「言語は純正の language 設定と CLAUDE.md の規約に任せる」を起票し、ADR 0006 を `Superseded by 0010` にする。CLAUDE.md の「コーディング規約」の参照を直す（対応要件: REQ-9, REQ-10）
+- [x] T1: `/sdd:adr` の手順で ADR 0010「言語は純正の language 設定と CLAUDE.md の規約に任せる」を起票し、ADR 0006 を `Superseded by 0010` にする。CLAUDE.md の「コーディング規約」の参照を直す（対応要件: REQ-9, REQ-10）
 - [ ] T2: plugin.json から `userConfig` を削除し、`version` を 0.3.0 にする（REQ-1）
 - [ ] T3: ask・ship・verifier の言語の段落を削除し、ship と verifier の文書と報告の言語の決め方を書く。guide.ja.md を削除し、guide.md の 3 行目を直す（REQ-2, REQ-4, REQ-5）
 - [ ] T4: design・adr・init の言語の段落を、生成文書の言語の決め方に置き換え、`.ja.md` を削除する。init の CLAUDE.md テンプレートに言語の規約の行を足す（REQ-2, REQ-3, REQ-5, REQ-6）
