@@ -31,7 +31,7 @@
 - REQ-1: plugin.json に `userConfig` が無く、`version` が 0.3.0 であること。
 - REQ-2: どのスキルとエージェントの本文にも `user_config` と `.ja.md` への言及が無く、会話の言語を指定する指示も無いこと（会話は本体の設定と既定の振る舞いに任せる）。
 - REQ-3: init・design・adr が生成するファイル（CLAUDE.md・デザインドキュメント・ADR）は、プロジェクトの CLAUDE.md（または AGENTS.md）に文書の言語の規約があればそれに従い、無ければ会話の言語で書かれること。テンプレートの見出しはその言語に訳してよいが、現在地の判定に使う記法（`- Status: Draft | Approved | Implemented`、`- [ ]` / `- [x]`）は訳さないこと。
-- REQ-4: ship は、コミットメッセージと PR の本文をプロジェクトの規約の言語で、無ければ会話の言語で書くこと。verifier は言語を指定せず、その報告は ship が会話の言語でまとめること（レビューの指摘 2 で変更）。
+- REQ-4: ship は、コミットメッセージと PR の本文をプロジェクトの規約の言語で、無ければ会話の言語で書くこと。verifier は言語を指定しない。その報告を利用者に伝える言語は、本体の設定と既定の振る舞いに任せる（ship も指定しない）（レビューの指摘 2 で変更）。
 - REQ-5: `plugins/sdd/skills/` の下に `.ja.md` が無いこと。ask は英語の guide.md だけを読み、会話の言語で案内すること。
 - REQ-6: init の CLAUDE.md テンプレートの「Coding conventions」に、生成文書・コミット・PR の言語を決める行（`- Language of documents (design docs, ADRs), commit messages, and PRs: <e.g. English>`）があること。既存の CLAUDE.md に追記するときも、言語の行が無ければ追記の案に含め、追記は既存の CLAUDE.md の言語で書くこと（レビューの指摘 1・3 で変更）。
 - REQ-7: README.md と README.ja.md が、次を案内していること。会話の言語は本体の `language` 設定（`/config` または settings.json の `"language"`）で決まること。生成文書の言語は CLAUDE.md の規約で決まり、無ければ会話の言語になること。0.2.0 で `ja` を使っていた利用者は本体の `"language": "japanese"` に移ること。前提の Claude Code の版は、必須の条件ではなく「v2.1.306 で確認」と書くこと。
