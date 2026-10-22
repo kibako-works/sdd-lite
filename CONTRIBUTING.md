@@ -7,7 +7,7 @@ To report a vulnerability, follow [SECURITY.md](SECURITY.md). Never report it in
 ## Reporting issues
 
 - Use the issue forms (bug report or feature request). Blank issues are disabled.
-- For a bug, include the Claude Code version (`claude --version`), the plugin version, the `language` setting, the command you ran, and what happened.
+- For a bug, include the Claude Code version (`claude --version`), the plugin version, Claude Code's `language` setting (if any), the command you ran, and what happened.
 - Search existing issues first.
 
 ## Proposing changes
@@ -41,7 +41,7 @@ claude plugin validate --strict .
 
 ### Conventions
 
-- **Language**: user-facing files (README.md, CHANGELOG.md, SKILL.md, agent definitions, the skills' supporting files, and manifest descriptions) are written in English. The README and the skills' supporting files have Japanese translations (`<name>.ja.md`). Update the translation in the same change as the English file. If you can't write Japanese, say so in the pull request and the maintainer will update it. Design docs, ADRs, and CLAUDE.md are written in Japanese.
+- **Language**: user-facing files (README.md, CHANGELOG.md, SKILL.md, agent definitions, the skills' supporting files, and manifest descriptions) are written in English. Only the README has a Japanese translation (`README.ja.md`); update it in the same change as `README.md`. Don't add per-language versions of the skills' supporting files. If you can't write Japanese, say so in the pull request and the maintainer will update it. Design docs, ADRs, and CLAUDE.md are written in Japanese.
 - **Commits**: [Conventional Commits](https://www.conventionalcommits.org/), `<type>(<scope>): <subject>`. The scope is the skill or agent name (`ask`, `init`, `design`, `adr`, `ship`, `verifier`), or `repo` for the whole repository. Subjects are written in Japanese in this repository. If you can't write Japanese, write the subject in English and the maintainer will adjust it.
 - **Paths**: skills must not read outside their own directory, for example with paths that contain `..` or with shell expansion.
 - **Permissions**: keep `allowed-tools` to the minimum the skill needs. Explain any change to it in the pull request.

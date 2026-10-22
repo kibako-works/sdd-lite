@@ -2,6 +2,17 @@
 
 This file records the changes to this project. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.3.0] - 2026-10-22
+
+### Breaking changes
+- Removed the plugin's `language` setting (`userConfig.language`). The conversation now follows Claude Code's own `language` setting, and generated files (CLAUDE.md, design docs, ADRs) and the commit messages and PR bodies from `/sdd:ship` follow the documents language in your project's CLAUDE.md (or AGENTS.md), or the language of the conversation if it has none.
+- If you chose `ja` in 0.2.0: set Claude Code's `language` to `japanese` (in `/config` or `"language": "japanese"` in settings.json), and write the documents language in your project's CLAUDE.md if you want the documents in Japanese. You can delete `pluginConfigs["sdd@sdd-lite"].options.language` from your user settings.
+
+### Changed
+- Removed the Japanese versions of the skills' supporting files (`*.ja.md`). The templates are in English; their headings are translated when writing in another language, while the `- Status:` lines and `- [ ]` checkboxes stay as they are. `README.ja.md` remains.
+- The CLAUDE.md template from `/sdd:init` has a line for the language of design docs and ADRs.
+- Claude Code v2.1.271 or later is no longer required. Tested with v2.1.306.
+
 ## [0.2.0] - 2026-10-20
 
 ### Added

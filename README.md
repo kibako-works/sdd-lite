@@ -21,7 +21,7 @@ There are other tools for spec-driven development, but this was made as a lighte
 
 ## Prerequisites
 
-- Claude Code v2.1.271 or later (required for the language options setting).
+- Tested with Claude Code v2.1.306.
 - The completion steps use Claude Code's bundled skills `/simplify` and `/code-review` (and `/verify` if you need to check the app's behavior).
 - `/sdd:ship` uses the [GitHub CLI (gh)](https://cli.github.com/) to create PRs.
 
@@ -46,16 +46,14 @@ claude plugin uninstall sdd@sdd-lite
 claude plugin marketplace remove sdd-lite
 ```
 
-## Language setting
+## Language
 
-You can choose the language of the skills' conversation and of the files they generate (CLAUDE.md, design docs, ADRs): English (`en`) or Japanese (`ja`). The default is English.
+sdd has no language setting of its own.
 
-- You are asked for the language when you enable the plugin.
-- If you set Claude Code's own `language` setting, the conversation follows that setting instead, and this setting still decides the language of the generated files.
-- To change it later, open `/config` and choose again in sdd's Language row.
-- The setting is saved per user (`pluginConfigs["sdd@sdd-lite"].options.language` in your user settings). It can't be set per project.
-- In the same repository, ADRs and design docs may end up in mixed languages depending on each user's setting. If you want them consistent, decide the language in your CLAUDE.md conventions and have everyone match their setting.
-- If you used 0.1.0, updating switches the output to the default, English. To keep using Japanese, choose `ja` in `/config`.
+- The conversation follows Claude Code's own `language` setting. Set it in `/config`, or add `"language": "japanese"` (for example) to your settings.json. Without it, Claude answers in the language you write in.
+- The files the skills generate (CLAUDE.md, design docs, ADRs) and the commit messages and PR bodies from `/sdd:ship` follow the documents language in your project's CLAUDE.md (or AGENTS.md). If it has none, they are written in the language of the conversation. The CLAUDE.md that `/sdd:init` creates has a line for this.
+- The templates are in English. When writing in another language, the headings are translated, but the `- Status:` lines and `- [ ]` checkboxes stay in English, because the skills use them to find where you are.
+- If you chose `ja` in 0.2.0, that setting no longer has any effect. Set Claude Code's `language` to `japanese` instead, and if you want the project's documents in Japanese, write that in your CLAUDE.md. You can delete `pluginConfigs["sdd@sdd-lite"].options.language` from your user settings.
 
 ## Usage
 
@@ -65,7 +63,7 @@ When in doubt, run `/sdd:ask` with what you want to do. It tells you the next co
 /sdd:ask I want to write a design doc
 ```
 
-The overall flow, how to decide the size of a change, and when to use each skill are in [plugins/sdd/skills/ask/guide.md](plugins/sdd/skills/ask/guide.md). That file is the canonical source of the decision criteria ([ADR 0006](docs/adr/0006-i18n.md)). The Japanese translation is [guide.ja.md](plugins/sdd/skills/ask/guide.ja.md).
+The overall flow, how to decide the size of a change, and when to use each skill are in [plugins/sdd/skills/ask/guide.md](plugins/sdd/skills/ask/guide.md). That file is the canonical source of the decision criteria ([ADR 0010](docs/adr/0010-native-language.md)).
 
 ## Notes
 
@@ -90,7 +88,7 @@ Each skill and agent is removed when a Claude Code built-in feature can take its
 ## How to retire
 
 1. Confirm that the built-in feature has arrived.
-2. Delete the skill, and fix the tables in the README (English and Japanese), the steps and command list in guide.md and guide.ja.md, and the templates. When removing `ask`, move the content of the guide back into the README or elsewhere.
+2. Delete the skill, and fix the tables in the README (English and Japanese), the steps and command list in guide.md, and the templates. When removing `ask`, move the content of the guide back into the README or elsewhere.
 3. Bump `version` in `plugin.json` and release.
 4. Users get the change by updating the plugin.
 

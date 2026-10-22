@@ -21,7 +21,7 @@
 
 ## 前提
 
-- Claude Code v2.1.271 以上（言語の選択肢の設定に必要です）。
+- Claude Code v2.1.306 で動作を確認しています。
 - 完了時の手順で、Claude Code 同梱のスキル `/simplify`・`/code-review`（アプリの動作確認が必要なら `/verify`）を使います。
 - `/sdd:ship` で PR を作るときは [GitHub CLI（gh）](https://cli.github.com/) を使います。
 
@@ -46,16 +46,14 @@ claude plugin uninstall sdd@sdd-lite
 claude plugin marketplace remove sdd-lite
 ```
 
-## 言語の設定
+## 言語
 
-スキルの会話と、生成するファイル（CLAUDE.md・デザインドキュメント・ADR）の言語を、英語（`en`）と日本語（`ja`）から選べます。既定は英語です。
+sdd は、言語の設定を持ちません。
 
-- プラグインを有効にするときに、言語を聞かれます。
-- Claude Code 本体の `language` 設定をしている場合、会話はそちらに従います。生成するファイルの言語は、この設定で決まります。
-- あとから変えるときは、`/config` を開き、sdd の Language の行で選び直します。
-- 設定は利用者ごとに保存されます（ユーザー設定の `pluginConfigs["sdd@sdd-lite"].options.language`）。プロジェクトごとには持てません。
-- 同じリポジトリでも、利用者の設定によって ADR やデザインドキュメントの言語が混ざることがあります。揃えたい場合は、CLAUDE.md の規約で言語を決め、各自の設定を合わせてください。
-- 0.1.0 を使っていた場合、更新すると既定の英語になります。日本語で使うには、`/config` で `ja` を選んでください。
+- 会話は Claude Code 本体の `language` 設定に従います。`/config` で設定するか、settings.json に `"language": "japanese"` などを書きます。設定が無ければ、Claude は書き込んだ言語で答えます。
+- スキルが生成するファイル（CLAUDE.md・デザインドキュメント・ADR）と、`/sdd:ship` のコミットメッセージ・PR の本文は、プロジェクトの CLAUDE.md（または AGENTS.md）で決めた文書の言語に従います。決めていなければ、会話の言語で書きます。`/sdd:init` が作る CLAUDE.md には、そのための行があります。
+- テンプレートは英語です。ほかの言語で書くときは見出しを訳しますが、`- Status:` の行と `- [ ]` のチェックボックスは英語のままにします。スキルが現在地の判定に使うためです。
+- 0.2.0 で `ja` を選んでいた場合、その設定はもう効きません。代わりに Claude Code の `language` を `japanese` にし、プロジェクトの文書を日本語にしたい場合は CLAUDE.md にそう書いてください。ユーザー設定の `pluginConfigs["sdd@sdd-lite"].options.language` は消してかまいません。
 
 ## 使い方
 
@@ -65,7 +63,7 @@ claude plugin marketplace remove sdd-lite
 /sdd:ask デザインドキュメントを書きたい
 ```
 
-全体の流れ、変更の規模の判定、各スキルの使い分けは [plugins/sdd/skills/ask/guide.md](plugins/sdd/skills/ask/guide.md) にまとめています。判断基準はこのファイルが正本です（[ADR 0006](docs/adr/0006-i18n.md)）。日本語訳は [guide.ja.md](plugins/sdd/skills/ask/guide.ja.md) です。
+全体の流れ、変更の規模の判定、各スキルの使い分けは [plugins/sdd/skills/ask/guide.md](plugins/sdd/skills/ask/guide.md) にまとめています。判断基準はこのファイルが正本です（[ADR 0010](docs/adr/0010-native-language.md)）。英語で書いてあります。
 
 ## 注意点
 
@@ -90,13 +88,13 @@ claude plugin marketplace remove sdd-lite
 ## 外す手順
 
 1. 純正の機能が入ったことを確認する。
-2. 該当のスキルを削除し、README（英語版と日本語版）の表、guide.md と guide.ja.md の手順とコマンド一覧、テンプレートを直す。`ask` を外すときは、guide の内容を README などへ戻す。
+2. 該当のスキルを削除し、README（英語版と日本語版）の表、guide.md の手順とコマンド一覧、テンプレートを直す。`ask` を外すときは、guide の内容を README などへ戻す。
 3. `plugin.json` の `version` を上げてリリースする。
 4. 利用者は、プラグインを更新すれば反映される。
 
 ## 詳しく
 
-- 判断基準と使い分け: [plugins/sdd/skills/ask/guide.ja.md](plugins/sdd/skills/ask/guide.ja.md)（正本は英語の [guide.md](plugins/sdd/skills/ask/guide.md)）
+- 判断基準と使い分け: [plugins/sdd/skills/ask/guide.md](plugins/sdd/skills/ask/guide.md)（英語）
 - 設計上の判断: [docs/adr/](docs/adr/)
 - 変更履歴: [CHANGELOG.md](CHANGELOG.md)
 - コントリビュートの方法: [CONTRIBUTING.md](CONTRIBUTING.md)（英語）

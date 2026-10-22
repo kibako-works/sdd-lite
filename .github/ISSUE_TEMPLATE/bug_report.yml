@@ -36,15 +36,6 @@ body:
       description: Shown in `/plugin` or `claude plugin list`.
     validations:
       required: true
-  - type: dropdown
-    id: language
-    attributes:
-      label: Language setting
-      options:
-        - en
-        - ja
-    validations:
-      required: true
   - type: textarea
     id: notes
     attributes:

@@ -24,4 +24,4 @@ If you check any of these, explain why in the pull request.
 
 - [ ] `claude plugin validate --strict .` passes with no warnings.
 - [ ] I tried the change with `claude --plugin-dir ./plugins/sdd`.
-- [ ] I updated the Japanese translation (`*.ja.md`) in the same change, or I asked the maintainer to.
+- [ ] If I changed `README.md`, I updated `README.ja.md` in the same change, or I asked the maintainer to.
