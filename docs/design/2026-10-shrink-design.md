@@ -30,12 +30,14 @@
 ## 3. 要件
 - REQ-1: design の SKILL.md が、次の手順だけを持つこと。
   - Plan Mode で実行すること。質問・計画・承認は Plan Mode に任せること。
+  - Plan Mode の外で呼ばれたら、Plan Mode に入って呼び直すよう案内して止まること（レビューの指摘 1 で追加）。
   - docs/design/ か docs/adr/ が無ければ `/sdd:init` を案内すること（今のまま）。
   - 計画ファイルを `${CLAUDE_SKILL_DIR}/template.md` に従って書き、Status を Draft にし、T0 に保存先の具体的なパス（`docs/design/YYYY-MM-<slug>.md`。年月は今日のもの）を書くこと。
+  - 計画が Accepted な ADR に反していないかを確かめること（レビューの指摘 3 で追加）。
   - 承認されたら、最初に T0 を実行すること。計画ファイルを T0 のパスに写し、Status を Approved にし、T0 にチェックを付けること。計画ファイルは消さないこと。
-  - 代替案の比較などの重要な判断があれば `/sdd:adr` を提案すること（今のまま）。
+  - 代替案の比較などの重要な判断があれば、T0 の次に `/sdd:adr` で記録するタスクを計画に足すこと。計画に残るので、clear context を選んでも消えない（レビューの指摘 2 で変更）。
   - 言語の段落（ADR 0010）は今のまま残すこと。
-  - 1 問ずつ質問する手順、CLAUDE.md・コード・ADR を読む手順、承認を求める手順を持たないこと。
+  - 1 問ずつ質問する手順、CLAUDE.md・コードを読む手順、承認を求める手順を持たないこと。
 - REQ-2: template.md の実装タスクの先頭が、T0「この計画を docs/design/YYYY-MM-<slug>.md として保存し、Status を Approved にし、このタスクにチェックを付ける」であること。`- Status: Draft | Approved | Implemented` の行は変えないこと（ADR 0010 の検証方法）。
 - REQ-3: design のフロントマターが次のとおりであること。README.md と README.ja.md の retire-when の表が、同じ内容であること。
   - description: Plan Mode の計画にデザインドキュメントの書式を与え、承認後に docs/design/ に保存する旨（Plan Mode で実行）。
@@ -57,10 +59,9 @@
   - 保存先のパスは計画を書くときに決めて T0 に書く。承認の前に、人がファイル名を確かめられる。
   - 計画ファイルは写すだけで消さない。計画ファイルはセッションのものであり、Claude Code が参照し続けることがあるため。
 - 変更後の SKILL.md の骨子:
-  - 0. docs/design/ か docs/adr/ が無ければ `/sdd:init` を案内する。
-  - 1. 計画ファイルをテンプレートに従って書く（Status は Draft。T0 に具体的なパス）。
+  - 0. Plan Mode の外なら案内して止まる。docs/design/ か docs/adr/ が無ければ `/sdd:init` を案内する。
+  - 1. 計画ファイルをテンプレートに従って書く（Status は Draft。T0 に具体的なパス）。Accepted な ADR との矛盾を確かめ、重要な判断があれば T0 の次に `/sdd:adr` のタスクを足す。
   - 2. 承認されたら最初に T0 を実行する（写す・Approved にする・T0 にチェック）。
-  - 3. 重要な判断があれば `/sdd:adr` を提案する。
 - 純正で代替できない理由（ADR 0009 の原則 2）:
   - `plansDirectory` で計画をリポジトリに保存できるが、ファイル名を決められず、承認しても Status が付かず、小さな計画も同じ場所に溜まる。
   - `/sdd:design` は、区分 A の計画だけに書式を与え、決めたファイル名で docs/design/ に写し、ask と ship が機械的に読める `- Status: Approved` を付ける。この 3 つは純正の機能では代わりにならない。
@@ -93,3 +94,4 @@
   - ①`--permission-mode plan` と `--settings '{"plansDirectory": ".plans"}'` で `/sdd:design`（sub を足す）を実行した。計画ファイルは `.plans/add-a-sub-a-b-hidden-marble.md`（ランダムな語尾付き）になり、テンプレートの形・Status: Draft・T0 に `docs/design/2026-10-sub-function.md` を持っていた。docs/design/ は空だった。`ExitPlanMode` は出ず、会話で承認を求めた（想定どおり）。
   - ②①のセッションを `--resume` し、`--permission-mode acceptEdits` で承認を伝えた。最初に T0 を実行し、`docs/design/2026-10-sub-function.md` を Status: Approved・T0 にチェック付きで保存した。計画ファイルとの差は、Status と T0 のチェックだけだった。計画ファイルは残った。`grep -l '^- Status: Approved' docs/design/*.md` で見つかった。
   - ③リポジトリを戻し、新しいセッション（`plansDirectory` なし）に計画の本文だけを渡して実装を頼んだ。スキルの指示が無くても、最初に T0 を実行し、Status: Approved・T0 にチェック付きで保存した。
+- 追記（レビューの指摘 1・2 への対応後）: ④`--permission-mode acceptEdits`（Plan Mode の外）で `/sdd:design` を実行し、Plan Mode に入って呼び直すよう案内して止まり、何も書き込まないことを確かめた。⑤ゼロ除算の扱いというトレードオフを含む計画で、T0 の次に「`/sdd:adr` で記録する」タスク（T1）が足されることを確かめた。

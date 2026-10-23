@@ -121,7 +121,7 @@ Run these from the top. Steps 3-1 to 3-5 run together when you have Claude run `
 |---|---|---|---|
 | `/sdd:ask` | Entry point when you're unsure which skill to use (guidance only; it doesn't run skills) | Human, Claude | All |
 | `/sdd:init` | Set up a project | Human only | 0 |
-| `/sdd:design` | Create a design doc (run in Plan Mode) | Human only | 2-A |
+| `/sdd:design` | Give the plan the design doc form and save it (run in Plan Mode) | Human only | 2-A |
 | `/sdd:adr` | Record an ADR | Human, Claude | 2-A, 2-B, 2-D |
 | `/sdd:ship` | Run the completion steps together | Human, Claude | 3 |
 | `/simplify` | Clean up the code (bundled with Claude Code) | Human, Claude | 3-3 |

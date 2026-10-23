@@ -15,7 +15,6 @@ Language: write the generated design doc in the language that the project's CLAU
 
 Run this skill in Plan Mode. Plan Mode handles the questions, the plan, and its approval. This skill only gives the plan the design doc form and has it saved after approval.
 
-0. If docs/design/ or docs/adr/ is missing, point the user to /sdd:init.
-1. Write the plan file following the template at `${CLAUDE_SKILL_DIR}/template.md`, with Status set to Draft. In T0, write the concrete path `docs/design/YYYY-MM-<slug>.md`, using today's year and month.
+0. If you are not in Plan Mode, tell the user to enter Plan Mode (Shift+Tab) and run /sdd:design again, and stop. If docs/design/ or docs/adr/ is missing, point the user to /sdd:init.
+1. Write the plan file following the template at `${CLAUDE_SKILL_DIR}/template.md`, with Status set to Draft. In T0, write the concrete path `docs/design/YYYY-MM-<slug>.md`, using today's year and month. Check that the plan doesn't contradict the Accepted ADRs in docs/adr/. If the plan has important decisions, such as a comparison of alternatives, add a task right after T0 to record them with /sdd:adr.
 2. After the plan is approved, do T0 before anything else: copy the plan file to that path, set Status to Approved, and check T0. Don't delete the plan file.
-3. If there are important decisions, such as a comparison of alternatives, propose recording them with /sdd:adr.

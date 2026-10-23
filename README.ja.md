@@ -68,7 +68,7 @@ sdd は、言語の設定を持ちません。
 ## 注意点
 
 - `/sdd:design` と `/sdd:init` は、人間だけが起動できます。Claude からは起動できないので、Claude が案内したら人間が入力してください。
-- `/sdd:design` は Plan Mode で実行します。質問と計画の承認は Plan Mode が行います。計画の最初のタスク T0 が、計画を Status: Approved にして `docs/design/YYYY-MM-<slug>.md` に保存するので、承認のときに context を消しても保存されます。`plansDirectory` を設定する必要はありません。
+- `/sdd:design` は Plan Mode で実行します。質問と計画の承認は Plan Mode が行います。計画の最初のタスク T0 が、計画を Status: Approved にして `docs/design/YYYY-MM-<slug>.md` に保存するので、承認のときに context を消しても保存されます。`plansDirectory` を設定する必要はありません。設定するときは、`docs/design/` を指さないでください（Draft の計画が溜まります）。
 - `/sdd:init` は、案を示して承認を得るまで何も書き込みません。コミットもしません。
 - Claude が自分で `/sdd:ask`・`/sdd:adr` を呼ぶときは、スキルの実行に承認を求められます。スキルが自分のファイル（guide.md やテンプレート）を読む権限を持っているためです。確認を省きたい場合は、権限の設定（`/permissions`）で `Skill(sdd:ask)`・`Skill(sdd:adr)` を許可してください。
 - `/sdd:ship` のコミットと PR 作成は、必ず承認を得てから行います。コミットメッセージはプロジェクトの規約（CLAUDE.md や AGENTS.md）に従い、規約が無ければ Conventional Commits に従います。

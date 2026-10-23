@@ -68,7 +68,7 @@ The overall flow, how to decide the size of a change, and when to use each skill
 ## Notes
 
 - Only humans can start `/sdd:design` and `/sdd:init`. Claude can't start them, so when Claude points you to one, type it yourself.
-- Run `/sdd:design` in Plan Mode. Plan Mode asks the questions and approves the plan. The plan's first task, T0, saves it as `docs/design/YYYY-MM-<slug>.md` with Status: Approved, so it is saved even if you clear the context when approving. You don't need to set `plansDirectory`.
+- Run `/sdd:design` in Plan Mode. Plan Mode asks the questions and approves the plan. The plan's first task, T0, saves it as `docs/design/YYYY-MM-<slug>.md` with Status: Approved, so it is saved even if you clear the context when approving. You don't need to set `plansDirectory`; if you do, don't point it at `docs/design/`, or draft plans pile up there.
 - `/sdd:init` writes nothing until it shows its proposal and gets your approval. It doesn't commit either.
 - When Claude itself calls `/sdd:ask` or `/sdd:adr`, you are asked to approve running the skill, because the skill has permission to read its own files (guide.md and templates). To skip the prompt, allow `Skill(sdd:ask)` and `Skill(sdd:adr)` in your permission settings (`/permissions`).
 - `/sdd:ship` always gets approval before committing and creating a PR. Commit messages follow the project's conventions (CLAUDE.md or AGENTS.md), or Conventional Commits if there are none.
