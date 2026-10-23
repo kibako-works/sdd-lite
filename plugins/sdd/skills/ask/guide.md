@@ -55,9 +55,9 @@ A "design decision" is a choice someone may later ask "why did we do it this way
 
 1. Enter Plan Mode (switch with Shift+Tab).
 2. A human runs `/sdd:design <feature name or summary>`.
-3. Answer Claude's questions one at a time.
-4. Review the design doc Claude proposes. Check that it has requirements (REQ-n), non-goals, implementation tasks (Tn), and verification methods.
-5. Approve it. It is saved as `docs/design/YYYY-MM-<slug>.md` with Status: Approved.
+3. Answer Claude's questions in Plan Mode.
+4. Review the plan Claude writes in the design doc form. Check that it has requirements (REQ-n), non-goals, implementation tasks (Tn), verification methods, and the file name in T0.
+5. Approve the plan in Plan Mode. Claude's first task, T0, saves it as `docs/design/YYYY-MM-<slug>.md` with Status: Approved. T0 is in the plan, so this also works if you clear the context when approving.
 6. If Claude proposes recording an ADR, create it the same way as steps 1–3 of 2-B.
 7. Go to step 2-D.
 
