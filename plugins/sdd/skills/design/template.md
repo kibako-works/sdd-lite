@@ -22,6 +22,7 @@
 - Alternatives considered and why they were rejected: (record important ones as ADRs)
 
 ## 5. Implementation tasks
+- [ ] T0: Save this plan as docs/design/YYYY-MM-<slug>.md, set Status to Approved, and check this task
 - [ ] T1: <task> (requirements: REQ-1)
 - [ ] T2:
 
