@@ -2,6 +2,13 @@
 
 This file records the changes to this project. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.5.0] - 2026-10-23
+
+### Changed
+- `/sdd:design` now leaves the questions, the plan, and its approval to Claude Code's Plan Mode. It only gives the plan the design doc form and has it saved after approval.
+- The design doc template starts its implementation tasks with T0, which saves the plan as `docs/design/YYYY-MM-<slug>.md` with Status: Approved. The path is written in T0 while planning, so you can check the file name before approving, and the plan is saved even if you clear the context when approving. The plan file in `~/.claude/plans` is kept, and you don't need to set `plansDirectory`.
+- The retirement condition of `/sdd:design` is now: Claude Code's built-in Plan Mode can save an approved plan in the repository under a chosen file name and mark it as approved.
+
 ## [0.4.0] - 2026-10-23
 
 ### Changed

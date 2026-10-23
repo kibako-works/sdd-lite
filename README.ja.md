@@ -12,7 +12,7 @@
 |---|---|
 | `/sdd:ask` | どのスキルを使うか迷ったときの窓口。今の状態と変更の規模から、次の手順を案内する |
 | `/sdd:init` | プロジェクトに CLAUDE.md・`docs/design/`・`docs/adr/` を導入する |
-| `/sdd:design` | 新機能・中規模以上の変更のデザインドキュメントを作る |
+| `/sdd:design` | 新機能・中規模以上の変更について、Plan Mode の計画にデザインドキュメントの書式を与え、承認後に `docs/design/` に保存する |
 | `/sdd:adr` | ADR（判断記録）を起票する |
 | `/sdd:ship` | 完了時の検証・ADR の確認・コミットと PR 作成を、変更の規模に合わせてまとめて行う |
 | `sdd:verifier` | デザインドキュメントの要件と実装・テストを突き合わせるサブエージェント |
@@ -68,6 +68,7 @@ sdd は、言語の設定を持ちません。
 ## 注意点
 
 - `/sdd:design` と `/sdd:init` は、人間だけが起動できます。Claude からは起動できないので、Claude が案内したら人間が入力してください。
+- `/sdd:design` は Plan Mode で実行します。質問と計画の承認は Plan Mode が行います。計画の最初のタスク T0 が、計画を Status: Approved にして `docs/design/YYYY-MM-<slug>.md` に保存するので、承認のときに context を消しても保存されます。`plansDirectory` を設定する必要はありません。
 - `/sdd:init` は、案を示して承認を得るまで何も書き込みません。コミットもしません。
 - Claude が自分で `/sdd:ask`・`/sdd:adr` を呼ぶときは、スキルの実行に承認を求められます。スキルが自分のファイル（guide.md やテンプレート）を読む権限を持っているためです。確認を省きたい場合は、権限の設定（`/permissions`）で `Skill(sdd:ask)`・`Skill(sdd:adr)` を許可してください。
 - `/sdd:ship` のコミットと PR 作成は、必ず承認を得てから行います。コミットメッセージはプロジェクトの規約（CLAUDE.md や AGENTS.md）に従い、規約が無ければ Conventional Commits に従います。
@@ -81,7 +82,7 @@ sdd は、言語の設定を持ちません。
 |---|---|
 | `/sdd:ask` | Claude Code 純正の機能が、スキル群の中から使うものを案内・振り分けるようになったら、または sdd の他のスキルがすべて外れたら |
 | `/sdd:init` | Claude Code 純正の /init などが、デザインドキュメント・ADR 用ディレクトリと開発フローの雛形まで生成するようになったら |
-| `/sdd:design` | Claude Code 純正の Plan Mode が、デザインドキュメント形式の計画をリポジトリ内の Markdown として保存・承認できるようになったら |
+| `/sdd:design` | Claude Code 純正の Plan Mode が、承認した計画を、決めたファイル名でリポジトリに保存し、承認済みの印を付けられるようになったら |
 | `/sdd:adr` | Claude Code 純正の機能として、ADR（判断記録）の起票・連番管理が提供されたら |
 | `/sdd:ship` | Claude Code 純正の機能または同梱スキルが、検証・ADR 確認・コミット・PR 作成を一括で行えるようになったら |
 | `sdd:verifier` | Claude Code 純正または同梱のエージェント・スキルが、デザインドキュメントの要件と実装・テストの突き合わせ検証を行えるようになったら |

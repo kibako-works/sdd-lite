@@ -12,7 +12,7 @@ A marketplace that distributes `sdd`, a plugin for running lightweight SDD (deve
 |---|---|
 | `/sdd:ask` | Entry point when you're unsure which skill to use. Tells you the next step from the current state and the size of the change |
 | `/sdd:init` | Sets up CLAUDE.md, `docs/design/`, and `docs/adr/` in a project |
-| `/sdd:design` | Creates a design doc for a new feature or a medium or larger change |
+| `/sdd:design` | Gives a Plan Mode plan the design doc form for a new feature or a medium or larger change, and saves it in `docs/design/` after approval |
 | `/sdd:adr` | Records an ADR (decision record) |
 | `/sdd:ship` | Runs verification, ADR checks, and commit and PR creation together at completion, scaled to the size of the change |
 | `sdd:verifier` | Subagent that matches the requirements in a design doc against the implementation and tests |
@@ -68,6 +68,7 @@ The overall flow, how to decide the size of a change, and when to use each skill
 ## Notes
 
 - Only humans can start `/sdd:design` and `/sdd:init`. Claude can't start them, so when Claude points you to one, type it yourself.
+- Run `/sdd:design` in Plan Mode. Plan Mode asks the questions and approves the plan. The plan's first task, T0, saves it as `docs/design/YYYY-MM-<slug>.md` with Status: Approved, so it is saved even if you clear the context when approving. You don't need to set `plansDirectory`.
 - `/sdd:init` writes nothing until it shows its proposal and gets your approval. It doesn't commit either.
 - When Claude itself calls `/sdd:ask` or `/sdd:adr`, you are asked to approve running the skill, because the skill has permission to read its own files (guide.md and templates). To skip the prompt, allow `Skill(sdd:ask)` and `Skill(sdd:adr)` in your permission settings (`/permissions`).
 - `/sdd:ship` always gets approval before committing and creating a PR. Commit messages follow the project's conventions (CLAUDE.md or AGENTS.md), or Conventional Commits if there are none.
@@ -81,7 +82,7 @@ Each skill and agent is removed when a Claude Code built-in feature can take its
 |---|---|
 | `/sdd:ask` | A Claude Code built-in feature guides users to, or routes them among, the skills in a set, or when all other sdd skills have been removed |
 | `/sdd:init` | Claude Code's built-in /init or similar generates the design doc and ADR directories and a development flow template |
-| `/sdd:design` | Claude Code's built-in Plan Mode can save and approve a plan in design doc form as Markdown in the repository |
+| `/sdd:design` | Claude Code's built-in Plan Mode can save an approved plan in the repository under a chosen file name and mark it as approved |
 | `/sdd:adr` | Claude Code provides recording and numbering of ADRs (decision records) as a built-in feature |
 | `/sdd:ship` | A Claude Code built-in feature or bundled skill can verify, check ADRs, commit, and create a PR in one go |
 | `sdd:verifier` | A Claude Code built-in or bundled agent or skill can verify the implementation and tests against the requirements in a design doc |
