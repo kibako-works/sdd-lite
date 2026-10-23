@@ -1,6 +1,6 @@
 # /sdd:design の縮小と Plan Mode の計画の利用
 
-- Status: Approved
+- Status: Implemented
 - 作成日: 2026-10-23
 - 関連 ADR: docs/adr/0009-design-principles.md、docs/adr/0011-lighter-default-and-ship-categories.md、docs/adr/0012-design-as-plan-form.md（T1 で起票）
 
@@ -72,11 +72,11 @@
   - 計画は自由な形で作り、承認後に `/sdd:design` が書式に整える: いちばん簡単だが、承認した中身と保存した中身がずれる。
 
 ## 5. 実装タスク
-- [ ] T1: `/sdd:adr` の手順で ADR 0012「/sdd:design は計画の書式と保存だけを受け持ち、質問・計画・承認は Plan Mode に任せる」を起票する（対応要件: REQ-5）
-- [ ] T2: design の SKILL.md と template.md を書き換え、フロントマターを直す（REQ-1〜REQ-3。README の表は T4）
-- [ ] T3: guide.md の §2-A を直し、160 行以下に収める（REQ-4）
-- [ ] T4: plugin.json を 0.5.0 にし、CHANGELOG.md・README.md・README.ja.md を直す（REQ-3, REQ-6）
-- [ ] T5: 一時的な git リポジトリで E2E を行う（REQ-1, REQ-2）。①`--permission-mode plan` と `--settings '{"plansDirectory": ".plans"}'` で `/sdd:design` を実行し、計画ファイルがテンプレートの形・Status: Draft・T0 に具体的なパスを持ち、docs/design/ にはまだ何も無いことを確かめる。②①のセッションを `--resume` し、承認の旨を伝えて続け、T0 のパスに Status: Approved・T0 にチェック付きで保存され、計画ファイルが残ることを確かめる。③clear context の代わりに、新しいセッションに計画の本文だけを渡して実装を頼み、最初に T0 が実行されることを確かめる
+- [x] T1: `/sdd:adr` の手順で ADR 0012「/sdd:design は計画の書式と保存だけを受け持ち、質問・計画・承認は Plan Mode に任せる」を起票する（対応要件: REQ-5）
+- [x] T2: design の SKILL.md と template.md を書き換え、フロントマターを直す（REQ-1〜REQ-3。README の表は T4）
+- [x] T3: guide.md の §2-A を直し、160 行以下に収める（REQ-4）
+- [x] T4: plugin.json を 0.5.0 にし、CHANGELOG.md・README.md・README.ja.md を直す（REQ-3, REQ-6）
+- [x] T5: 一時的な git リポジトリで E2E を行う（REQ-1, REQ-2）。①`--permission-mode plan` と `--settings '{"plansDirectory": ".plans"}'` で `/sdd:design` を実行し、計画ファイルがテンプレートの形・Status: Draft・T0 に具体的なパスを持ち、docs/design/ にはまだ何も無いことを確かめる。②①のセッションを `--resume` し、承認の旨を伝えて続け、T0 のパスに Status: Approved・T0 にチェック付きで保存され、計画ファイルが残ることを確かめる。③clear context の代わりに、新しいセッションに計画の本文だけを渡して実装を頼み、最初に T0 が実行されることを確かめる
 
 ## 6. テスト・検証方法
 - 共通（タスクごと）: `claude plugin validate --strict .`、`bash .github/scripts/check-principles.sh`、`bash .github/scripts/check-public-files.sh` が通ること。
@@ -89,3 +89,7 @@
 
 ## 7. 未決事項
 - なし。
+- 追記（T5 の結果、Claude Code v2.1.308）: 一時的な git リポジトリ（Python、main）で、`--setting-sources project,local` を付けて試した。
+  - ①`--permission-mode plan` と `--settings '{"plansDirectory": ".plans"}'` で `/sdd:design`（sub を足す）を実行した。計画ファイルは `.plans/add-a-sub-a-b-hidden-marble.md`（ランダムな語尾付き）になり、テンプレートの形・Status: Draft・T0 に `docs/design/2026-10-sub-function.md` を持っていた。docs/design/ は空だった。`ExitPlanMode` は出ず、会話で承認を求めた（想定どおり）。
+  - ②①のセッションを `--resume` し、`--permission-mode acceptEdits` で承認を伝えた。最初に T0 を実行し、`docs/design/2026-10-sub-function.md` を Status: Approved・T0 にチェック付きで保存した。計画ファイルとの差は、Status と T0 のチェックだけだった。計画ファイルは残った。`grep -l '^- Status: Approved' docs/design/*.md` で見つかった。
+  - ③リポジトリを戻し、新しいセッション（`plansDirectory` なし）に計画の本文だけを渡して実装を頼んだ。スキルの指示が無くても、最初に T0 を実行し、Status: Approved・T0 にチェック付きで保存した。
