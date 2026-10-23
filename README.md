@@ -21,7 +21,7 @@ There are other tools for spec-driven development, but this was made as a lighte
 
 ## Prerequisites
 
-- Tested with Claude Code v2.1.306.
+- Tested with Claude Code v2.1.308.
 - The completion steps use Claude Code's bundled skills `/simplify` and `/code-review` (and `/verify` if you need to check the app's behavior).
 - `/sdd:ship` uses the [GitHub CLI (gh)](https://cli.github.com/) to create PRs.
 

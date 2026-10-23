@@ -21,7 +21,7 @@
 
 ## 前提
 
-- Claude Code v2.1.306 で動作を確認しています。
+- Claude Code v2.1.308 で動作を確認しています。
 - 完了時の手順で、Claude Code 同梱のスキル `/simplify`・`/code-review`（アプリの動作確認が必要なら `/verify`）を使います。
 - `/sdd:ship` で PR を作るときは [GitHub CLI（gh）](https://cli.github.com/) を使います。
 
