@@ -5,7 +5,7 @@ argument-hint: [A|B|C to override the category]
 disable-model-invocation: false
 metadata:
   kit: sdd
-  reviewed: 2026-10-23
+  reviewed: 2026-11-02
   retire-when: Delete when a Claude Code built-in feature or bundled skill can verify, check ADRs, commit, and create a PR in one go
 ---
 Override: $ARGUMENTS
@@ -13,7 +13,7 @@ Override: $ARGUMENTS
 0. Decide the category and declare it.
    - The changes to look at: find the default branch with `git symbolic-ref --short refs/remotes/origin/HEAD` (if that fails, whichever of `main` or `master` exists). Look at the commits not on it (`<default branch>...HEAD`; if you are on the default branch, the commits not pushed upstream, `@{u}..HEAD`, or none if there is no upstream), the uncommitted changes (`git diff HEAD`), and the untracked files (`git status --porcelain`, lines starting with `??`).
    - Base category, from what was made while planning: A if a design doc in docs/design/ has `- Status: Approved` (if there are several, ask which one is the target); otherwise B if those changes add an ADR in docs/adr/ (including an untracked one); otherwise C.
-   - Then read the content of those changes, ignoring whitespace (`git diff -w <range>` for each commit range above, and `git diff -w HEAD`), and read untracked files in full. Raise at most one step. If the base category is C, raise it to B if they touch configuration that changes runtime behavior, shared constants, a public API, a schema or migration, dependencies, or security (authentication, permissions, secrets, input validation), or a place that the project's CLAUDE.md lists as needing care. If the base category is B, raise it to A only if they touch such a place beyond what the added ADR covers. Never lower the category. Don't use the amount of change (line or file counts, `git diff --stat`) to decide.
+   - Then read the content of those changes, ignoring whitespace (`git diff -w <range>` for each commit range above, and `git diff -w HEAD`), and read untracked files in full. Raise at most one step. If the base category is C, raise it to B if they touch configuration that changes runtime behavior, shared constants, a public API, a schema or migration, dependencies, or security (authentication, permissions, secrets, input validation), or a place listed in the "Places needing care" section of the project's CLAUDE.md (or the section with the same role). If the base category is B, raise it to A only if they touch such a place beyond what the added ADR covers. Never lower the category. Don't use the amount of change (line or file counts, `git diff --stat`) to decide.
    - In a directory not under git, there is no diff: use A if there is an Approved design doc, otherwise ask the user for the category.
    - If the Override above is A, B, or C, or the user names a category, use it instead. The user's choice takes precedence over raising and over "never lower".
    - Before the next step, state the category and the reason in one line (for example, "Category B: ADR 0012 was added; the diff doesn't touch anything that raises it."). Don't wait for approval; continue.

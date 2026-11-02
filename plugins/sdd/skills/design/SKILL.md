@@ -6,7 +6,7 @@ disable-model-invocation: true
 allowed-tools: Read(/${CLAUDE_SKILL_DIR}/*)
 metadata:
   kit: sdd
-  reviewed: 2026-10-23
+  reviewed: 2026-11-02
   retire-when: Delete when Claude Code's built-in Plan Mode can save an approved plan in the repository under a chosen file name and mark it as approved
 ---
 Target: $ARGUMENTS
@@ -17,4 +17,4 @@ Run this skill in Plan Mode. Plan Mode handles the questions, the plan, and its 
 
 0. If you are not in Plan Mode, tell the user to enter Plan Mode (Shift+Tab) and run /sdd:design again, and stop. If docs/design/ or docs/adr/ is missing, point the user to /sdd:init.
 1. Write the plan file following the template at `${CLAUDE_SKILL_DIR}/template.md`, with Status set to Draft. In T0, write the concrete path `docs/design/YYYY-MM-<slug>.md`, using today's year and month. Check that the plan doesn't contradict the Accepted ADRs in docs/adr/. If the plan has important decisions, such as a comparison of alternatives, add a task right after T0 to record them with /sdd:adr.
-2. After the plan is approved, do T0 before anything else: copy the plan file to that path, set Status to Approved, and check T0. Don't delete the plan file.
+2. After the plan is approved, do T0 before anything else: copy the plan file to that path, set Status to Approved, and check T0. Don't delete the plan file. Then carry out the remaining tasks without asking for confirmation between them; stop only when the work goes outside the plan, conflicts with an Accepted ADR, needs a check only a human can do, or reaches commit and PR.

@@ -46,6 +46,12 @@ claude plugin uninstall sdd@sdd-lite
 claude plugin marketplace remove sdd-lite
 ```
 
+### Cloud sessions (claude.ai/code)
+
+A cloud session doesn't install the plugins your repository turns on in `.claude/settings.json`, or the ones only in your user settings. To use sdd there, add it to your claude.ai account: add the `kibako-works/sdd-lite` marketplace and turn on sdd under Customize > Plugins on claude.ai. It then loads as `sdd@synced`, in cloud sessions and in terminal sessions where you sign in with your claude.ai account. The official docs state the terminal part; loading in cloud sessions is what we observed on 2026-11-02.
+
+If you also installed `sdd@sdd-lite` from the marketplace, that copy loads in your terminal and the synced copy doesn't. To use the same copy everywhere, turn `sdd@sdd-lite` off with `"sdd@sdd-lite": false` under `enabledPlugins` in your user settings (or in `.claude/settings.local.json` for one project), or uninstall it. Don't put it in the committed `.claude/settings.json`: it would turn sdd off for collaborators who installed it only from the marketplace.
+
 ## Language
 
 sdd has no language setting of its own.
@@ -67,12 +73,13 @@ The overall flow, how to decide the size of a change, and when to use each skill
 
 ## Notes
 
-- Only humans can start `/sdd:design` and `/sdd:init`. Claude can't start them, so when Claude points you to one, type it yourself.
+- Only humans can start `/sdd:design` and `/sdd:init`. Claude can't start them, so when Claude points you to one, type it yourself: type the command first, then paste the argument. Pasting the whole line doesn't start the command.
+- Once you approve a design doc or plan, Claude carries out its tasks without asking between them. It stops only when the work goes outside the plan, conflicts with an Accepted ADR, needs a check only you can do, or reaches commit and PR. An ADR that the plan includes as a task is saved without asking; review it with the PR. `/sdd:design` carries this rule, and `/sdd:init` writes it into a new CLAUDE.md; if your CLAUDE.md already has "Development flow", add rule 7 of the [template](plugins/sdd/skills/init/claude-md-template.md) yourself.
 - Run `/sdd:design` in Plan Mode. Plan Mode asks the questions and approves the plan. The plan's first task, T0, saves it as `docs/design/YYYY-MM-<slug>.md` with Status: Approved, so it is saved even if you clear the context when approving. You don't need to set `plansDirectory`; if you do, don't point it at `docs/design/`, or draft plans pile up there.
-- `/sdd:init` writes nothing until it shows its proposal and gets your approval. It doesn't commit either.
+- `/sdd:init` writes nothing until it shows its proposal and gets your approval. It doesn't commit either. For an existing CLAUDE.md, it proposes only the sections that are missing.
 - When Claude itself calls `/sdd:ask` or `/sdd:adr`, you are asked to approve running the skill, because the skill has permission to read its own files (guide.md and templates). To skip the prompt, allow `Skill(sdd:ask)` and `Skill(sdd:adr)` in your permission settings (`/permissions`).
 - `/sdd:ship` always gets approval before committing and creating a PR. Commit messages follow the project's conventions (CLAUDE.md or AGENTS.md), or Conventional Commits if there are none.
-- `/sdd:ship` first declares the change's category in one line and skips steps a small change doesn't need. The category is A if there is an approved design doc, B if the branch adds an ADR, and C otherwise, and it is raised when the diff touches places such as runtime configuration, public APIs, dependencies, security, or places your CLAUDE.md lists (the full list is in ship's `SKILL.md`). To override it, run `/sdd:ship A` (or `B`, `C`). Details are in the [guide](plugins/sdd/skills/ask/guide.md).
+- `/sdd:ship` first declares the change's category in one line and skips steps a small change doesn't need. The category is A if there is an approved design doc, B if the branch adds an ADR, and C otherwise, and it is raised when the diff touches places such as runtime configuration, public APIs, dependencies, security, or the "Places needing care" in your CLAUDE.md (the full list is in ship's `SKILL.md`). To override it, run `/sdd:ship A` (or `B`, `C`). Details are in the [guide](plugins/sdd/skills/ask/guide.md).
 
 ## Retirement conditions
 

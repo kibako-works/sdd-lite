@@ -34,8 +34,7 @@ Make sure the project has the following three items. If not, set them up.
 1. Start Claude Code at the project root.
 2. A human runs `/sdd:init`.
 3. Claude proposes a CLAUDE.md (or, if one exists, a diff to append) and the creation of `docs/design/` and `docs/adr/` (including ADR `0001`).
-4. Review the proposal and approve it. Approving writes the files. Nothing is committed.
-5. Check that the "Common commands" section of CLAUDE.md lists the test, lint, and run commands. Later steps use them.
+4. Check that "Common commands" lists the test, lint, and run commands and "Places needing care" lists the risky paths (or "none"), then approve. Approving writes the files. Nothing is committed.
 
 ## 1. Decide the size of the change
 
@@ -54,11 +53,11 @@ A "design decision" is a choice someone may later ask "why did we do it this way
 ### 2-A. New feature / medium or larger
 
 1. Enter Plan Mode (switch with Shift+Tab).
-2. A human runs `/sdd:design <feature name or summary>`.
+2. A human types `/sdd:design`, then pastes the feature name or summary as the argument.
 3. Answer Claude's questions in Plan Mode.
 4. Review the plan Claude writes in the design doc form. Check that it has requirements (REQ-n), non-goals, implementation tasks (Tn), verification methods, and the file name in T0.
 5. Approve the plan in Plan Mode. Claude's first task, T0, saves it as `docs/design/YYYY-MM-<slug>.md` with Status: Approved. T0 is in the plan, so this also works if you clear the context when approving.
-6. If the plan has a task to record an ADR (right after T0), review and approve the ADR draft the same way as steps 2–3 of 2-B when Claude shows it.
+6. If the plan has a task to record an ADR (right after T0), Claude saves it without asking. Review it with the PR.
 7. Go to step 2-D.
 
 ### 2-B. Small, with a design decision
@@ -78,7 +77,7 @@ A "design decision" is a choice someone may later ask "why did we do it this way
 
 ### 2-D. Implementation
 
-1. Have Claude implement the implementation tasks of the design doc (for 2-A) or the steps of the plan (for 2-B and 2-C) one at a time, from the top.
+1. Have Claude implement the implementation tasks of the design doc (for 2-A) or the steps of the plan (for 2-B and 2-C) one at a time, from the top. Claude doesn't ask for confirmation between tasks ("Development flow" in CLAUDE.md; `/sdd:design` also carries it).
 2. After each task, run the tests and lint listed in "Common commands" of CLAUDE.md to check it.
 3. If a new design decision comes up during implementation, run `/sdd:adr` at that point.
 4. If a change would go against an ADR whose Status is Accepted, stop implementing. Have Claude propose a new ADR that marks the existing ADR as Superseded, and continue only after approval.
@@ -88,7 +87,7 @@ A "design decision" is a choice someone may later ask "why did we do it this way
 
 Run these from the top. Steps 3-1 to 3-5 run together when you have Claude run `/sdd:ship`. You may also run them one at a time. If you need to check the app's behavior, you can also use the bundled `/verify` skill in 3-1.
 
-`/sdd:ship` first declares the category in one line and scales the steps. A: all steps. B: 3-1 checks only consistency with ADRs, and 3-3 runs only when the diff adds or changes logic. C: skips 3-1 and 3-3, and runs 3-4 as `/code-review low`. The category comes from the design doc (A) or an ADR added on the branch (B), and C is raised to B if the diff touches places such as runtime configuration, public APIs, dependencies, security, or places your CLAUDE.md lists. To override it, run `/sdd:ship <A|B|C>`. The rules are in ship's `SKILL.md`.
+`/sdd:ship` first declares the category in one line and scales the steps. A: all steps. B: 3-1 checks only consistency with ADRs, and 3-3 runs only when the diff adds or changes logic. C: skips 3-1 and 3-3, and runs 3-4 as `/code-review low`. The category comes from the design doc (A) or an ADR added on the branch (B), and C is raised to B if the diff touches places such as runtime configuration, public APIs, dependencies, security, or the "Places needing care" in your CLAUDE.md. To override it, run `/sdd:ship <A|B|C>`. The rules are in ship's `SKILL.md`.
 
 | # | Step | What to run | What to check |
 |---|---|---|---|
@@ -128,7 +127,7 @@ Run these from the top. Steps 3-1 to 3-5 run together when you have Claude run `
 | `/code-review` | Check for bugs (bundled with Claude Code) | Human, Claude | 3-4 |
 | Plan Mode | Create and approve a plan (switch with Shift+Tab) | Human | 2-A, 2-C |
 
-"Human only" commands have `disable-model-invocation: true` in their `SKILL.md`. Claude can't start them, so when Claude points you to one, a human types it.
+"Human only" commands have `disable-model-invocation: true` in their `SKILL.md`. Claude can't start them, so when Claude points you to one, a human types it: type the command first, then paste the argument. Pasting the whole line doesn't start the command.
 
 ## 6. Determining where you are
 

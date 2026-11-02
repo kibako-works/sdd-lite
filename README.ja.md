@@ -46,6 +46,12 @@ claude plugin uninstall sdd@sdd-lite
 claude plugin marketplace remove sdd-lite
 ```
 
+### クラウドのセッション（claude.ai/code）
+
+クラウドのセッションには、リポジトリの `.claude/settings.json` で有効にしたプラグインも、ユーザー設定だけで有効にしたプラグインも入りません。クラウドで sdd を使うには、claude.ai のアカウントに追加します。claude.ai の「カスタマイズ > プラグイン」で `kibako-works/sdd-lite` のマーケットプレイスを追加し、sdd をオンにしてください。sdd は `sdd@synced` として、クラウドのセッションと、claude.ai のアカウントでサインインしたターミナルのセッションで読み込まれます。ターミナルについては公式ドキュメントに書かれています。クラウドで読み込まれることは、2026-11-02 に実際に確かめました。
+
+マーケットプレイスから `sdd@sdd-lite` も入れている場合、ターミナルではそちらが読み込まれ、`sdd@synced` は読み込まれません。どこでも同じものを使うには、ユーザー設定の `enabledPlugins` で `"sdd@sdd-lite": false` にする（1 つのプロジェクトだけなら `.claude/settings.local.json`）か、アンインストールしてください。コミットする `.claude/settings.json` には書かないでください。マーケットプレイスからだけ入れている協力者の sdd まで止まります。
+
 ## 言語
 
 sdd は、言語の設定を持ちません。
@@ -67,12 +73,13 @@ sdd は、言語の設定を持ちません。
 
 ## 注意点
 
-- `/sdd:design` と `/sdd:init` は、人間だけが起動できます。Claude からは起動できないので、Claude が案内したら人間が入力してください。
+- `/sdd:design` と `/sdd:init` は、人間だけが起動できます。Claude からは起動できないので、Claude が案内したら人間が入力してください。コマンドを先に自分で打ち、そのあとに引数を貼ります。行全体を貼ると、コマンドは起動しません。
+- デザインドキュメントや計画を承認したあとは、Claude はタスクの間で確認を求めずに進めます。止まるのは、計画からはずれたとき、Accepted な ADR とぶつかったとき、人間にしかできない確認があるとき、コミットと PR のときだけです。計画にタスクとして入っている ADR は、確認なしで保存されます。中身は PR で確かめてください。この決まりは `/sdd:design` が持っており、`/sdd:init` も新しく作る CLAUDE.md に書き込みます。CLAUDE.md にすでに「Development flow」がある場合は、[テンプレート](plugins/sdd/skills/init/claude-md-template.md)の 7 を自分で足してください。
 - `/sdd:design` は Plan Mode で実行します。質問と計画の承認は Plan Mode が行います。計画の最初のタスク T0 が、計画を Status: Approved にして `docs/design/YYYY-MM-<slug>.md` に保存するので、承認のときに context を消しても保存されます。`plansDirectory` を設定する必要はありません。設定するときは、`docs/design/` を指さないでください（Draft の計画が溜まります）。
-- `/sdd:init` は、案を示して承認を得るまで何も書き込みません。コミットもしません。
+- `/sdd:init` は、案を示して承認を得るまで何も書き込みません。コミットもしません。既存の CLAUDE.md には、足りない節だけを追記する案を出します。
 - Claude が自分で `/sdd:ask`・`/sdd:adr` を呼ぶときは、スキルの実行に承認を求められます。スキルが自分のファイル（guide.md やテンプレート）を読む権限を持っているためです。確認を省きたい場合は、権限の設定（`/permissions`）で `Skill(sdd:ask)`・`Skill(sdd:adr)` を許可してください。
 - `/sdd:ship` のコミットと PR 作成は、必ず承認を得てから行います。コミットメッセージはプロジェクトの規約（CLAUDE.md や AGENTS.md）に従い、規約が無ければ Conventional Commits に従います。
-- `/sdd:ship` は、最初に変更の区分を 1 行で宣言し、小さな変更に要らない手順を省きます。区分は、承認済みのデザインドキュメントがあれば A、ブランチで ADR を追加していれば B、どちらも無ければ C です。差分が実行時の設定・公開 API・依存関係・セキュリティや、CLAUDE.md に書いた場所などに触れていれば上がります（条件の一覧は ship の `SKILL.md` にあります）。変えたいときは `/sdd:ship A`（または `B`・`C`）と実行します。詳しくは [guide](plugins/sdd/skills/ask/guide.md) を見てください。
+- `/sdd:ship` は、最初に変更の区分を 1 行で宣言し、小さな変更に要らない手順を省きます。区分は、承認済みのデザインドキュメントがあれば A、ブランチで ADR を追加していれば B、どちらも無ければ C です。差分が実行時の設定・公開 API・依存関係・セキュリティや、CLAUDE.md の「Places needing care」に書いた場所などに触れていれば上がります（条件の一覧は ship の `SKILL.md` にあります）。変えたいときは `/sdd:ship A`（または `B`・`C`）と実行します。詳しくは [guide](plugins/sdd/skills/ask/guide.md) を見てください。
 
 ## 外す条件
 

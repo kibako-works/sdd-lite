@@ -15,10 +15,14 @@
 4. Implement the "Implementation tasks" of the design doc one at a time from the top, and make the tests pass after each task.
 5. When you make a technology choice, a structural change, or a decision with trade-offs, record an ADR in docs/adr/ (/sdd:adr).
 6. When done, use /sdd:ship to verify, check ADRs, and create the PR.
+7. Once a design doc or plan is approved, carry out its tasks to the end without asking for confirmation between tasks. Stop only when the work goes outside the plan, conflicts with an Accepted ADR, needs a check only a human can do, or reaches commit and PR. Don't offer extra work or ask again what was already answered.
 
 # Design decisions
 - Refer to docs/adr/ for past decisions. Don't implement anything that goes against an ADR whose Status is Accepted.
 - If a change contradicts an ADR, propose a new ADR that marks the existing one as Superseded before implementing.
+
+# Places needing care
+- <one path per line that needs extra scrutiny (such as infrastructure, migrations, CI workflows), or "none". /sdd:ship raises the category of a diff that touches them>
 
 # Coding conventions
 - Language of documents (design docs, ADRs), commit messages, and PRs: <e.g. English>

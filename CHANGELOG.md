@@ -2,6 +2,16 @@
 
 This file records the changes to this project. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.6.0] - 2026-11-02
+
+### Changed
+- Fewer stops for approval. Once you approve a design doc or plan, Claude carries out its tasks without asking between them. It stops only when the work goes outside the plan, conflicts with an Accepted ADR, needs a check only you can do, or reaches commit and PR. `/sdd:design` carries this rule, and the CLAUDE.md template has it as rule 7 of "Development flow". If your CLAUDE.md already has that section, add rule 7 yourself so that it also applies to plans outside `/sdd:design`.
+- `/sdd:adr` saves an ADR without asking when it records a task of an approved design doc or plan. Review it with the PR. An ADR on its own, a decision from outside the plan, or one that makes an existing ADR Superseded still asks for approval.
+- The CLAUDE.md template has a new "Places needing care" section. `/sdd:ship` raises the category of a diff that touches the places listed there.
+- `/sdd:init` also proposes "Common commands" (filled in from the repository, such as package.json scripts) and "Places needing care" when an existing CLAUDE.md lacks them.
+- `/sdd:ask` shows a command only a human can start and its argument separately: type the command first, then paste the argument. Pasting the whole line doesn't start the command.
+- The README explains how to use sdd in cloud sessions (claude.ai/code): add it to your claude.ai account.
+
 ## [0.5.0] - 2026-10-23
 
 ### Changed

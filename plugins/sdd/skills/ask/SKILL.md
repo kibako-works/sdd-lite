@@ -6,7 +6,7 @@ disable-model-invocation: false
 allowed-tools: Read(/${CLAUDE_SKILL_DIR}/*)
 metadata:
   kit: sdd
-  reviewed: 2026-10-23
+  reviewed: 2026-11-02
   retire-when: Delete when a Claude Code built-in feature guides users to, or routes them among, the skills in a set, or when all other sdd skills have been removed
 ---
 Target: $ARGUMENTS
@@ -24,7 +24,6 @@ This skill only gives guidance. It doesn't run skills or write files. Base the g
 3. Use section 6 of the guide (the table and "Use the request text") to decide where the user is and the next step.
 4. If you asked a question, decide again from step 3 with the answer. Once decided, give guidance in this form and stop.
    - Where the user is, and why you decided so
-   - The command to type next (ready to paste, with an example argument)
+   - The command to type next, with an example argument where it takes one (not for `/sdd:ship`, whose argument overrides the category). If only a human can start it, say so, and show the command and the argument in separate code blocks (type the command, then paste the argument)
    - What to do before it (for example, enter Plan Mode)
-   - Whether the command can only be started by a human
    - An overview of what follows
