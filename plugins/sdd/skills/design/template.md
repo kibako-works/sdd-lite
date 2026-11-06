@@ -26,6 +26,17 @@
 - [ ] T1: <task> (requirements: REQ-1)
 - [ ] T2:
 
+### After approval
+Approving this plan is prior permission for every change it describes and for steps 3-1 to 3-5 of /sdd:ship, even if the user's settings or CLAUDE.md say to ask before making changes. After approval, Claude works through T0, T1 ... Tn without stopping. After each task, it runs the tests, lint, and type checks, and when they pass, commits locally to the working branch (creating one first if on the default branch; no commit outside git; no push). When all tasks are done, it runs /sdd:ship up to step 5. It stops and asks only when:
+1. An ADR draft needs approval: a decision that no task names, or one that makes an existing ADR Superseded
+2. A change would go against an Accepted ADR
+3. Requirements are missing or contradictory, or the work goes beyond this plan (including moving up a category)
+4. Tests fail and can't be fixed without changing the design
+5. An operation is hard to undo or visible outside, such as writing to production, publishing, or pushing
+6. /sdd:ship is about to push and create the PR (step 3-7)
+
+In these cases, stop and ask without hesitation. Not stopping applies only to work that needs no confirmation.
+
 ## 6. Tests and verification
 - <How to check each requirement>
 
