@@ -2,7 +2,7 @@
 
 - Status: Accepted
 - 日付: 2026-11-06
-- 関連: docs/design/2026-11-run-to-ship.md、docs/adr/0013-no-approval-within-approved-plan.md（これを置き換える）、docs/adr/0009-design-principles.md
+- 関連: docs/design/2026-11-run-to-ship.md、docs/adr/0013-no-approval-within-approved-plan.md（これを置き換える）、docs/adr/0011-lighter-default-and-ship-categories.md（一部を置き換える）、docs/adr/0009-design-principles.md
 
 ## Context（背景）
 - ADR 0013 で、承認済みの計画の中ではタスクの間で確認しない、と決めた。それでも別のプロジェクトでは、設計書を承認したあとに、Claude がタスクを 1 つ終えるたびに止まって「次に進めてよいか」と聞いた。
@@ -25,6 +25,7 @@
   6. `/sdd:ship` の最後の push と PR の作成の前（3-7）
 - タスクの区切りで、テストが通ったら作業ブランチにローカルでコミットすること。デフォルトブランチにいるときは、最初のコミットの前に作業ブランチを作ること。push はしないこと。git の管理下にないときはコミットしないこと。
 - 止まる場面の一覧の正本は、design のテンプレートの「After approval」の節に置くこと。design と ship の SKILL.md と guide.md は、一覧を重ねて書かずに、この節を参照すること。設計書の無い計画のために、CLAUDE.md のテンプレートのルール 7 にだけ、同じ一覧を短く書くこと。
+- ADR 0011 の「承認を得てからのコミットと PR の作成」を、「承認を得てからの push と PR の作成」に置き換えること。そのほかの ADR 0011 の決定は変えないこと。
 
 ## Consequences（結果）
 - 区分 A・B・C のどれでも、承認したあとに止まるのは、上の場面と PR の前の 1 回になる。
