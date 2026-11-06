@@ -5,10 +5,12 @@ argument-hint: [A|B|C to override the category]
 disable-model-invocation: false
 metadata:
   kit: sdd
-  reviewed: 2026-11-02
+  reviewed: 2026-11-06
   retire-when: Delete when a Claude Code built-in feature or bundled skill can verify, check ADRs, commit, and create a PR in one go
 ---
 Override: $ARGUMENTS
+
+Run steps 0 to 5 without stopping, including when you start this skill yourself after finishing a plan's tasks. Stop before step 6 only in the cases listed in the After approval part of the design doc (or in the project's CLAUDE.md for a plan without one).
 
 0. Decide the category and declare it.
    - The changes to look at: find the default branch with `git symbolic-ref --short refs/remotes/origin/HEAD` (if that fails, whichever of `main` or `master` exists). Look at the commits not on it (`<default branch>...HEAD`; if you are on the default branch, the commits not pushed upstream, `@{u}..HEAD`, or none if there is no upstream), the uncommitted changes (`git diff HEAD`), and the untracked files (`git status --porcelain`, lines starting with `??`).
@@ -29,4 +31,4 @@ Override: $ARGUMENTS
    - If either rewrote anything, run step 2 again.
 4. Check whether any decision in this change that should be an ADR is missing, and if so, propose /sdd:adr. If an ADR is added in category C, continue as category B and run step 1 for B.
 5. If there is a design doc, update its task checkboxes and Status. For a change without one, check that related docs (README and so on) are updated.
-6. In a directory not under git, stop here (no commit or PR). If you are on the default branch, create a working branch before committing. Show the changes, and commit and create the PR after the user approves. Follow the project's conventions (CLAUDE.md or AGENTS.md) for commit messages; if there are none, follow Conventional Commits. Write commit messages and the PR body in the language the conventions specify; if they specify none, use the language of the conversation. Use the gh CLI to create the PR, and include links to the design doc and ADRs in the PR body. Always get the user's approval before committing and creating the PR.
+6. In a directory not under git, stop here (no commit or PR). If you are on the default branch, create a working branch before committing. Commit the remaining changes to the working branch. Show all the changes, including the commits made at task boundaries, and say that any production check (3-6) should be done before approving. Push and create the PR after the user approves. Follow the project's conventions (CLAUDE.md or AGENTS.md) for commit messages; if there are none, follow Conventional Commits. Write commit messages and the PR body in the language the conventions specify; if they specify none, use the language of the conversation. Use the gh CLI to create the PR, and include links to the design doc and ADRs in the PR body. Always get the user's approval before pushing and creating the PR.
