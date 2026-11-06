@@ -2,6 +2,15 @@
 
 This file records the changes to this project. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.7.0] - 2026-11-06
+
+### Changed
+- Approving a design doc or plan is now treated as your prior permission for the changes it describes and for `/sdd:ship` up to step 5, even if your settings or CLAUDE.md say to ask before changes. After approval, Claude carries out the tasks without stopping and then runs `/sdd:ship` itself, stopping only just before pushing and creating the PR.
+- The design doc template has a new "After approval" part at the end of the implementation tasks. It lists the only cases where Claude stops after approval: an ADR draft that needs approval, a conflict with an Accepted ADR, missing or contradictory requirements or work beyond the plan, test failures that need a design change, operations that are hard to undo or visible outside (production, publishing, pushing), and just before pushing and creating the PR. It is saved in every design doc, so you see it when approving and Claude can read it again after the context is summarized.
+- After each task passes its checks, Claude commits locally to the working branch (creating one if you are on the default branch). It doesn't push until you approve the PR. Nothing is committed outside git.
+- `/sdd:ship` asks for approval before pushing and creating the PR, and shows the commits made at task boundaries along with the rest of the changes.
+- Rule 7 of "Development flow" in the CLAUDE.md template carries the same rule for plans without a design doc. If your CLAUDE.md already has rule 7 from 0.6.0, replace it with the new one.
+
 ## [0.6.0] - 2026-11-02
 
 ### Changed
