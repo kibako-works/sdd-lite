@@ -72,7 +72,7 @@
 
 ## 5. 実装タスク
 - [x] T0: この計画を docs/design/2026-11-run-to-ship.md として保存し、Status を Approved にし、このタスクにチェックを付ける（作業ブランチ `claude/gallant-cerf-hdnc2m` で行う）
-- [ ] T1: `/sdd:adr` の手順で ADR 0014「承認後は PR の作成の前まで止まらずに進める」を起票し、ADR 0013 を Superseded にする。Superseded にするので、案を見せて承認を得てから保存する（REQ-7）
+- [x] T1: `/sdd:adr` の手順で ADR 0014「承認後は PR の作成の前まで止まらずに進める」を起票し、ADR 0013 を Superseded にする。Superseded にするので、案を見せて承認を得てから保存する（REQ-7）
 - [ ] T2: design のテンプレートに「After approval」の節を足し、design の SKILL.md を直す（REQ-1、REQ-2）
 - [ ] T3: ship の SKILL.md を直す（REQ-3）
 - [ ] T4: CLAUDE.md のテンプレートのルール 7 を直す（REQ-4）

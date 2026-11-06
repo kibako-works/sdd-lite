@@ -1,6 +1,6 @@
 # 0013. 承認済みの計画の中では確認を求めない
 
-- Status: Accepted
+- Status: Superseded by 0014
 - 日付: 2026-11-02
 - 関連: docs/design/2026-11-trial-feedback.md、docs/adr/0009-design-principles.md、docs/adr/0012-design-as-plan-form.md
 
