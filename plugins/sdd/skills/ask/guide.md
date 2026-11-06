@@ -78,7 +78,7 @@ A "design decision" is a choice someone may later ask "why did we do it this way
 ### 2-D. Implementation
 
 1. Claude implements the implementation tasks of the design doc (for 2-A) or the steps of the plan (for 2-B and 2-C) one at a time, from the top, without asking between them: approving the plan is prior permission for them. Claude stops only in the cases listed in the design doc's After approval part (from `/sdd:design`'s template), or in rule 7 of "Development flow" in CLAUDE.md for a plan without a design doc.
-2. After each task, Claude runs the tests, lint, and type checks listed in "Common commands" of CLAUDE.md, and when they pass, commits locally to the working branch (no push; no commit outside git).
+2. After each task, Claude runs the tests, lint, and type checks listed in "Common commands" of CLAUDE.md, and when they pass, commits locally to the working branch (created first if on the default branch; no push; no commit outside git).
 3. If a new design decision comes up during implementation, run `/sdd:adr` at that point.
 4. If a change would go against an ADR whose Status is Accepted, stop implementing. Have Claude propose a new ADR that marks the existing ADR as Superseded, and continue only after approval.
 5. When all tasks are done, Claude runs `/sdd:ship` (step 3).
