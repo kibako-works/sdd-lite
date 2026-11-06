@@ -77,7 +77,7 @@
 - [x] T3: ship の SKILL.md を直す（REQ-3）
 - [x] T4: CLAUDE.md のテンプレートのルール 7 を直す（REQ-4）
 - [x] T5: guide.md を直し、160 行以下に収める（REQ-5）
-- [ ] T6: README.md と README.ja.md の Notes を直す（REQ-6）
+- [x] T6: README.md と README.ja.md の Notes を直す（REQ-6）
 - [ ] T7: plugin.json を 0.7.0 にし、CHANGELOG.md に追記し、変更したスキルの `reviewed` を更新する（REQ-8）
 - [ ] T8: 一時的な git リポジトリで、`claude -p --plugin-dir ./plugins/sdd` を使って E2E を行い、結果を §6 に記録する。ユーザー設定の代わりに、CLAUDE.md に「変更の前に必ず許可を得る」と書いておく（REQ-1〜REQ-4）
   - ①T1・T2 を持つ承認済みの設計書で実装を指示し、タスクの間で止まらずに、タスクごとにコミットし、`/sdd:ship` の 5 まで進んで 6 の前で止まることを確かめる。

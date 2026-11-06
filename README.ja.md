@@ -74,11 +74,11 @@ sdd は、言語の設定を持ちません。
 ## 注意点
 
 - `/sdd:design` と `/sdd:init` は、人間だけが起動できます。Claude からは起動できないので、Claude が案内したら人間が入力してください。コマンドを先に自分で打ち、そのあとに引数を貼ります。行全体を貼ると、コマンドは起動しません。
-- デザインドキュメントや計画を承認したあとは、Claude はタスクの間で確認を求めずに進めます。止まるのは、計画からはずれたとき、Accepted な ADR とぶつかったとき、人間にしかできない確認があるとき、コミットと PR のときだけです。計画にタスクとして入っている ADR は、確認なしで保存されます。中身は PR で確かめてください。この決まりは `/sdd:design` が持っており、`/sdd:init` も新しく作る CLAUDE.md に書き込みます。CLAUDE.md にすでに「Development flow」がある場合は、[テンプレート](plugins/sdd/skills/init/claude-md-template.md)の 7 を自分で足してください。
+- デザインドキュメントや計画の承認は、そこに書いた変更と、`/sdd:ship` のステップ 5 までを行ってよいという事前の許可になります。設定や CLAUDE.md に「変更の前に許可を得る」とあっても同じです。承認のあと、Claude はタスクの間で確認を求めずに進め、各タスクの確認が通ったら作業ブランチにローカルでコミットし（push はしません）、最後に `/sdd:ship` を実行します。止まるのは、デザインドキュメントの After approval の節に挙げた場面だけです。承認が要る ADR の案、Accepted な ADR とのぶつかり、要件の不足や矛盾・計画の範囲を超える作業、設計を変えないと直らないテストの失敗、取り返しのつかない操作や外に見える操作（本番・公開・push）、push と PR 作成の直前です。計画にタスクとして入っている ADR は、確認なしで保存されます。中身は PR で確かめてください。`/sdd:init` も、新しく作る CLAUDE.md に同じ決まりを書き込みます。CLAUDE.md にすでに「Development flow」がある場合は、デザインドキュメントの無い計画にも効くように、[テンプレート](plugins/sdd/skills/init/claude-md-template.md)の 7 で置き換えるか、自分で足してください。
 - `/sdd:design` は Plan Mode で実行します。質問と計画の承認は Plan Mode が行います。計画の最初のタスク T0 が、計画を Status: Approved にして `docs/design/YYYY-MM-<slug>.md` に保存するので、承認のときに context を消しても保存されます。`plansDirectory` を設定する必要はありません。設定するときは、`docs/design/` を指さないでください（Draft の計画が溜まります）。
 - `/sdd:init` は、案を示して承認を得るまで何も書き込みません。コミットもしません。既存の CLAUDE.md には、足りない節だけを追記する案を出します。
 - Claude が自分で `/sdd:ask`・`/sdd:adr` を呼ぶときは、スキルの実行に承認を求められます。スキルが自分のファイル（guide.md やテンプレート）を読む権限を持っているためです。確認を省きたい場合は、権限の設定（`/permissions`）で `Skill(sdd:ask)`・`Skill(sdd:adr)` を許可してください。
-- `/sdd:ship` のコミットと PR 作成は、必ず承認を得てから行います。コミットメッセージはプロジェクトの規約（CLAUDE.md や AGENTS.md）に従い、規約が無ければ Conventional Commits に従います。
+- `/sdd:ship` の push と PR 作成は、必ず承認を得てから行います。そのときは、タスクの区切りでしたコミットも含めて、すべての変更を見せます。コミットメッセージはプロジェクトの規約（CLAUDE.md や AGENTS.md）に従い、規約が無ければ Conventional Commits に従います。
 - `/sdd:ship` は、最初に変更の区分を 1 行で宣言し、小さな変更に要らない手順を省きます。区分は、承認済みのデザインドキュメントがあれば A、ブランチで ADR を追加していれば B、どちらも無ければ C です。差分が実行時の設定・公開 API・依存関係・セキュリティや、CLAUDE.md の「Places needing care」に書いた場所などに触れていれば上がります（条件の一覧は ship の `SKILL.md` にあります）。変えたいときは `/sdd:ship A`（または `B`・`C`）と実行します。詳しくは [guide](plugins/sdd/skills/ask/guide.md) を見てください。
 
 ## 外す条件
