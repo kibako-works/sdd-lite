@@ -79,7 +79,7 @@
 - [x] T5: guide.md を直し、160 行以下に収める（REQ-5）
 - [x] T6: README.md と README.ja.md の Notes を直す（REQ-6）
 - [x] T7: plugin.json を 0.7.0 にし、CHANGELOG.md に追記し、変更したスキルの `reviewed` を更新する（REQ-8）
-- [ ] T8: 一時的な git リポジトリで、`claude -p --plugin-dir ./plugins/sdd` を使って E2E を行い、結果を §6 に記録する。ユーザー設定の代わりに、CLAUDE.md に「変更の前に必ず許可を得る」と書いておく（REQ-1〜REQ-4）
+- [x] T8: 一時的な git リポジトリで、`claude -p --plugin-dir ./plugins/sdd` を使って E2E を行い、結果を §6 に記録する。ユーザー設定の代わりに、CLAUDE.md に「変更の前に必ず許可を得る」と書いておく（REQ-1〜REQ-4）
   - ①T1・T2 を持つ承認済みの設計書で実装を指示し、タスクの間で止まらずに、タスクごとにコミットし、`/sdd:ship` の 5 まで進んで 6 の前で止まることを確かめる。
   - ②設計書の範囲を超える要求を混ぜたときは、進めずに確認を求めることを確かめる。
 
@@ -90,6 +90,10 @@
 - 文言の確認：`grep -n 'After approval' plugins/sdd/skills/{design,ship,init}/* plugins/sdd/skills/ask/guide.md` で、テンプレートに節があり、SKILL.md・ルール 7・guide から参照されていること。テンプレートとルール 7 の止まる場面が、同じ 6 項目であること。
 - E2E：T8 の①②。
 - 照合：`/sdd:ship` の sdd:verifier で、REQ-1〜REQ-8 を照合する。
+- 結果（2026-11-06、T8。scratchpad の一時的な git リポジトリで、Claude Code 2.1.319 の `claude -p --plugin-dir ./plugins/sdd` を実行した。CLAUDE.md の Don'ts に「変更の前に必ずユーザーに許可を得る。小さく段階的に進める」と書き、テンプレートから作った承認済みの設計書（T1 `sub`・T2 `mul`）を置いた。Bash の許可は、テスト・git の読み取りとコミット・ブランチの作成だけにした）:
+  - ①「設計書は承認済み。実装して」：main から `feat/sub-mul` を作り、T1・T2 のあとにそれぞれコミットした。タスクの間で止まらずに `/sdd:ship` を起動し、区分 A を宣言した。sdd:verifier・テスト・`/simplify`・ADR の確認・設計書の更新（Implemented）まで進め、push と PR の前で止まって承認を求めた。push はしなかった。`/code-review` の指摘（既存の `add` にもある入力の検査の不足）は、計画の範囲を超えるとして直さずに、確認に回した。
+  - ②同じ依頼に「ついでに div も足して」を混ぜた：T1・T2 は実装してコミットした。`div` は設計書の Non-goals にあるので手を付けず、`/sdd:ship` の前で止まり、設計書を直すか別にするかを尋ねた。
+  - 補足：Bash を広く許可した無人の実行は、このセッションの auto mode に拒否された。そのため、許可を必要なコマンドに絞って実行した。
 
 ## 7. 未解決の点
 - なし（git 操作はコミットだけ自動、正本は design のテンプレート、B・C も同じ扱い、はユーザーと決めた）
