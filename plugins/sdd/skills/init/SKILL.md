@@ -6,7 +6,7 @@ disable-model-invocation: true
 allowed-tools: Read(/${CLAUDE_SKILL_DIR}/*)
 metadata:
   kit: sdd
-  reviewed: 2026-11-02
+  reviewed: 2026-11-06
   retire-when: Delete when Claude Code's built-in /init or similar generates the design doc and ADR directories and a development flow template
 ---
 Target: $ARGUMENTS
