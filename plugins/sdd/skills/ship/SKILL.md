@@ -10,7 +10,7 @@ metadata:
 ---
 Override: $ARGUMENTS
 
-Run steps 0 to 5 without stopping, including when you start this skill yourself after finishing a plan's tasks. Stop before step 6 only in the cases listed in the After approval part of the design doc (or in the project's CLAUDE.md for a plan without one).
+Run steps 0 to 5 without stopping, including when you start this skill yourself after finishing a plan's tasks. Before step 6, stop only in the cases listed in the After approval part of the design doc (or in the project's CLAUDE.md for a plan without one), or when a step below says to ask.
 
 0. Decide the category and declare it.
    - The changes to look at: find the default branch with `git symbolic-ref --short refs/remotes/origin/HEAD` (if that fails, whichever of `main` or `master` exists). Look at the commits not on it (`<default branch>...HEAD`; if you are on the default branch, the commits not pushed upstream, `@{u}..HEAD`, or none if there is no upstream), the uncommitted changes (`git diff HEAD`), and the untracked files (`git status --porcelain`, lines starting with `??`).

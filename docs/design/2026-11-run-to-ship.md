@@ -52,12 +52,12 @@
 - REQ-8: plugin.json の version が 0.7.0 で、CHANGELOG.md に 0.7.0 が書かれていること。変更したスキルの `reviewed` が実施日であること。
 - 非機能要件:
   - 予算：スキル＋エージェントは 6 のまま。guide.md は 160 行以下。`bash .github/scripts/check-principles.sh` が 0 で終わること。
-  - 検証：`claude plugin validate --strict .` と `bash .github/scripts/check-public-files.sh` が通ること。スキルから `..` を含むパスやシェル展開で、スキルのディレクトリの外を読まないこと（ADR 0006）。
+  - 検証：`claude plugin validate --strict .` と `bash .github/scripts/check-public-files.sh` が通ること。スキルから `..` を含むパスやシェル展開で、スキルのディレクトリの外を読まないこと（ADR 0010）。
   - 互換性：`- Status:` の行、REQ-n、`- [ ]` の Tn の形は変えず、ask・ship・verifier の判定を変えないこと。ship の区分の判定は、タスクの区切りのコミットも `<default branch>...HEAD` で拾うので、変えなくてよい。
 
 ## 4. 設計
 - 正本の場所：止まる場面の一覧は design のテンプレート（`plugins/sdd/skills/design/template.md`）の「After approval」の節に置く。
-  - 理由：スキルは自分のディレクトリの外を読めない（ADR 0006）。そのため、design と ship から ask の guide.md は参照できない。また、guide.md は `/sdd:ask` のときしか読まれない。テンプレートの節は、すべての設計書の本文に写されるので、コンテキストが要約されたあとでも読み直せる。承認の時点で、ユーザーの目にも入る。
+  - 理由：スキルは自分のディレクトリの外を読めない（ADR 0010）。そのため、design と ship から ask の guide.md は参照できない。また、guide.md は `/sdd:ask` のときしか読まれない。テンプレートの節は、すべての設計書の本文に写されるので、コンテキストが要約されたあとでも読み直せる。承認の時点で、ユーザーの目にも入る。
   - 設計書の無い区分 B・C では、CLAUDE.md のルール 7 に同じ一覧を短く書く。テンプレート側の正本と、ルール 7 の 2 か所になる。ずれは §6 の grep で確かめる。
   - SKILL.md（design・ship）と guide.md は、一覧を重ねて書かず、節を参照する。
 - 承認と許可：承認を「計画の範囲の変更への事前の許可」とみなすと書く。ユーザーの「変更の前に許可を得る」に反するのではなく、計画の承認がその許可に当たる、という位置付けにする。

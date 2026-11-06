@@ -32,7 +32,7 @@ Approving this plan is prior permission for every change it describes and for st
 2. A change would go against an Accepted ADR
 3. Requirements are missing or contradictory, or the work goes beyond this plan (including moving up a category)
 4. Tests fail and can't be fixed without changing the design
-5. An operation is hard to undo or visible outside, such as writing to production, publishing, or pushing
+5. An operation is hard to undo or visible outside, such as writing to production, publishing, or pushing (a human runs production steps, 3-6)
 6. /sdd:ship is about to push and create the PR (step 3-7)
 
 In these cases, stop and ask without hesitation. Not stopping applies only to work that needs no confirmation.

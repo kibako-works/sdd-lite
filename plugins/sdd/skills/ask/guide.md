@@ -72,13 +72,13 @@ A "design decision" is a choice someone may later ask "why did we do it this way
 1. Enter Plan Mode.
 2. Tell Claude what to change and have it make a plan. The plan should include the files to change, the steps, and how to verify.
    - If a design decision comes up while planning, record it with `/sdd:adr` first (move up to B). If the requirements turn out to need sorting out, or it becomes a new feature, switch to `/sdd:design` (move up to A).
-3. Review and approve the plan. The approval covers the same as in 2-A (rule 7 of "Development flow" in CLAUDE.md).
+3. Review and approve the plan. The approval covers the same as in 2-D (rule 7 of "Development flow" in CLAUDE.md).
 4. Go to step 2-D.
 
 ### 2-D. Implementation
 
 1. Claude implements the implementation tasks of the design doc (for 2-A) or the steps of the plan (for 2-B and 2-C) one at a time, from the top, without asking between them. Approving the plan is prior permission for its changes and for `/sdd:ship` up to 3-5, even if your settings or CLAUDE.md say to ask before changes. Claude stops only in the cases listed in the design doc's After approval part (from `/sdd:design`'s template), or in rule 7 of "Development flow" in CLAUDE.md for a plan without a design doc.
-2. After each task, Claude runs the tests and lint listed in "Common commands" of CLAUDE.md, and when they pass, commits locally to the working branch (no push; no commit outside git).
+2. After each task, Claude runs the tests, lint, and type checks listed in "Common commands" of CLAUDE.md, and when they pass, commits locally to the working branch (no push; no commit outside git).
 3. If a new design decision comes up during implementation, run `/sdd:adr` at that point.
 4. If a change would go against an ADR whose Status is Accepted, stop implementing. Have Claude propose a new ADR that marks the existing ADR as Superseded, and continue only after approval.
 5. When all tasks are done, Claude runs `/sdd:ship` (step 3).
