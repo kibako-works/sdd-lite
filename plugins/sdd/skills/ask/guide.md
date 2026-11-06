@@ -12,12 +12,12 @@ flowchart TD
     J -->|"Small, with<br/>no decision"| P["Plan in Plan Mode"]
     D --> DA{"Human approves"}
     A --> P
-    DA --> I["Implement the tasks one by one<br/>check after each task"]
+    DA --> I["Implement the tasks one by one<br/>check and commit after each task"]
     P --> PA{"Human approves"}
     PA --> I
     I --> F["Completion steps<br/>verify → clean up → review → check ADRs"]
     F --> R["Check in production"]
-    R --> C["Commit and PR<br/>(git repositories only)"]
+    R --> C["Push and PR<br/>(git repositories only)"]
 ```
 
 ## 0. Prerequisites and setup
@@ -55,8 +55,8 @@ A "design decision" is a choice someone may later ask "why did we do it this way
 1. Enter Plan Mode (switch with Shift+Tab).
 2. A human types `/sdd:design`, then pastes the feature name or summary as the argument.
 3. Answer Claude's questions in Plan Mode.
-4. Review the plan Claude writes in the design doc form. Check that it has requirements (REQ-n), non-goals, implementation tasks (Tn), verification methods, and the file name in T0.
-5. Approve the plan in Plan Mode. Claude's first task, T0, saves it as `docs/design/YYYY-MM-<slug>.md` with Status: Approved. T0 is in the plan, so this also works if you clear the context when approving.
+4. Review the plan Claude writes in the design doc form. Check that it has requirements (REQ-n), non-goals, implementation tasks (Tn), verification methods, the file name in T0, and the After approval part, which lists the only cases where Claude stops after approval.
+5. Approve the plan in Plan Mode. Claude's first task, T0, saves it as `docs/design/YYYY-MM-<slug>.md` with Status: Approved. T0 is in the plan, so this also works if you clear the context when approving. Claude then goes on to T1 without stopping.
 6. If the plan has a task to record an ADR (right after T0), Claude saves it without asking. Review it with the PR.
 7. Go to step 2-D.
 
@@ -72,16 +72,16 @@ A "design decision" is a choice someone may later ask "why did we do it this way
 1. Enter Plan Mode.
 2. Tell Claude what to change and have it make a plan. The plan should include the files to change, the steps, and how to verify.
    - If a design decision comes up while planning, record it with `/sdd:adr` first (move up to B). If the requirements turn out to need sorting out, or it becomes a new feature, switch to `/sdd:design` (move up to A).
-3. Review and approve the plan.
+3. Review and approve the plan. The approval covers the same as in 2-A (rule 7 of "Development flow" in CLAUDE.md).
 4. Go to step 2-D.
 
 ### 2-D. Implementation
 
-1. Have Claude implement the implementation tasks of the design doc (for 2-A) or the steps of the plan (for 2-B and 2-C) one at a time, from the top. Claude doesn't ask for confirmation between tasks ("Development flow" in CLAUDE.md; `/sdd:design` also carries it).
-2. After each task, run the tests and lint listed in "Common commands" of CLAUDE.md to check it.
+1. Claude implements the implementation tasks of the design doc (for 2-A) or the steps of the plan (for 2-B and 2-C) one at a time, from the top, without asking between them. Approving the plan is prior permission for its changes and for `/sdd:ship` up to 3-5, even if your settings or CLAUDE.md say to ask before changes. Claude stops only in the cases listed in the design doc's After approval part (from `/sdd:design`'s template), or in rule 7 of "Development flow" in CLAUDE.md for a plan without a design doc.
+2. After each task, Claude runs the tests and lint listed in "Common commands" of CLAUDE.md, and when they pass, commits locally to the working branch (no push; no commit outside git).
 3. If a new design decision comes up during implementation, run `/sdd:adr` at that point.
 4. If a change would go against an ADR whose Status is Accepted, stop implementing. Have Claude propose a new ADR that marks the existing ADR as Superseded, and continue only after approval.
-5. When all tasks are done, go to step 3.
+5. When all tasks are done, Claude runs `/sdd:ship` (step 3).
 
 ## 3. Completion steps
 
@@ -97,10 +97,10 @@ Run these from the top. Steps 3-1 to 3-5 run together when you have Claude run `
 | 3-4 | Check for bugs | `/code-review` | No findings, or all fixed |
 | 3-5 | Check for missing ADRs and update docs | Have Claude check | No decision that should be an ADR is left. The design doc's task checkboxes and Status (Implemented) are updated |
 | 3-6 | Check in production | Run by a human | It works as expected in the production environment with production data |
-| 3-7 | Commit and PR | Last step of `/sdd:ship` | Review the changes before approving |
+| 3-7 | Push and PR | Last step of `/sdd:ship` | Review the changes, including the task commits, before approving |
 
 - 3-3 and 3-4 may rewrite code, so finish them before 3-6. Check in production only after all code fixes are done.
-- `/sdd:ship` runs up to 3-5, then shows the changes and commits and creates the PR (3-7) after approval. If you do 3-6, finish it before approving.
+- `/sdd:ship` runs up to 3-5 without stopping, then commits the rest, shows the changes, and pushes and creates the PR (3-7) after approval. If you do 3-6, finish it before approving.
 - 3-6 includes operations that are hard to undo, such as writing to production or publishing externally. A human runs those commands in their own terminal.
 - If 3-3 or 3-4 rewrote anything, run 3-2 again.
 
