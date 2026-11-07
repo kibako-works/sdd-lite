@@ -50,7 +50,7 @@
 - 利用者向けの文書（README.md・CHANGELOG.md・SKILL.md・エージェント定義・スキルの補助ファイル・マニフェストの description）は英語で書く。README だけは日本語訳（README.ja.md）を置き、訳は正本と同じ変更で更新する。スキルの補助ファイルに言語ごとの版（`.ja.md`）は置かない（ADR 0010）。
 - 開発用の文書（CLAUDE.md・docs/design/・docs/adr/）とコミットメッセージは日本語で書く。
 - コミットは Conventional Commits（`<型>(<スコープ>): <件名>`、件名は日本語）。スコープはスキル名（ask・init・design・adr・ship・verifier）、全体は `repo`。
-- リリースのたびに plugin.json の `version` を semver で上げ、CHANGELOG.md に追記し、軽量タグ `vX.Y.Z` を付けてから、CHANGELOG のその版の節を本文にして GitHub Release を作る（`bash .github/scripts/release-notes.sh --create X.Y.Z`、ADR 0015）。
+- リリースのたびに plugin.json の `version` を semver で上げ、CHANGELOG.md に追記し、軽量タグ `vX.Y.Z` を付けてから、CHANGELOG のその版の節を本文にして GitHub Release を作る（ADR 0015。コマンドは「よく使うコマンド」）。
 - Mermaid のノードラベル内の改行は `<br/>` を使う（`\n` は使わない）。
 
 # やってはいけないこと
