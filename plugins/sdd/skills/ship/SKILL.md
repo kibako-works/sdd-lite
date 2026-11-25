@@ -5,7 +5,7 @@ argument-hint: [A|B|C to override the category]
 disable-model-invocation: false
 metadata:
   kit: sdd
-  reviewed: 2026-11-06
+  reviewed: 2026-11-25
   retire-when: Delete when a Claude Code built-in feature or bundled skill can verify, check ADRs, commit, and create a PR in one go
 ---
 Override: $ARGUMENTS
@@ -31,4 +31,4 @@ Run steps 0 to 5 without stopping, including when you start this skill yourself 
    - If either rewrote anything, run step 2 again.
 4. Check whether any decision in this change that should be an ADR is missing, and if so, record it with /sdd:adr, which shows the draft and waits for approval. If an ADR is added in category C, continue as category B and run step 1 for B.
 5. If there is a design doc, update its task checkboxes and Status. For a change without one, check that related docs (README and so on) are updated.
-6. In a directory not under git, stop here (no commit or PR). If you are on the default branch, create a working branch before committing. Commit the remaining changes to the working branch. Show all the changes, including the commits made at task boundaries, and say that any check in production should be done before approving. Push and create the PR after the user approves. Follow the project's conventions (CLAUDE.md or AGENTS.md) for commit messages; if there are none, follow Conventional Commits. Write commit messages and the PR body in the language the conventions specify; if they specify none, use the language of the conversation. Use the gh CLI to create the PR, and include links to the design doc and ADRs in the PR body. Always get the user's approval before pushing and creating the PR.
+6. In a directory not under git, stop here (no commit or PR). If you are on the default branch, create a working branch before committing. Commit the remaining changes to the working branch. Show all the changes, including the commits made at task boundaries, and say that any check in production should be done before approving. Push and create the PR after the user approves. Follow the project's conventions (CLAUDE.md or AGENTS.md) for commit messages; if there are none, follow Conventional Commits. Write commit messages and the PR body in the language the conventions specify; if they specify none, use the language of the conversation. Use the gh CLI to create the PR, and include links to the design doc and ADRs in the PR body. Always get the user's approval before pushing and creating the PR. After the PR is created, tell the user in one line that, where Claude Code's bundled `/steward` is available (v2.1.330 or later, not in cloud sessions), they can type `/steward` themselves to have Claude watch the PR and fix failing checks and review comments, and that in auto mode it pushes those fixes without asking. Don't start `/ship` or `/steward` yourself.
