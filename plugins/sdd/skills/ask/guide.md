@@ -100,7 +100,7 @@ Run these from the top. Steps 3-1 to 3-5 run together when you have Claude run `
 | 3-7 | Push and PR | Last step of `/sdd:ship` | Review the changes, including the task commits, before approving |
 
 - 3-3 and 3-4 may rewrite code, so finish them before 3-6. Check in production only after all code fixes are done.
-- `/sdd:ship` runs up to 3-5 without stopping, then commits the rest, shows the changes, and pushes and creates the PR (3-7) after approval. If you do 3-6, finish it before approving. After the PR, you can type the bundled `/steward` yourself, where available, to have Claude fix failing checks and review comments (in auto mode it pushes without asking).
+- `/sdd:ship` runs up to 3-5 without stopping, then commits the rest, shows the changes, and pushes and creates the PR (3-7) after approval. If you do 3-6, finish it before approving. After the PR, you can type the bundled `/steward` yourself, where available, to have Claude fix failing checks and review comments (Claude can't start it; in auto mode it pushes without asking).
 - 3-6 includes operations that are hard to undo, such as writing to production or publishing externally. A human runs those commands in their own terminal.
 - If 3-3 or 3-4 rewrote anything, run 3-2 again.
 
