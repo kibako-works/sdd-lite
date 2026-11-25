@@ -2,6 +2,11 @@
 
 This file records the changes to this project. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.7.1] - 2026-11-25
+
+### Added
+- After creating the PR, `/sdd:ship` tells you that you can type Claude Code's bundled `/steward` yourself (v2.1.330 or later, not in cloud sessions) to have Claude watch the PR and fix failing checks and review comments. Claude doesn't start it for you, and in auto mode it pushes those fixes without asking. The rest of `/sdd:ship` is unchanged: it still reviews before approval and asks before pushing and creating the PR.
+
 ## [0.7.0] - 2026-11-06
 
 ### Changed
