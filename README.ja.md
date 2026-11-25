@@ -78,7 +78,7 @@ sdd は、言語の設定を持ちません。
 - `/sdd:design` は Plan Mode で実行します。質問と計画の承認は Plan Mode が行います。計画の最初のタスク T0 が、計画を Status: Approved にして `docs/design/YYYY-MM-<slug>.md` に保存するので、承認のときに context を消しても保存されます。`plansDirectory` を設定する必要はありません。設定するときは、`docs/design/` を指さないでください（Draft の計画が溜まります）。
 - `/sdd:init` は、案を示して承認を得るまで何も書き込みません。コミットもしません。既存の CLAUDE.md には、足りない節だけを追記する案を出します。
 - Claude が自分で `/sdd:ask`・`/sdd:adr` を呼ぶときは、スキルの実行に承認を求められます。スキルが自分のファイル（guide.md やテンプレート）を読む権限を持っているためです。確認を省きたい場合は、権限の設定（`/permissions`）で `Skill(sdd:ask)`・`Skill(sdd:adr)` を許可してください。
-- `/sdd:ship` の push と PR 作成は、必ず承認を得てから行います。そのときは、タスクの区切りでしたコミットも含めて、すべての変更を見せます。コミットメッセージはプロジェクトの規約（CLAUDE.md や AGENTS.md）に従い、規約が無ければ Conventional Commits に従います。
+- `/sdd:ship` の push と PR 作成は、必ず承認を得てから行います。そのときは、タスクの区切りでしたコミットも含めて、すべての変更を見せます。コミットメッセージはプロジェクトの規約（CLAUDE.md や AGENTS.md）に従い、規約が無ければ Conventional Commits に従います。PR を作った後は、Claude Code 純正の `/steward` を自分で打てば（v2.1.330 以上。クラウドのセッションを除く）、PR を見張らせて、失敗した CI やレビューのコメントへの修正を任せられることを伝えます。Claude からは起動できません。auto mode では、その修正を確認なしで push します。
 - `/sdd:ship` は、最初に変更の区分を 1 行で宣言し、小さな変更に要らない手順を省きます。区分は、承認済みのデザインドキュメントがあれば A、ブランチで ADR を追加していれば B、どちらも無ければ C です。差分が実行時の設定・公開 API・依存関係・セキュリティや、CLAUDE.md の「Places needing care」に書いた場所などに触れていれば上がります（条件の一覧は ship の `SKILL.md` にあります）。変えたいときは `/sdd:ship A`（または `B`・`C`）と実行します。詳しくは [guide](plugins/sdd/skills/ask/guide.md) を見てください。
 
 ## 外す条件
